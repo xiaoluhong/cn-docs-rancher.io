@@ -68,7 +68,7 @@ git commit -a -m "commit message for your changes"
 jekyll serve
 ```
 
-### 将上游/主机并入您的本地分支（dev）
+### 将upstream/master并入您的本地分支（dev）
 
 在本地存储库中维护最新的主分支。将每日更改从upstream/master（官方文档资料库）合并到本地存储库中。
 
