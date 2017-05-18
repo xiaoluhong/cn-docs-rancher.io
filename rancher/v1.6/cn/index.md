@@ -11,7 +11,7 @@ redirect_from:
   - /rancher/latest/cn/
 ---
 
-## 牧场主概述
+## Rancher概述
 
 ------
 
