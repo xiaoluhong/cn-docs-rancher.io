@@ -12,15 +12,15 @@ redirect_from:
 
 ------
 
-Rancher提供了一个应用程序模板的目录，可以轻松部署这些复杂的堆栈。通过访问“ **目录** ”选项卡，可以查看[启用的目录](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/catalog/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/configuration/settings/#catalog)中可用的所有模板。该**图书馆**目录包含模板[牧场主认证的产品目录](https://github.com/rancher/rancher-catalog)和**社区**目录包含模板 [社区目录](https://github.com/rancher/community-catalog)。*牧师*只会保持对图书馆认证模板的支持。
+Rancher提供了一个应用程序模板的目录，可以轻松部署这些复杂的堆栈。通过访问“ **目录** ”选项卡，可以查看[启用的目录](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/catalog/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/configuration/settings/#catalog)中可用的所有模板。该**图书馆**目录包含模板[牧场主认证的产品目录](https://github.com/rancher/rancher-catalog)和**社区**目录包含模板 [社区目录](https://github.com/rancher/community-catalog)。*牧师*只会保持对图书馆认证模板的支持。
 
 Rancher 的管理员可以在Rancher中添加或删除目录。Rancher中的目录可以在**Admin** - > **Settings中**找到。添加目录与添加目录名称，URL和分支名称一样简单。该URL需要一个`git clone` 可以处理的URL 。分支名称必须是目录URL中的分支。它将`master`默认使用。每当您添加目录条目时，它将立即在您的目录中可用。
 
-如果您在代理服务器后面运行Rancher服务器，则需要[使用某些环境变量启动Rancher，](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/catalog/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/installing-rancher/installing-server/#http-proxy)以便Rancher目录在Rancher中运行。
+如果您在代理服务器后面运行Rancher服务器，则需要[使用某些环境变量启动Rancher，](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/catalog/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/installing-rancher/installing-server/#http-proxy)以便Rancher目录在Rancher中运行。
 
 ### 目录中的基础设施服务
 
-可在[环境模板](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/catalog/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/environments/#what-is-an-environment-template)中启用的[基础架构服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/catalog/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services)来自Rancher中启用的任何目录的文件夹。`infra-templates`
+可在[环境模板](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/catalog/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts/#what-is-an-cnvironmcnt-template)中启用的[基础架构服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/catalog/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services)来自Rancher中启用的任何目录的文件夹。`infra-templates`
 
 这些服务也可从“ **目录** ”选项卡中获得，即使可能无法使用所选的编排类型，您也可以查看所有基础架构服务。建议在环境模板创建期间选择基础架构服务，而不是直接从目录中启动它们。
 

@@ -2,7 +2,7 @@
 title: Creating Private Catalogs
 layout: rancher-default-v1.6
 version: v1.6
-lang: en
+lang: cn
 ---
 
 #### 创建私人目录
@@ -17,13 +17,13 @@ Rancher目录服务需要以特定格式构建私有目录，以使目录服务�
 
 #### 基于编排类型的模板
 
-* _Cattle_ orchestration: Entries in the UI are from the `templates` folder
-* _[Swarm]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/swarm/)_ orchestration: Entries in the UI are from the `swarm-templates` folder
-* _[Mesos]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/mesos/)_ orchestration: Entries in the UI are from the `mesos-templates` folder
+* _Cattle_ orchestration: cntries in the UI are from the `templates` folder
+* _[Swarm]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/swarm/)_ orchestration: cntries in the UI are from the `swarm-templates` folder
+* _[Mesos]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/mesos/)_ orchestration: cntries in the UI are from the `mesos-templates` folder
 
 ### 基础设施服务模板
 
-可在[环境模板](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/catalog/private-catalog/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/environments/#what-is-an-environment-template)中启用的[基础架构服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/catalog/private-catalog/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services)来自Rancher中启用的任何目录的文件夹。`infra-templates`
+可在[环境模板](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/catalog/private-catalog/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts/#what-is-an-cnvironmcnt-template)中启用的[基础架构服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/catalog/private-catalog/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services)来自Rancher中启用的任何目录的文件夹。`infra-templates`
 
 这些服务也可从“ **目录** ”选项卡中获得，即使可能无法使用所选的编排类型，您也可以查看所有基础架构服务。建议在环境模板创建期间选择基础架构服务，而不是直接从目录中启动它们。
 
@@ -55,22 +55,22 @@ Rancher目录服务需要以特定格式构建私有目录，以使目录服务�
 - 第一个文件`config.yml`包含您的条目的详细信息。
 
 ```yaml
-name: # Name of the Catalog Entry
+name: # Name of the Catalog cntry
 description: |
-  # Description of the Catalog Entry
+  # Description of the Catalog cntry
 version: # Version of the Catalog to be used
-category: # Category to be used for searching catalog entries
-maintainer: # The maintainer of the catalog entry
-license: # The license
-projectURL: # A URL related to the catalog entry
+category: # Category to be used for searching catalog cntries
+maintainer: # The maintainer of the catalog cntry
+liccnse: # The liccnse
+projectURL: # A URL related to the catalog cntry
 ```
 - 第二个文件是目录条目的图标图像。该文件必须带有前缀`catalogIcon-`。
 
-对于每一个目录条目，将有至少三个项目：`config.yml`，`catalogIcon-entry.svg`，和`0`文件夹，其中包含目录条目的第一个版本。
+对于每一个目录条目，将有至少三个项目：`config.yml`，`catalogIcon-cntry.svg`，和`0`文件夹，其中包含目录条目的第一个版本。
 
 ### 牧场主目录模板
 
-该`docker-compose.yml`和`rancher-compose.yml`是**必需的**文件，以便能够使用牧场主启动服务[牧场主撰写](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/catalog/private-catalog/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/adding-services/#adding-services-with-rancher-compose)。这些文件所在的文件夹中的版本号（即内`0`，`1`等）。
+该`docker-compose.yml`和`rancher-compose.yml`是**必需的**文件，以便能够使用牧场主启动服务[牧场主撰写](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/catalog/private-catalog/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/adding-services/#adding-services-with-rancher-compose)。这些文件所在的文件夹中的版本号（即内`0`，`1`等）。
 
 本`docker-compose.yml`应该是还可以使用启动文件`docker-compose up`。服务遵循docker-compose格式。
 
@@ -83,9 +83,9 @@ projectURL: # A URL related to the catalog entry
 ```yaml
 version: '2'
 catalog:
-  name: # Name of the versioned template of the Catalog Entry
-  version: # Version of the versioned template of the Catalog Entry
-  description: # Description of the versioned template of the Catalog Entry
+  name: # Name of the versioned template of the Catalog cntry
+  version: # Version of the versioned template of the Catalog cntry
+  description: # Description of the versioned template of the Catalog cntry
   minimum_rancher_version: # The minimum version of Rancher that supports the template, v1.0.1 and 1.0.1 are acceptable inputs
   maximum_rancher_version: # The maximum version of Rancher that supports the template, v1.0.1 and 1.0.1 are acceptable inputs
   upgrade_from: # The previous versions that this template can be upgraded from
@@ -125,7 +125,7 @@ catalog:
   - `boolean`用户界面中将显示一个单选按钮来捕获答案，答案将被格式化为`true`或`false`。如果选择单选按钮，答案将被格式化为`true`。
   - `password` 用户界面中将显示一个文本框来捕获答案，答案将被格式化为一个字符串。
   - `service` 将显示环境中所有服务的下拉列表。
-  - `enum`用户界面中将显示一个下拉菜单，下拉菜单中将显示该`options`部分。
+  - `cnum`用户界面中将显示一个下拉菜单，下拉菜单中将显示该`options`部分。
 
 ```yaml
 version: '2'
@@ -134,8 +134,8 @@ catalog:
     - variable:
       label:
       description: |
-      type: enum   
-      options: # List of options if using type of `enum`
+      type: cnum   
+      options: # List of options if using type of `cnum`
         - Option 1
         - Option 2
 ```
@@ -171,4 +171,4 @@ catalog:
 
 ### 基于Yeoman的目录生成器
 
-有一个基于[Yeoman ](http://yeoman.io/)[的开源项目](https://github.com/slashgear/generator-rancher-catalog)，可以用于创建空目录条目的模板。
+有一个基于[Yeoman ](http://yeoman.io/)[的开源项目](https://github.com/slashgear/gcnerator-rancher-catalog)，可以用于创建空目录条目的模板。

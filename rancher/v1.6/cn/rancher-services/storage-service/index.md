@@ -1,8 +1,8 @@
 ---
-title: Persistent Storage Service in Rancher
+title: Persistcnt Storage Service in Rancher
 layout: rancher-default-v1.6
 version: v1.6
-lang: en
+lang: cn
 ---
 
 ## 存储服务
@@ -13,9 +13,9 @@ Rancher提供不同的存储服务，能够将卷暴露于容器。
 
 ### 设置存储服务
 
-设置环境[模板](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/rancher-services/storage-service/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/environments/#what-is-an-environment-template)时，可以选择要在环境中使用的存储服务。
+设置环境[模板](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/rancher-services/storage-service/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts/#what-is-an-cnvironmcnt-template)时，可以选择要在环境中使用的存储服务。
 
-或者，如果您已经设置了一个环境，则可以从[目录](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/rancher-services/storage-service/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/catalog)中选择并启动存储服务。
+或者，如果您已经设置了一个环境，则可以从[目录](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/rancher-services/storage-service/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/catalog)中选择并启动存储服务。
 
 > **注意：**某些存储服务可能与某些容器编排类型（即Kubernetes）不兼容。环境模板将根据业务流程限制哪些模板兼容，但所有选项都可以从目录中获得。
 
@@ -27,7 +27,7 @@ Rancher提供不同的存储服务，能够将卷暴露于容器。
 
 ### 卷范围
 
-通过我们的存储服务，我们可以在不同的级别进行范围的量化。目前，只有[Rancher Compose](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/rancher-services/storage-service/index.md#using-storage-drivers-with-rancher-compose)支持创建不同类型的卷。UI仅创建环境范围的卷。
+通过我们的存储服务，我们可以在不同的级别进行范围的量化。目前，只有[Rancher Compose](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/rancher-services/storage-service/index.md#using-storage-drivers-with-rancher-compose)支持创建不同类型的卷。UI仅创建环境范围的卷。
 
 #### 堆栈范围
 
@@ -41,7 +41,7 @@ Rancher提供不同的存储服务，能够将卷暴露于容器。
 
 ### 在UI中使用存储驱动程序
 
-存储服务启动后`active`， [服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/rancher-services/storage-service/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/adding-services)可以开始使用共享存储。在创建服务时，在“ **卷** ”选项卡中，提供**卷**和**卷驱动程序**。
+存储服务启动后`active`， [服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/rancher-services/storage-service/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/adding-services)可以开始使用共享存储。在创建服务时，在“ **卷** ”选项卡中，提供**卷**和**卷驱动程序**。
 
 该**卷**将与Docker的语法相同`<volume_name>:</path/in/container>`。Docker卷默认以读写模式进行装载，但您可以通过`:ro`在卷的末尾加入将其设置为只读。
 
@@ -70,7 +70,7 @@ Rancher提供不同的存储服务，能够将卷暴露于容器。
 服务：
    foo：
      image：busybox 
-    stdin_open：true 
+    stdin_opcn：true 
     volumes：
     - bar：/ var / lib / storage 
 volumes：
@@ -95,7 +95,7 @@ volumes：
 服务：
    foo：
      image：busybox 
-    stdin_open：true 
+    stdin_opcn：true 
     volumes：
     - bar：/ var / lib / storage 
 volumes：

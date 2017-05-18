@@ -2,18 +2,18 @@
 title: Kubernetes Addons in Rancher
 layout: rancher-default-v1.6
 version: v1.6
-lang: en
+lang: cn
 ---
 
 ## Kubernetes附件
 
 ------
 
-Rancher自动安装Kubernetes附加组件，以帮助增强Kubernetes的体验。如果要关闭安装附加组件，则需要[配置Kubernetes](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/#configuring-kubernetes)以禁用自动安装加载项。
+Rancher自动安装Kubernetes附加组件，以帮助增强Kubernetes的体验。如果要关闭安装附加组件，则需要[配置Kubernetes](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/#configuring-kubernetes)以禁用自动安装加载项。
 
-- [Helm](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/kubernetes/addons/index.md#helm) - Kubernetes的软件包经理
-- [仪表板](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/kubernetes/addons/index.md#dashboard) - Kubernetes的仪表板Web界面
-- [SkyDNS](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/kubernetes/addons/index.md#skydns) - [Kubernetes](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/kubernetes/addons/index.md#skydns)的DNS服务器
+- [Helm](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/index.md#helm) - Kubernetes的软件包经理
+- [仪表板](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/index.md#dashboard) - Kubernetes的仪表板Web界面
+- [SkyDNS](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/index.md#skydns) - [Kubernetes](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/index.md#skydns)的DNS服务器
 
 ### 舵
 
@@ -23,13 +23,13 @@ Helm由两部分组成，称为Tiller的服务器和名为Helm的客户端。耕
 
 #### 开始与牧师的头盔
 
-在Rancher上安装Kubernetes时，您需要[配置您的Kubernetes](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/#configuring-kubernetes)，以便启用加载项才能自动安装Helm。在安装Kubernetes之后，您可以直接[通过Rancher在UI中提供的shell](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/kubernetes/addons/index.md#using-helm-in-the-rancher-ui)或者[将工作站配置为使用舵来开始使用舵手](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/kubernetes/addons/index.md#using-helm-on-a-workstation)。
+在Rancher上安装Kubernetes时，您需要[配置您的Kubernetes](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/#configuring-kubernetes)，以便启用加载项才能自动安装Helm。在安装Kubernetes之后，您可以直接[通过Rancher在UI中提供的shell](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/index.md#using-helm-in-the-rancher-ui)或者[将工作站配置为使用舵来开始使用舵手](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/index.md#using-helm-on-a-workstation)。
 
 ##### 用`helm`在养牛UI
 
 ancher将shell访问直接提供给`kubectl`可用于管理Kubernetes群集和应用程序的受管实例。要开始使用此shell，请导航到**Kubernetes** - > **CLI**。该shell自动安装Helm客户端，Helm命令可以立即使用。
 
-[![Kubectl](https://github.com/rancher/rancher.github.io/raw/master/rancher/v1.6/en/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/img/kubernetes/kubectl.png)](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/img/kubernetes/kubectl.png)
+[![Kubectl](https://github.com/rancher/rancher.github.io/raw/master/rancher/v1.6/cn/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/img/kubernetes/kubectl.png)](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/img/kubernetes/kubectl.png)
 
 ##### 使用`helm`在工作站上
 
@@ -62,7 +62,7 @@ $ helm版本
 更新完成。嗨快乐！一个
 ```
 
-Kubernetes有自己的官方Helm图表，可以直接使用。我们将演示在Kuberenetes上安装Wordpress图表的示例。
+Kubernetes有自己的官方Helm图表，可以直接使用。我们将演示在Kubercnetes上安装Wordpress图表的示例。
 
 > **注意：**随着图表在Helm中更新，我们的版本可能与最新的版本不符。您应该始终安装最新版本。
 
@@ -72,7 +72,7 @@ Kubernetes有自己的官方Helm图表，可以直接使用。我们将演示在
 >舵搜索
 名称版本说明
 稳定/ drupal 0.3.4最通用的开源内容之一
-稳定/詹金斯0.1.1 Jenkins 针对 Kubernetes的头盔图表。
+稳定/詹金斯0.1.1 Jcnkins 针对 Kubernetes的头盔图表。
 stable / mariadb 0.5.2图表为 MariaDB
 稳定/ MySQL的0.1.1图表为 MySQL的
 稳定/ redmine 0.3.3灵活的项目管理Web应用程序。
@@ -91,7 +91,7 @@ $ cd wordpress
 
 ```
 image：bitnami / wordpress：4.7-r0
-imagePullPolicy：IfNotPresent
+imagePullPolicy：IfNotPrescnt
 wordpressUsername：user
 ＃ wordpressPassword：
 wordpressEmail：user@example.com
@@ -101,12 +101,12 @@ wordpressBlogName：用户'的博客！
 ....
 ```
 
-在Wordpress中的文件中，您将看到默认情况下已启用永久存储。默认值是使用存储类动态配置持久卷，这被称为`default`。为了开始在Kuchernetes Rancher上动态配置持久存储，请阅读关于[存储在Rancher中的存储方式](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/storage)的文档。
+在Wordpress中的文件中，您将看到默认情况下已启用永久存储。默认值是使用存储类动态配置持久卷，这被称为`default`。为了开始在Kuchernetes Rancher上动态配置持久存储，请阅读关于[存储在Rancher中的存储方式](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/storage)的文档。
 
 如果用例中不需要永久存储，那么我们可以在安装图表时禁用持久存储。
 
 ```
-$ helm install --name wordpress --set mariadb.persistence.enabled = false，persistence.enabled = false stable / wordpress
+$ helm install --name wordpress --set mariadb.persistcnce.cnabled = false，persistcnce.cnabled = false stable / wordpress
 NAME：wordpress
 最近部署：Fri Apr 21 16:46:18 2017
 NAMESPACE：默认
@@ -124,10 +124,10 @@ wordpress-mariadb 1 2s
 
 == > v1 /服务
 NAME CLUSTER-IP EXTERNAL-IP PORT（S）AGE
-wordpress-wordpress 10.43.218.155    < pending >      80：32247 / TCP，443：31795 / TCP 2s
+wordpress-wordpress 10.43.218.155    < pcnding >      80：32247 / TCP，443：31795 / TCP 2s
 wordpress-mariadb 10.43.57.189    < none >     3306 / TCP 2s
 
-== > extensions / Deployment
+== > extcnsions / Deploymcnt
 名称希望在当前可用的年龄
 wordpress-wordpress 1 1 1 0 2s
 wordpress-mariadb 1 1 1 0 2s
@@ -165,13 +165,13 @@ $ echo密码：$（ kubectl get secret --namespace default wordpress-wordpress -
 
 #### 使用Helm Chart使用持久存储
 
-如果您[在Rancher](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/storage)中设置了[持久存储](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/storage)，那么您将能够在Kubernetes上创建存储类。在下一个示例中，我们将使用相同的Wordpress图表，并选择在AWS上使用永久存储。
+如果您[在Rancher](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/storage)中设置了[持久存储](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/storage)，那么您将能够在Kubernetes上创建存储类。在下一个示例中，我们将使用相同的Wordpress图表，并选择在AWS上使用永久存储。
 
 需要配置以下先决条件：
 
-- Kubernetes被配置为`aws`用作[云提供商](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/providers/#aws)。
-- 所有[主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts)已经通过正确的IAM策略添加到AWS EC2中的Rancher中。
-- 命名的[存储类](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/storage/#dynamic_provisioning)`default`已安装并配置为使用AWS卷。
+- Kubernetes被配置为`aws`用作[云提供商](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/providers/#aws)。
+- 所有[主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts)已经通过正确的IAM策略添加到AWS EC2中的Rancher中。
+- 命名的[存储类](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/storage/#dynamic_provisioning)`default`已安装并配置为使用AWS卷。
 
 在Kubernetes正确启动并创建存储类之后，您可以部署Wordpress图表以使用永久存储。
 
@@ -195,14 +195,14 @@ wordpress-mariadb 1 2s
 == > v1 /服务
 NAME CLUSTER-IP EXTERNAL-IP PORT（S）AGE
 wordpress-mariadb 10.43.101.232    < none >         3306 / TCP 2s
-wordpress-wordpress 10.43.250.75    < pending >    80：30296 / TCP，443：30094 / TCP 2s
+wordpress-wordpress 10.43.250.75    < pcnding >    80：30296 / TCP，443：30094 / TCP 2s
 
-== > extensions / Deployment
+== > extcnsions / Deploymcnt
 名称希望在当前可用的年龄
 wordpress-wordpress 1 1 1 0 2s
 wordpress-mariadb 1 1 1 0 2s
 
-== > v1 / PersistentVolumeClaim
+== > v1 / PersistcntVolumeClaim
 名称状态容量访问年龄
 wordpress-wordpress-wordpress绑定pvc-f396de3d-26a4-11e7-9213-02ee7a4cff8e 8Gi RWO 2s
 wordpress-wordpress-apache绑定pvc-f3986989-26a4-11e7-9213-02ee7a4cff8e 1Gi RWO 2s
@@ -227,7 +227,7 @@ wordpress-mariadb绑定pvc-f399feb7-26a4-11e7-9213-02ee7a4cff8e 8Gi RWO 2s
 您可以看到在图表中使用永久存储的新资源已创建。
 
 ```
-== > v1 / PersistentVolumeClaim
+== > v1 / PersistcntVolumeClaim
 名称状态容量访问年龄
 wordpress-wordpress-wordpress绑定pvc-f396de3d-26a4-11e7-9213-02ee7a4cff8e 8Gi RWO 2s
 wordpress-wordpress-apache绑定pvc-f3986989-26a4-11e7-9213-02ee7a4cff8e 1Gi RWO 2s
@@ -244,7 +244,7 @@ pvc-yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy 1Gi RWO删除绑定默认/ wordpress-wo
 pvc-zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz 8Gi RWO删除绑定默认/ wordpress-mariadb 4m
 ```
 
-在这个例子中，我们选择了AWS作为[云提供商](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/providers/#aws)，它将在AWS上创建一个ELB作为Wordpress图表的负载均衡器。
+在这个例子中，我们选择了AWS作为[云提供商](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/providers/#aws)，它将在AWS上创建一个ELB作为Wordpress图表的负载均衡器。
 
 ```
 $ export SERVICE_IP = $（ kubectl get svc --namespace default wordpress-wordpress -o jsonpath = ' {.status.loadBalancer.ingress [0] .hostname} '） 
@@ -279,12 +279,12 @@ IP:			10.43.250.75
 LoadBalancer Ingress:	xxxxxxxxxxxxxxxxxxxx.elb.amazonaws.com
 Port:			http	80/TCP
 NodePort:		http	30296/TCP
-Endpoints:		10.42.122.207:80
+cndpoints:		10.42.122.207:80
 Port:			https	443/TCP
 NodePort:		https	30094/TCP
-Endpoints:		10.42.122.207:443
+cndpoints:		10.42.122.207:443
 Session Affinity:	None
-No events.
+No evcnts.
 
 ```
 

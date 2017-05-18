@@ -2,7 +2,7 @@
 title: DNS Service in Rancher
 layout: rancher-default-v1.6
 version: v1.6
-lang: en
+lang: cn
 ---
 
 ## DNS服务
@@ -19,4 +19,4 @@ Rancher通过使用自己的轻量级DNS服务器和高可用性的控制平面�
 
 因为Rancher的覆盖网络为每个容器提供了一个不同的IP地址，所以您不需要处理端口映射，并且不需要处理像重复的服务在不同端口上侦听的情况。因此，简单的DNS服务足以处理服务发现。
 
-了解有关[牛环境](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/rancher-services/dns-service/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/internal-dns-service)的内部DNS服务的更多信息。
+了解有关[牛环境](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/rancher-services/dns-service/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/internal-dns-service)的内部DNS服务的更多信息。

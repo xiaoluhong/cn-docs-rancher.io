@@ -2,14 +2,14 @@
 title: Registries in Rancher
 layout: rancher-default-v1.6
 version: v1.6
-lang: en
+lang: cn
 ---
 
 ## 登记
 
 ------
 
-使用Rancher，您可以添加凭据以从DockerHub，Quay.io或您拥有私有注册表的任何地址访问私人注册表。通过有能力访问您的私人注册表，它使Rancher能够使用您的私人图像。在每个[环境中](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/environments/registries/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/environments)，每个注册表地址只能使用一个凭据。这使得它是从私人地址启动图像的简单请求。如果您为同一地址添加了多个凭据，则Rancher将始终使用最近添加的凭据。
+使用Rancher，您可以添加凭据以从DockerHub，Quay.io或您拥有私有注册表的任何地址访问私人注册表。通过有能力访问您的私人注册表，它使Rancher能够使用您的私人图像。在每个[环境中](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cnvironmcnts/registries/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts)，每个注册表地址只能使用一个凭据。这使得它是从私人地址启动图像的简单请求。如果您为同一地址添加了多个凭据，则Rancher将始终使用最近添加的凭据。
 
 Rancher支持牛和Kubernetes集装箱业务流程类型的不同注册表。
 
@@ -42,7 +42,7 @@ $ sudo service docker restart
 
 ```
 ＃从域下载证书 
-$ openssl s_client -showcerts -connect $ {DOMAIN}： $ {PORT}  < / dev / null 2> / dev / null | OpenSSL的X509 -outform PEM > ca.crt
+$ opcnssl s_clicnt -showcerts -connect $ {DOMAIN}： $ {PORT}  < / dev / null 2> / dev / null | OpcnSSL的X509 -outform PEM > ca.crt
 ＃复制证书到相应的目录 
 $ sudo的CP ca.crt /etc/docker/certs.d/ $ {DOMAIN} /ca.crt
 ＃追加证书文件 
@@ -54,7 +54,7 @@ $ sudo服务码头重启
 
 #### 使用亚马逊的ECR注册表
 
-使用Amazon的[EC2容器注册表](https://aws.amazon.com/ecr/)与Rancher需要额外的配置步骤。ECR使用AWS的本地身份验证服务IAM来管理访问。AWS提供了一个API，允许用户根据发出请求的IAM用户的权限为Docker生成临时证书。由于凭证在12小时后到期，因此需要每12个小时创建一个新的凭证。您可以使用[AWS ECR Credential Updater](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/environments/registries/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/environments/registries/ecr_updater)启动自动更新凭据的服务。
+使用Amazon的[EC2容器注册表](https://aws.amazon.com/ecr/)与Rancher需要额外的配置步骤。ECR使用AWS的本地身份验证服务IAM来管理访问。AWS提供了一个API，允许用户根据发出请求的IAM用户的权限为Docker生成临时证书。由于凭证在12小时后到期，因此需要每12个小时创建一个新的凭证。您可以使用[AWS ECR Credcntial Updater](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cnvironmcnts/registries/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts/registries/ecr_updater)启动自动更新凭据的服务。
 
 在Rancher中指定图像名称时，请使用AWS提供的完全限定地址：
 
@@ -64,7 +64,7 @@ $ sudo服务码头重启
 
 创建注册表后，您可以在启动服务和容器时使用这些私人注册表。图像名称的语法与`docker run`命令使用的语法相同。
 
-`[registry-name]/[namespace]/[imagename]:[version]`
+`[registry-name]/[namespace]/[imagcname]:[version]`
 
 默认情况下，我们假设您正在尝试从中提取图像`DockerHub`。
 
@@ -78,7 +78,7 @@ $ sudo服务码头重启
 
 您可以**编辑**任何注册表，这样可以将凭据更改为注册表地址。您将无法更改注册表地址。密码未保存在“编辑”页面中，因此您需要重新输入密码才能保存任何更改。
 
-> **注意：**如果注册表无效（即由于较新的凭据而无效，被删除或覆盖），那么使用私有注册表映像的任何[服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/environments/registries/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/adding-services)将继续运行。由于图像已经被拉到主机上，不管注册表权限如何，对图像的使用都不会有任何限制。因此，任何使用图像的服务或附加容器的扩大将能够运行。运行容器时，Rancher不会检查证书是否仍然有效，因为我们假设您已经给予主机访问映像的权限。
+> **注意：**如果注册表无效（即由于较新的凭据而无效，被删除或覆盖），那么使用私有注册表映像的任何[服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cnvironmcnts/registries/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/adding-services)将继续运行。由于图像已经被拉到主机上，不管注册表权限如何，对图像的使用都不会有任何限制。因此，任何使用图像的服务或附加容器的扩大将能够运行。运行容器时，Rancher不会检查证书是否仍然有效，因为我们假设您已经给予主机访问映像的权限。
 
 ### 更改默认注册表
 

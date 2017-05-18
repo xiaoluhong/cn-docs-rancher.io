@@ -2,7 +2,7 @@
 title: Using Rancher EBS
 layout: rancher-default-v1.6
 version: v1.6
-lang: en
+lang: cn
 ---
 
 ## 牧场EBS
@@ -17,9 +17,9 @@ AWS EBS卷只能附加到单个AWS EC2实例。因此，使用相同AWS EBS卷�
 
 ### 设立牧场EBS
 
-设置环境[模板](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/rancher-services/storage-service/rancher-ebs/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/environments/#what-is-an-environment-template)时，可以选择**Rancher EBS**目录项目，以便在从该环境模板创建的任何环境中可用。
+设置环境[模板](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/rancher-services/storage-service/rancher-ebs/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts/#what-is-an-cnvironmcnt-template)时，可以选择**Rancher EBS**目录项目，以便在从该环境模板创建的任何环境中可用。
 
-或者，如果您已经设置了一个环境，您可以从[目录](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/rancher-services/storage-service/rancher-ebs/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/catalog)中选择并启动Rancher EBS 。
+或者，如果您已经设置了一个环境，您可以从[目录](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/rancher-services/storage-service/rancher-ebs/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/catalog)中选择并启动Rancher EBS 。
 
 > **注意：**某些存储服务可能与某些容器编排类型（即Kubernetes）不兼容。环境模板将根据业务流程限制哪些模板兼容，但所有选项都可以从目录中获得。
 
@@ -41,7 +41,7 @@ AWS EBS卷只能附加到单个AWS EC2实例。因此，使用相同AWS EBS卷�
 
 对于以下选项，**必须**`ec2_az`在驱动程序选项中指定ID与之关联的特定可用性区域（）。
 
-- **Encrypted**（`encrypted`）：卷是否应加密。注意：使用此选项时需要AWS KMS ID。
+- **cncrypted**（`cncrypted`）：卷是否应加密。注意：使用此选项时需要AWS KMS ID。
 - **AWS KMS ID**（`kmsKeyId`）：创建加密卷时要使用的AWS密钥管理服务（AWS KMS）客户主密钥（CMK）的完整ARN。
 - **快照ID**（`snapshotID`）：创建卷的快照。
 - **卷ID**（`volumeID`）：要使用的现有卷的ID。
@@ -59,7 +59,7 @@ AWS EBS卷只能附加到单个AWS EC2实例。因此，使用相同AWS EBS卷�
 
 #### 在服务中使用卷
 
-在UI中创建卷后，[服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/rancher-services/storage-service/rancher-ebs/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/adding-services)可以开始使用共享存储。在创建服务时，在“ **卷** ”选项卡中，提供**卷**和**卷驱动程序**。
+在UI中创建卷后，[服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/rancher-services/storage-service/rancher-ebs/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/adding-services)可以开始使用共享存储。在创建服务时，在“ **卷** ”选项卡中，提供**卷**和**卷驱动程序**。
 
 该**卷**将与Docker的语法相同`<volume_name>:</path/in/container>`。Docker卷默认以读写模式进行装载，但您可以通过`:ro`在卷的末尾加入将其设置为只读。
 
@@ -75,14 +75,14 @@ AWS EBS卷只能附加到单个AWS EC2实例。因此，使用相同AWS EBS卷�
 
 #### 指定大小，卷类型和IOPS的堆栈范围卷的示例
 
-在此示例中，我们正在创建一个[堆栈作用域卷](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/rancher-services/storage-service/rancher-ebs/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services/storage-service/#stack-scoped)，同时创建使用此卷的服务。此堆栈中的所有服务将共享相同的卷。
+在此示例中，我们正在创建一个[堆栈作用域卷](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/rancher-services/storage-service/rancher-ebs/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services/storage-service/#stack-scoped)，同时创建使用此卷的服务。此堆栈中的所有服务将共享相同的卷。
 
 ```
 版本：' 2 '
 服务：
    foo1：
      image：busybox 
-    stdin_open：true 
+    stdin_opcn：true 
     volumes：
     - bar：/ var / lib / storage 
   foo2： 
@@ -101,7 +101,7 @@ AWS EBS卷只能附加到单个AWS EC2实例。因此，使用相同AWS EBS卷�
 
 #### 安排到特定可用区域的堆栈范围卷的示例
 
-在此示例中，我们正在创建一个[堆栈作用域卷](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/rancher-services/storage-service/rancher-ebs/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services/storage-service/#stack-scoped)，同时创建使用此卷的服务。此堆栈中的所有服务将共享相同的卷。
+在此示例中，我们正在创建一个[堆栈作用域卷](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/rancher-services/storage-service/rancher-ebs/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services/storage-service/#stack-scoped)，同时创建使用此卷的服务。此堆栈中的所有服务将共享相同的卷。
 
 我们正在指定我们想要创建卷的可用性区域。使用EBS卷的任何服务的容器将自动计划到与EBS卷相连的同一主机上。
 
@@ -110,7 +110,7 @@ AWS EBS卷只能附加到单个AWS EC2实例。因此，使用相同AWS EBS卷�
 服务：
    foo：
      image：busybox 
-    stdin_open：true 
+    stdin_opcn：true 
     volumes：
     - bar：/ var / lib / storage
 
@@ -124,7 +124,7 @@ AWS EBS卷只能附加到单个AWS EC2实例。因此，使用相同AWS EBS卷�
 
 #### 加密堆栈范围卷的示例
 
-在此示例中，我们正在创建一个[堆栈作用域卷](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/rancher-services/storage-service/rancher-ebs/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services/storage-service/#stack-scoped)，同时创建使用此卷的服务。此堆栈中的所有服务将共享相同的卷。
+在此示例中，我们正在创建一个[堆栈作用域卷](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/rancher-services/storage-service/rancher-ebs/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services/storage-service/#stack-scoped)，同时创建使用此卷的服务。此堆栈中的所有服务将共享相同的卷。
 
 为了加密卷，您将需要在要加密的驱动程序选项中指定，以及提供加密密钥的标识和密钥位于的可用性区域。
 
@@ -135,7 +135,7 @@ AWS EBS卷只能附加到单个AWS EC2实例。因此，使用相同AWS EBS卷�
 服务：
    foo：
      image：busybox 
-    stdin_open：true 
+    stdin_opcn：true 
     volumes：
     - bar：/ var / lib / storage
 
@@ -144,7 +144,7 @@ volume：
      driver：rancher -ebs 
     driver_opts：
        size：10 
-      encrypted：true 
+      cncrypted：true 
       kmsKeyId：<KMS_KEY_ID> 
       ＃在使用加密和kmsKeyId 
       ec2_az 时需要指定可用性区域：<AVAILABILITY_ZONE_WHERE_THE_KMS_KEY_IS>
@@ -152,7 +152,7 @@ volume：
 
 #### 基于现有快照的堆栈范围卷的示例
 
-在此示例中，我们正在创建一个[堆栈作用域卷](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/rancher-services/storage-service/rancher-ebs/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services/storage-service/#stack-scoped)，同时创建使用此卷的服务。此堆栈中的所有服务将共享相同的卷。
+在此示例中，我们正在创建一个[堆栈作用域卷](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/rancher-services/storage-service/rancher-ebs/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services/storage-service/#stack-scoped)，同时创建使用此卷的服务。此堆栈中的所有服务将共享相同的卷。
 
 卷将从AWS中的现有快照创建。您将需要指定快照ID以及快照所在的可用性区域。
 
@@ -163,7 +163,7 @@ volume：
 服务：
    foo：
      image：busybox 
-    stdin_open：true 
+    stdin_opcn：true 
     volumes：
     - bar：/ var / lib / storage
 
@@ -190,7 +190,7 @@ version: '2'
 services:
   foo:
     image: busybox
-    stdin_open: true
+    stdin_opcn: true
     volumes:
     - bar:/var/lib/storage
 
@@ -200,6 +200,6 @@ volumes:
     driver_opts:
       size: 10
       volumeID: <VOLUME_ID>
-      # Specifying the availability zone is required when using volumeID
+      # Specifying the availability zone is required whcn using volumeID
       ec2_az: <AVAILABILITY_ZONE_WHERE_THE_VOLUME_IS>
 ```

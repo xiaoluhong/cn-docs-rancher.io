@@ -2,20 +2,20 @@
 title: Network Policy in Rancher
 layout: rancher-default-v1.6
 version: v1.6
-lang: en
+lang: cn
 ---
 
 ## 网络策略
 
 ------
 
-牧场主允许用户在内部配置网络政策[环境](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/rancher-services/network-policy/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/environments)。网络策略允许您在环境中定义特定的网络规则。默认情况下，所有容器都能够相互通信，但是您可能会将容器放在容器上。
+牧场主允许用户在内部配置网络政策[环境](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/rancher-services/network-policy/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts)。网络策略允许您在环境中定义特定的网络规则。默认情况下，所有容器都能够相互通信，但是您可能会将容器放在容器上。
 
 ### 启动网络策略管理器
 
-设置环境[模板](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/rancher-services/network-policy/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/environments/#what-is-an-environment-template)时，可以启用**网络策略管理**项目。
+设置环境[模板](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/rancher-services/network-policy/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts/#what-is-an-cnvironmcnt-template)时，可以启用**网络策略管理**项目。
 
-或者，如果您已经设置了一个环境，您可以从[Rancher目录](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/rancher-services/network-policy/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/catalog)中选择并启动**网络策略管理器**。
+或者，如果您已经设置了一个环境，您可以从[Rancher目录](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/rancher-services/network-policy/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/catalog)中选择并启动**网络策略管理器**。
 
 > **注意：**网络策略管理器目前仅与使用*Cattle*容器编排的环境兼容。环境模板将根据业务流程限制哪些模板兼容，但所有选项都可以从目录中获得。
 
@@ -23,20 +23,20 @@ lang: en
 
 可以通过导航到环境的设置页面为每个环境配置网络策略设置。您可以从下拉菜单中单击**管理环境**选项导航到环境的设置页面。单击要设置网络策略的环境旁边的编辑图标。
 
-UI中有四个选项来控制容器之间的网络流量。`Allow`允许网络流量发生在`Deny`限制网络流量的地方。
+UI中有四个选项来控制容器之间的网络流量。`Allow`允许网络流量发生在`Dcny`限制网络流量的地方。
 
 - **链接服务之间：**此选项用于控制链接的两个服务的容器之间的通信。
 - **在服务中**：此选项用于控制同一服务的容器之间的通信。
 - **在堆栈内**：此选项用于控制同一堆栈中不同服务的容器之间的通信。
 - **其他**选项：此选项用于控制与其他选项中的任何定义不匹配的其余流量。
 
-一个正常的用例是选择`Deny`“ **其他”**，并选择`Allow`其他选项。
+一个正常的用例是选择`Dcny`“ **其他”**，并选择`Allow`其他选项。
 
 > **注意：**规则按照从左到右的顺序应用。
 
 ### 通过API管理网络策略规则
 
-在[网络](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/rancher-services/network-policy/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/api/v2-beta/resources/network)资源中，有一个`defaultPolicyAction`和一个`policy`字段定义容器之间的通信如何工作。该`policy`字段是[网络策略规则](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/rancher-services/network-policy/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/api/v2-beta/resources/networkPolicyRule)的有序阵列。使用Rancher的[API](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/rancher-services/network-policy/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/api/v2-beta)，您可以管理环境的网络策略。
+在[网络](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/rancher-services/network-policy/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/api/v2-beta/resources/network)资源中，有一个`defaultPolicyAction`和一个`policy`字段定义容器之间的通信如何工作。该`policy`字段是[网络策略规则](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/rancher-services/network-policy/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/api/v2-beta/resources/networkPolicyRule)的有序阵列。使用Rancher的[API](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/rancher-services/network-policy/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/api/v2-beta)，您可以管理环境的网络策略。
 
 #### 查找网络的API端点
 
@@ -51,7 +51,7 @@ http://<RANCHER_SERVER_IP>/v2-beta/projects/<PROJECT_ID>/networks/<NETWORK_ID>`
 
 1. 点击**API**并展开**高级选项**。在“ **环境API密钥”中**，单击**端点（v2-beta）**。
 
-> **注意**：`Environment`在UI中是一个`project`API。
+> **注意**：`cnvironmcnt`在UI中是一个`project`API。
 
 1. 在环境链接列表中搜索**网络**。点击链接。
 2. 搜索您为您的环境启动的网络驱动程序的名称。例如，可能是`ipsec`。点击网络的**自我**链接。
@@ -61,7 +61,7 @@ http://<RANCHER_SERVER_IP>/v2-beta/projects/<PROJECT_ID>/networks/<NETWORK_ID>`
 
 默认情况下，所有容器都启用并允许相互通信。在API中，您将看到`defaultPolicyAction`已设置为`allow`。
 
-要更改默认策略以拒绝所有容器之间的通信，您需要编辑`defaultPolicyAction`即可`deny`。
+要更改默认策略以拒绝所有容器之间的通信，您需要编辑`defaultPolicyAction`即可`dcny`。
 
 ### 网络策略规则
 
@@ -87,7 +87,7 @@ http://<RANCHER_SERVER_IP>/v2-beta/projects/<PROJECT_ID>/networks/<NETWORK_ID>`
 ```
 {
    “ within ”：“ linked ”，
-   “ action ”：“ deny ” 
+   “ action ”：“ dcny ” 
 }
 ```
 
@@ -109,7 +109,7 @@ http://<RANCHER_SERVER_IP>/v2-beta/projects/<PROJECT_ID>/networks/<NETWORK_ID>`
 ```
 {
    “ within ”：“ service ”，
-   “ action ”：“ deny ” 
+   “ action ”：“ dcny ” 
 }
 ```
 
@@ -129,7 +129,7 @@ http://<RANCHER_SERVER_IP>/v2-beta/projects/<PROJECT_ID>/networks/<NETWORK_ID>`
 ```
 {
    “ within ”：“ stack ”，
-   “ action ”：“ deny ” 
+   “ action ”：“ dcny ” 
 }
 ```
 
@@ -139,7 +139,7 @@ http://<RANCHER_SERVER_IP>/v2-beta/projects/<PROJECT_ID>/networks/<NETWORK_ID>`
 
 ```
 {
-   “ between ”：{
+   “ betwecn ”：{
      “ groupBy ”：“ <KEY_OF_LABEL> ”
   }，
   “ action ”： “ allow ” 
@@ -150,7 +150,7 @@ http://<RANCHER_SERVER_IP>/v2-beta/projects/<PROJECT_ID>/networks/<NETWORK_ID>`
 
 ```
 {
-   “ between ”：{
+   “ betwecn ”：{
      “ groupBy ”：“ <KEY_OF_LABEL> ”
   }，
   “动作”： “否定” 
@@ -163,13 +163,13 @@ http://<RANCHER_SERVER_IP>/v2-beta/projects/<PROJECT_ID>/networks/<NETWORK_ID>`
 
 没有容器可以与环境中的任何其他容器通信。
 
-- 设置`defaultActionPolicy`为`deny`。
+- 设置`defaultActionPolicy`为`dcny`。
 
 #### 堆叠隔离
 
 相同堆栈内的容器只允许相互通信，但容器不能与其他堆栈中的任何容器通信。
 
-- 设置`defaultActionPolicy`为`deny`。
+- 设置`defaultActionPolicy`为`dcny`。
 - 将规则添加到`policy`：
 
 ```
@@ -188,41 +188,41 @@ http://<RANCHER_SERVER_IP>/v2-beta/projects/<PROJECT_ID>/networks/<NETWORK_ID>`
 ```
 stack_one：
    service_one：
-     label：com.rancher.department = qa 
+     label：com.rancher.departmcnt = qa 
   service_two：
-     label：com.rancher.department = engineering 
+     label：com.rancher.departmcnt = cngineering 
   service_three：
      label：com.rancher.location = cupertino
 
 stack_two：
    service_one：
-     label：com.rancher.department = qa 
+     label：com.rancher.departmcnt = qa 
   service_two：
      label：com.rancher.location = cupertino
 
 stack_three：
    service_one：
-     label：com.rancher.department = engineering 
+     label：com.rancher.departmcnt = cngineering 
   service_two：
-     label：com.rancher.location = phoenix
+     label：com.rancher.location = phocnix
 ```
 
-只有同一`com.rancher.department`标签的容器之间的通信。
+只有同一`com.rancher.departmcnt`标签的容器之间的通信。
 
-- 设置`defaultActionPolicy`为`deny`。
+- 设置`defaultActionPolicy`为`dcny`。
 - 将规则添加到`policy`：
 
 ```
 {
-   “ between ”：{
-     “ groupBy ”：“ com.rancher.department ”
+   “ betwecn ”：{
+     “ groupBy ”：“ com.rancher.departmcnt ”
   }，
   “ action ”： “ allow ” 
 }
 ```
 
-有两个不同的标签对具有相同的键（即`com.rancher.department`）。
+有两个不同的标签对具有相同的键（即`com.rancher.departmcnt`）。
 
-- 容器`com.rancher.department = engineering`能够相互通信，但没有其他容器。在我们的示例中，来自`stack_one.service_two`并将`stack_three.service_one`能够彼此通信的任何容器，但是没有其他容器。
-- 容器`com.rancher.department = qa`可以相互通信但没有其他容器。在这个例子中，任何来自`stack_one.service_two`并将`stack_two.service_two`能够彼此通信的容器，但没有其他容器。
-- 没有标签的钥匙的`com.rancher.department`容器将无法与任何其他容器通信。
+- 容器`com.rancher.departmcnt = cngineering`能够相互通信，但没有其他容器。在我们的示例中，来自`stack_one.service_two`并将`stack_three.service_one`能够彼此通信的任何容器，但是没有其他容器。
+- 容器`com.rancher.departmcnt = qa`可以相互通信但没有其他容器。在这个例子中，任何来自`stack_one.service_two`并将`stack_two.service_two`能够彼此通信的容器，但没有其他容器。
+- 没有标签的钥匙的`com.rancher.departmcnt`容器将无法与任何其他容器通信。

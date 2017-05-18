@@ -2,7 +2,7 @@
 title: Using Native Docker CLI with Rancher
 layout: rancher-default-v1.6
 version: v1.6
-lang: en
+lang: cn
 ---
 
 ## 使用Native Docker CLI与Rancher
@@ -17,7 +17,7 @@ Rancher与本机Docker CLI集成，可以与其他DevOps和Docker工具一起使
 
 > **注意：**目前的一个限制是我们等到容器启动（未创建）才能将其导入Rancher。运行`docker create ubuntu`不会导致容器出现在Rancher UI中，而是运行`docker start ubuntu`或`docker run ubuntu`将要运行。
 
-您可以通过`docker events`在主机的命令行上执行来观察Rancher正在监视的Docker事件流。
+您可以通过`docker evcnts`在主机的命令行上执行来观察Rancher正在监视的Docker事件流。
 
 ### 加入本地将集装箱启动到Rancher网络
 
@@ -27,11 +27,11 @@ Rancher与本机Docker CLI集成，可以与其他DevOps和Docker工具一起使
 $ docker run -l io.rancher.container.network = true -itd ubuntu bash
 ```
 
-要了解有关Rancher管理网络和跨主机网络的更多信息，请阅读[Rancher中的网络](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/native-docker/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services/networking)。
+要了解有关Rancher管理网络和跨主机网络的更多信息，请阅读[Rancher中的网络](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/native-docker/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services/networking)。
 
 ### 导入现有容器
 
-主机注册时，Rancher还支持导入现有的容器。当您使用UI 中的[自定义命令](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/native-docker/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts/custom)注册主机时，主机上的任何容器将被检测并导入到Rancher。
+主机注册时，Rancher还支持导入现有的容器。当您使用UI 中的[自定义命令](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/native-docker/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts/custom)注册主机时，主机上的任何容器将被检测并导入到Rancher。
 
 ### 定期同步状态
 

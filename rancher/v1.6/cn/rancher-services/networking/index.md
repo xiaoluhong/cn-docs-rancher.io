@@ -2,16 +2,16 @@
 title: Networking in Rancher
 layout: rancher-default-v1.6
 version: v1.6
-lang: en
+lang: cn
 redirect_from:
-  - /rancher/latest/en/rancher-services/networking/
+  - /rancher/latest/cn/rancher-services/networking/
 ---
 
 ## 联网
 
 ------
 
-Rancher实现了一个[CNI](https://github.com/containernetworking/cni)框架，它可以在Rancher内选择不同的网络驱动程序。要利用CNI框架中，[环境](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/rancher-services/networking/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/environments)是需要使用的**网络服务**部署的基础架构服务。默认情况下，所有[环境模板](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/rancher-services/networking/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/environments/#what-is-an-environment-template)都启用了**网络服务**。
+Rancher实现了一个[CNI](https://github.com/containernetworking/cni)框架，它可以在Rancher内选择不同的网络驱动程序。要利用CNI框架中，[环境](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/rancher-services/networking/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts)是需要使用的**网络服务**部署的基础架构服务。默认情况下，所有[环境模板](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/rancher-services/networking/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts/#what-is-an-cnvironmcnt-template)都启用了**网络服务**。
 
 除了**网络服务**基础设施服务外，还要选择您希望使用哪种类型的网络插件/驱动程序。在我们的默认环境模板中，我们启用了**IPsec**网络驱动程序，使用IPsec隧道创建了一个简单而安全的覆盖网络。
 
@@ -27,9 +27,9 @@ Rancher管理的IP地址不会存在于Docker元数据中，这意味着它不�
 
 ### 集装箱之间的沟通
 
-默认情况下，同一环境中的所有容器都可通过`managed`网络访问。如果要更改容器之间的通信，可以设置[网络策略](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/rancher-services/networking/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services/network-policy)。
+默认情况下，同一环境中的所有容器都可通过`managed`网络访问。如果要更改容器之间的通信，可以设置[网络策略](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/rancher-services/networking/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services/network-policy)。
 
-如果您正在面对交叉主机通信的问题，请参阅我们的故障[排除文档](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/rancher-services/networking/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/faqs/troubleshooting/#cross-host-communication)。
+如果您正在面对交叉主机通信的问题，请参阅我们的故障[排除文档](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/rancher-services/networking/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/faqs/troubleshooting/#cross-host-communication)。
 
 ### 网络选项
 
@@ -37,7 +37,7 @@ Rancher管理的IP地址不会存在于Docker元数据中，这意味着它不�
 
 #### 管理
 
-默认情况下，使用UI或牧场主推出容器[牧场主CLI](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/rancher-services/networking/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cli)使用`managed`网络，它使用牧场主的管理覆盖网络。`managed`网络中的所有容器都能够彼此通信，而不管容器部署在哪个主机上。Rancher的大部分功能（如负载平衡器或DNS服务）都要求服务器位于`managed`网络中。
+默认情况下，使用UI或牧场主推出容器[牧场主CLI](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/rancher-services/networking/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cli)使用`managed`网络，它使用牧场主的管理覆盖网络。`managed`网络中的所有容器都能够彼此通信，而不管容器部署在哪个主机上。Rancher的大部分功能（如负载平衡器或DNS服务）都要求服务器位于`managed`网络中。
 
 容器内部，`ip addr`或`ifconfig`命令将显示一个网络接口（即`eth0`与环回接口（即，沿着）`lo`）。网络接口的IP地址将是Rancher的托管子网中的一个。默认子网是`10.42.0.0/16`，但可以配置为您自己的子网。
 

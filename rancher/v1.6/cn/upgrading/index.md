@@ -2,9 +2,9 @@
 title: Upgrading Rancher
 layout: rancher-default-v1.6
 version: v1.6
-lang: zh
+lang: cn
 redirect_from:
-  - /rancher/latest/zh/upgrading/
+  - /rancher/latest/cn/upgrading/
 ---
 
 ## 升级Rancher服务器
@@ -15,13 +15,13 @@ redirect_from:
 
 根据您如何安装Rancher服务器，升级步骤可能会有所不同。
 
-- [牧场服务器 - 单个容器（非HA）](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/upgrading/index.md#single-container)
-- [Rancher服务器 - 单个容器（非HA） - 外部数据库](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/upgrading/index.md#single-container-external-database)
-- [Rancher服务器 - 单容器（非HA） - 绑定的MySQL卷](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/upgrading/index.md#single-container-bind-mount)
-- [Rancher服务器 - 完全主动/主动HA](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/upgrading/index.md#multi-nodes)
-- [Rancher服务器 - 无Internet访问](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/upgrading/index.md#rancher-server-with-no-internet-access)
+- [牧场服务器 - 单个容器（非HA）](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/upgrading/index.md#single-container)
+- [Rancher服务器 - 单个容器（非HA） - 外部数据库](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/upgrading/index.md#single-container-external-database)
+- [Rancher服务器 - 单容器（非HA） - 绑定的MySQL卷](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/upgrading/index.md#single-container-bind-mount)
+- [Rancher服务器 - 完全主动/主动HA](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/upgrading/index.md#multi-nodes)
+- [Rancher服务器 - 无Internet访问](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/upgrading/index.md#rancher-server-with-no-internet-access)
 
-> **注意：**如果您在原始的Rancher服务器设置中设置了任何环境变量或在[ldap证书](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/upgrading/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/installing-rancher/installing-server/#enabling-active-directory-or-openldap-for-tls)中传递，则需要在任何新命令中添加这些环境变量或证书。
+> **注意：**如果您在原始的Rancher服务器设置中设置了任何环境变量或在[ldap证书](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/upgrading/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/installing-rancher/installing-server/#cnabling-active-directory-or-opcnldap-for-tls)中传递，则需要在任何新命令中添加这些环境变量或证书。
 
 ### 牧场服务器标签
 
@@ -34,7 +34,7 @@ Rancher服务器有2个不同的标签。对于每个主要版本标签，我们
 
 ### 基础设施服务
 
-在Rancher服务器升级后，您的[基础架构服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/upgrading/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services)可能有可用的升级。升级Rancher服务器后，我们建议您检查基础架构堆栈，以查看是否有堆栈可用。如果有升级可用，请一次一个升级这些堆栈。请完成升级，然后继续升级下一个基础架构堆栈。
+在Rancher服务器升级后，您的[基础架构服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/upgrading/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services)可能有可用的升级。升级Rancher服务器后，我们建议您检查基础架构堆栈，以查看是否有堆栈可用。如果有升级可用，请一次一个升级这些堆栈。请完成升级，然后继续升级下一个基础架构堆栈。
 
 ### 牧场主
 
@@ -63,7 +63,7 @@ Rancher服务器有2个不同的标签。对于每个主要版本标签，我们
    $ docker拉牧场/服务器：最新
    ```
 
-4. 使用容器中的数据库启动一个新的Rancher Server `rancher-data`容器。Rancher中的任何更改将保存在`rancher-data`容器中。如果您在服务器中看到有关日志锁的异常，请参阅[如何修复日志锁](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/upgrading/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/faqs/server/#databaselock)。
+4. 使用容器中的数据库启动一个新的Rancher Server `rancher-data`容器。Rancher中的任何更改将保存在`rancher-data`容器中。如果您在服务器中看到有关日志锁的异常，请参阅[如何修复日志锁](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/upgrading/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/faqs/server/#databaselock)。
 
    > **注意：**根据您有Rancher服务器的时间长短，某些数据库迁移可能需要比预期的更长的时间。请不要在升级过程中停止升级，因为下次升级时会遇到数据库迁移错误。
 
@@ -78,7 +78,7 @@ Rancher服务器有2个不同的标签。对于每个主要版本标签，我们
 
 ### 升级单个容器（非HA） - 外部数据库
 
-如果您使用外部数据库启动Rancher服务器，则可以停止原始的Rancher服务器容器，并使用相同的[外部DB指令](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/upgrading/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/installing-rancher/installing-server/#single-container-external-database)启动新版本的Rancher服务器。升级您的Rancher服务器之前，建议您备份外部数据库。新服务器启动并运行后，您可以删除旧的Rancher服务器容器。
+如果您使用外部数据库启动Rancher服务器，则可以停止原始的Rancher服务器容器，并使用相同的[外部DB指令](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/upgrading/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/installing-rancher/installing-server/#single-container-external-database)启动新版本的Rancher服务器。升级您的Rancher服务器之前，建议您备份外部数据库。新服务器启动并运行后，您可以删除旧的Rancher服务器容器。
 
 ### 升级单个容器（非HA） - 绑定的MySQL卷
 
@@ -113,13 +113,13 @@ Rancher服务器有2个不同的标签。对于每个主要版本标签，我们
 
 ### 升级HA设置
 
-如果您在[高可用性（HA）](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/upgrading/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/installing-rancher/installing-server/#multi-nodes)中启动了Rancher服务器，则新的Rancher HA设置将继续使用用于安装原始HA设置的外部数据库。
+如果您在[高可用性（HA）](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/upgrading/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/installing-rancher/installing-server/#multi-nodes)中启动了Rancher服务器，则新的Rancher HA设置将继续使用用于安装原始HA设置的外部数据库。
 
 > **注意：**升级HA设置时，Rancher服务器设置将在升级期间关闭。
 
 1. 升级您的Rancher服务器之前，建议您备份外部数据库。
 
-2. 在HA设置中的每个节点上，停止并删除正在运行的Rancher容器，然后使用您在[安装Rancher服务器](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/upgrading/%7B%7Bsite.baseurl%7D%7D/installing-rancher/installing-server/#multi-nodes)时使用的相同命令启动一个新的Rancher服务器容器，但使用一个新的Rancher服务器映像标记。
+2. 在HA设置中的每个节点上，停止并删除正在运行的Rancher容器，然后使用您在[安装Rancher服务器](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/upgrading/%7B%7Bsite.baseurl%7D%7D/installing-rancher/installing-server/#multi-nodes)时使用的相同命令启动一个新的Rancher服务器容器，但使用一个新的Rancher服务器映像标记。
 
    ```
    ＃在所有节点上停止所有Rancher服务器容器 
@@ -134,4 +134,4 @@ Rancher服务器有2个不同的标签。对于每个主要版本标签，我们
 
 ### 没有互联网访问的牧场服务器
 
-没有互联网的用户将需要下载最新的[基础架构服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/upgrading/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services)映像，以便升级成功。没有最新默认模板中的图像，基础架构服务将无法升级。
+没有互联网的用户将需要下载最新的[基础架构服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/upgrading/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services)映像，以便升级成功。没有最新默认模板中的图像，基础架构服务将无法升级。

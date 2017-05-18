@@ -2,9 +2,9 @@
 title: FAQS about Rancher Server
 layout: rancher-default-v1.6
 version: v1.6
-lang: en
+lang: cn
 redirect_from:
-  - /rancher/latest/en/faqs/server/
+  - /rancher/latest/cn/faqs/server/
 ---
 
 ## 关于Rancher服务器的常见问题
@@ -17,7 +17,7 @@ Rancher的版本位于我们网站的页脚。如果您点击该版本，您将�
 
 ### 如何在代理服务器后面运行Rancher？
 
-阅读更多关于如何[在代理服务器后面安装Rancher服务器](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/faqs/server/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/installing-rancher/installing-server/#launching-rancher-server-behind-a-http-proxy)。
+阅读更多关于如何[在代理服务器后面安装Rancher服务器](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/faqs/server/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/installing-rancher/installing-server/#launching-rancher-server-behind-a-http-proxy)。
 
 ### 哪里可以找到Rancher Server容器的详细日志？
 
@@ -54,15 +54,15 @@ $ docker exec <CONTAINER_ID_OF_SERVER> mysqldump cattle > dump.sql
 
 如果Rancher服务器的IP已更改，则需要使用更新的信息重新附加主机。
 
-在Rancher中，转到**管理员** - > **设置**，并使用Rancher服务器的更新的URL 更新**主机注册**。请注意，它必须包括您启动Rancher服务器的暴露端口。默认情况下，我们已经使用端口建议`8080`在我们[的安装说明](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/faqs/server/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/installing-rancher/installing-server)。
+在Rancher中，转到**管理员** - > **设置**，并使用Rancher服务器的更新的URL 更新**主机注册**。请注意，它必须包括您启动Rancher服务器的暴露端口。默认情况下，我们已经使用端口建议`8080`在我们[的安装说明](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/faqs/server/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/installing-rancher/installing-server)。
 
-后[主机注册](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/faqs/server/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/configuration/settings/#host-registration)已经更新，进入**基础设施** - > **添加主机** - > **自定义**。`docker run`添加Rancher代理的命令将使用新信息进行更新。使用更新的命令，在Rancher服务器[环境中的](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/faqs/server/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/environments)所有主机上运行命令。
+后[主机注册](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/faqs/server/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/configuration/settings/#host-registration)已经更新，进入**基础设施** - > **添加主机** - > **自定义**。`docker run`添加Rancher代理的命令将使用新信息进行更新。使用更新的命令，在Rancher服务器[环境中的](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/faqs/server/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts)所有主机上运行命令。
 
 ### 为什么Go-Machine-Service在我的日志中不断重新启动？我该怎么办？
 
 Go-machine-service是一种通过websocket连接连接到Rancher API服务器的微服务器。如果无法连接，则会重新启动并再次尝试。
 
-如果您运行在[单节点](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/faqs/server/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/installing-rancher/installing-server)设置中，它将使用您为主机注册设置的URL连接到Rancher API服务器。验证可以从Rancher-sever容器内部到达主机注册URL。
+如果您运行在[单节点](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/faqs/server/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/installing-rancher/installing-server)设置中，它将使用您为主机注册设置的URL连接到Rancher API服务器。验证可以从Rancher-sever容器内部到达主机注册URL。
 
 ```bash
 $ docker exec -it <rancher-server_container_id> bash
@@ -97,7 +97,7 @@ $ curl -i -u '<value of CATTLE_ACCESS_KEY>:<value of CATTLE_SECRET_KEY>' <value 
 $ docker run -d -p 8080:8080 --restart=unless-stopped -e JAVA_OPTS="-Xmx4096m" rancher/server
 ```
 
-根据MySQL数据库的设置方式，您可能需要进行[升级](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/faqs/server/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/upgrading)才能添加附加命令。
+根据MySQL数据库的设置方式，您可能需要进行[升级](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/faqs/server/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/upgrading)才能添加附加命令。
 
 如果由于缺少内存而无法看到**Admin** - > **Processes**选项卡，则在启动Rancher服务器后再次使用更多内存，您应该可以看到该选项卡，并开始对运行时间最长的进程进行故障排除。
 
@@ -105,7 +105,7 @@ $ docker run -d -p 8080:8080 --restart=unless-stopped -e JAVA_OPTS="-Xmx4096m" r
 
 Rancher服务器自动清理几个数据库表，以防止数据库增长太快。如果您注意到这些表没有足够快速清理，请随时使用我们的API更新默认设置。
 
-默认情况下，在任何记录`container_event`和`service_event`如果他们创造了2个星期前表被删除。API中的设置以秒（`1209600`）列出。API中的设置是`events.purge.after.seconds`。
+默认情况下，在任何记录`container_evcnt`和`service_evcnt`如果他们创造了2个星期前表被删除。API中的设置以秒（`1209600`）列出。API中的设置是`evcnts.purge.after.seconds`。
 
 默认情况下，`process_instance`如果表中的任何记录在1天前创建，则会被删除。API中的设置以秒（`86400`）列出。API中的设置是`process_instance.purge.after.seconds`。
 
@@ -125,7 +125,7 @@ Rancher服务器自动清理几个数据库表，以防止数据库增长太快�
 
 > **注意：**请勿释放数据库锁定，除非您对日志锁定有上述**异常**。如果由于数据迁移而升级需要很长时间，那么如果尝试释放数据库锁，您可能会遇到其他迁移问题。
 
-如果你创造了每养牛服务器的数据容器的[升级文件](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/faqs/server/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/upgrading)，你需要`exec`进入`rancher-data`容器更新 `DATABASECHANGELOGLOCK`表和解除锁定。如果您尚未创建数据容器，则可以`exec`进入具有数据库的容器。
+如果你创造了每养牛服务器的数据容器的[升级文件](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/faqs/server/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/upgrading)，你需要`exec`进入`rancher-data`容器更新 `DATABASECHANGELOGLOCK`表和解除锁定。如果您尚未创建数据容器，则可以`exec`进入具有数据库的容器。
 
 ```bash
 $ sudo docker exec -it <container_id> mysql
@@ -143,7 +143,7 @@ mysql> select * from DATABASECHANGELOGLOCK;
 mysql> update DATABASECHANGELOGLOCK set LOCKED="", LOCKGRANTED=null, LOCKEDBY=null where ID=1;
 
 
-# Check that the lock has been removed
+# Check that the lock has becn removed
 mysql> select * from DATABASECHANGELOGLOCK;
 +----+--------+-------------+----------+
 | ID | LOCKED | LOCKGRANTED | LOCKEDBY |

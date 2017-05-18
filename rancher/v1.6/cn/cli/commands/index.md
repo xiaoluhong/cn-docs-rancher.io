@@ -2,7 +2,7 @@
 title: Rancher CLI Commands and Options
 layout: rancher-default-v1.6
 version: v1.6
-lang: en
+lang: cn
 ---
 
 ## 命令和选项
@@ -15,28 +15,28 @@ Rancher CLI能够处理Rancher中的环境，主机，堆栈，服务和容器�
 
 | 名称                   | 描述                                       |
 | -------------------- | ---------------------------------------- |
-| `catalog`            | [目录操作](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/commands/index.md#rancher-catalog-reference) |
-| `config`             | [设置客户端配置](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/commands/index.md#rancher-config-reference) |
-| `docker`             | [在主机上运行docker CLI](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/commands/index.md#rancher-docker-reference) |
-| `environment`， `env` | [与环境交互](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/commands/index.md#rancher-environment-reference) |
-| `events`， `event`    | [显示资源更改事件](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/commands/index.md#rancher-events-reference) |
-| `exec`               | [在容器上运行命令](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/commands/index.md#rancher-exec-reference) |
-| `export`             | [将堆栈的配置yml导出为tar存档或本地文件](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/commands/index.md#rancher-export-reference) |
-| `hosts`， `host`      | [主机操作](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/commands/index.md#rancher-hosts-reference) |
-| `logs`               | [获取容器的日志](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/commands/index.md#rancher-logs-reference) |
-| `ps`                 | [显示服务/容器](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/commands/index.md#rancher-ps-reference) |
-| `restart`            | [重新启动服务，容器](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/commands/index.md#rancher-restart-reference) |
-| `rm`                 | [删除服务，容器，堆栈，主机，卷](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/commands/index.md#rancher-rm-reference) |
-| `run`                | [运行服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/commands/index.md#rancher-run-reference) |
-| `scale`              | [设置运行服务的容器数](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/commands/index.md#rancher-scale-reference) |
-| `ssh`                | [SSH进入主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/commands/index.md#rancher-ssh-reference) |
-| `stacks`， `stack`    | [堆栈上的操作](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/commands/index.md#rancher-stacks-reference) |
-| `start`， `activate`  | [启动或激活服务，容器，主机，堆栈](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/commands/index.md#rancher-startactivate-reference) |
-| `stop`， `deactivate` | [停止或停用服务，容器，主机，堆栈](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/commands/index.md#rancher-stopdeactivate-reference) |
-| `up`                 | [带上所有的服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/commands/index.md#rancher-up-reference) |
-| `volumes`， `volume`  | [卷操作](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/commands/index.md#rancher-volumes-reference) |
-| `inspect`            | [查看服务，容器，主机，环境，堆栈，卷的详细信息](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/commands/index.md#rancher-inspect-reference) |
-| `wait`               | [等待资源服务，容器，主机，堆栈，机器，projectTemplate](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/commands/index.md#rancher-wait-reference) |
+| `catalog`            | [目录操作](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/commands/index.md#rancher-catalog-refercnce) |
+| `config`             | [设置客户端配置](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/commands/index.md#rancher-config-refercnce) |
+| `docker`             | [在主机上运行docker CLI](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/commands/index.md#rancher-docker-refercnce) |
+| `cnvironmcnt`， `cnv` | [与环境交互](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/commands/index.md#rancher-cnvironmcnt-refercnce) |
+| `evcnts`， `evcnt`    | [显示资源更改事件](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/commands/index.md#rancher-evcnts-refercnce) |
+| `exec`               | [在容器上运行命令](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/commands/index.md#rancher-exec-refercnce) |
+| `export`             | [将堆栈的配置yml导出为tar存档或本地文件](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/commands/index.md#rancher-export-refercnce) |
+| `hosts`， `host`      | [主机操作](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/commands/index.md#rancher-hosts-refercnce) |
+| `logs`               | [获取容器的日志](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/commands/index.md#rancher-logs-refercnce) |
+| `ps`                 | [显示服务/容器](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/commands/index.md#rancher-ps-refercnce) |
+| `restart`            | [重新启动服务，容器](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/commands/index.md#rancher-restart-refercnce) |
+| `rm`                 | [删除服务，容器，堆栈，主机，卷](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/commands/index.md#rancher-rm-refercnce) |
+| `run`                | [运行服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/commands/index.md#rancher-run-refercnce) |
+| `scale`              | [设置运行服务的容器数](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/commands/index.md#rancher-scale-refercnce) |
+| `ssh`                | [SSH进入主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/commands/index.md#rancher-ssh-refercnce) |
+| `stacks`， `stack`    | [堆栈上的操作](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/commands/index.md#rancher-stacks-refercnce) |
+| `start`， `activate`  | [启动或激活服务，容器，主机，堆栈](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/commands/index.md#rancher-startactivate-refercnce) |
+| `stop`， `deactivate` | [停止或停用服务，容器，主机，堆栈](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/commands/index.md#rancher-stopdeactivate-refercnce) |
+| `up`                 | [带上所有的服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/commands/index.md#rancher-up-refercnce) |
+| `volumes`， `volume`  | [卷操作](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/commands/index.md#rancher-volumes-refercnce) |
+| `inspect`            | [查看服务，容器，主机，环境，堆栈，卷的详细信息](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/commands/index.md#rancher-inspect-refercnce) |
+| `wait`               | [等待资源服务，容器，主机，堆栈，机器，projectTemplate](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/commands/index.md#rancher-wait-refercnce) |
 | `help`               | 显示一个命令列表或一个命令的帮助                         |
 
 ### Rancher CLI全局选项
@@ -46,8 +46,8 @@ Rancher CLI能够处理Rancher中的环境，主机，堆栈，服务和容器�
 | 名称                          | 描述                                       |
 | --------------------------- | ---------------------------------------- |
 | `--debug`                   | 调试日志                                     |
-| `--config`价值，`-c`价值         | 客户端配置文件（默认$ {HOME} /。rancher / cli.json）[$ RANCHER_CLIENT_CONFIG] |
-| `--environment`价值，`--env`价值 | 环境名称或ID [$ RANCHER_ENVIRONMENT]          |
+| `--config`价值，`-c`价值         | 客户端配置文件（默认$ {HOME} /。rancher / cli.json）[$ RANCHER_CLIcnT_CONFIG] |
+| `--cnvironmcnt`价值，`--cnv`价值 | 环境名称或ID [$ RANCHER_cnVIRONMcnT]          |
 | `--url` 值                   | 指定Rancher API端点URL [$ RANCHER_URL]       |
 | `--access-key` 值            | 指定Rancher API访问密钥[$ RANCHER_ACCESS_KEY]  |
 | `--secret-key` 值            | 指定Rancher API密钥[$ RANCHER_SECRET_KEY]    |
@@ -75,7 +75,7 @@ Rancher CLI能够处理Rancher中的环境，主机，堆栈，服务和容器�
 | 名称               | 描述                                       |
 | ---------------- | ---------------------------------------- |
 | `--quiet`， `-q`  | 只显示ID                                    |
-| `--format` 值     | `json` 或自定义格式：{％raw％} {{.Id}} {{.Name}} {％endraw％} |
+| `--format` 值     | `json` 或自定义格式：{％raw％} {{.Id}} {{.Name}} {％cndraw％} |
 | `--system`， `-s` | 显示系统模板，而不是用户                             |
 
 #### 子命令
@@ -95,14 +95,14 @@ Rancher CLI能够处理Rancher中的环境，主机，堆栈，服务和容器�
 | 名称               | 描述                                       |
 | ---------------- | ---------------------------------------- |
 | `--quiet`， `-q`  | 只显示ID                                    |
-| `--format` 值     | `json` 或自定义格式：{％raw％} {{.Id}} {{.Name}} {％endraw％} |
+| `--format` 值     | `json` 或自定义格式：{％raw％} {{.Id}} {{.Name}} {％cndraw％} |
 | `--system`， `-s` | 显示系统模板，而不是用户                             |
 
 ```
 ＃列出所有目录模板
 $ rancher目录ls
 ＃列出运行kubernetes的环境中的所有目录模板
-$ rancher --env k8sEnv目录ls
+$ rancher --cnv k8scnv目录ls
 ＃列出系统模板的目录模板 
 $ rancher catalog ls --system
 ```
@@ -128,7 +128,7 @@ $ rancher catalog install library / route53：v0.6.0-rancher1 --name route53 --s
 
 ### 牧场配置参考
 
-该`rancher config`命令[用Rancher服务器](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/commands/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cli/#configuring-the-rancher-command-line-interface)设置您的[配置](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/commands/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cli/#configuring-the-rancher-command-line-interface)。
+该`rancher config`命令[用Rancher服务器](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/commands/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cli/#configuring-the-rancher-command-line-interface)设置您的[配置](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/commands/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cli/#configuring-the-rancher-command-line-interface)。
 
 ```
 $ rancher配置
@@ -148,7 +148,7 @@ INFO [config]将配置保存到/ Users / < username > /.rancher/cli.json
 
 | 名称        | 描述                                |
 | --------- | --------------------------------- |
-| `--print` | `Print the current configuration` |
+| `--print` | `Print the currcnt configuration` |
 
 如果要打印现有配置，可以使用`----print`来显示现有配置。
 
@@ -175,7 +175,7 @@ $ rancher --host 1h1 docker ps
 
 ### 牧场主环境参考
 
-该`rancher environment`命令允许您与环境交互。如果您使用帐户API密钥，您将能够创建和更新环境。如果您使用环境API密钥，您将无法创建或更新其他环境，您将只能看到现有的环境。
+该`rancher cnvironmcnt`命令允许您与环境交互。如果您使用帐户API密钥，您将能够创建和更新环境。如果您使用环境API密钥，您将无法创建或更新其他环境，您将只能看到现有的环境。
 
 #### 选项
 
@@ -183,7 +183,7 @@ $ rancher --host 1h1 docker ps
 | --------------- | ---------------------------------------- |
 | `--all`， `-a`   | 显示停止/不活动和最近删除的资源                         |
 | `--quiet`， `-q` | 只显示ID                                    |
-| `--format` 值    | `json` 或自定义格式：{％raw％} {{.Id}} {{.Name}} {％endraw％} |
+| `--format` 值    | `json` 或自定义格式：{％raw％} {{.Id}} {{.Name}} {％cndraw％} |
 
 #### 子命令
 
@@ -199,7 +199,7 @@ $ rancher --host 1h1 docker ps
 
 #### 牧场主
 
-该`rancher env ls`命令列出了Rancher设置中的所有环境。
+该`rancher cnv ls`命令列出了Rancher设置中的所有环境。
 
 ##### 选项
 
@@ -207,22 +207,22 @@ $ rancher --host 1h1 docker ps
 | --------------- | ---------------------------------------- |
 | `--all`， `-a`   | 显示停止/不活动和最近删除的资源                         |
 | `--quiet`， `-q` | 只显示ID                                    |
-| `--format` 值    | `json` 或自定义格式：{％raw％} {{.Id}} {{.Name}} {％endraw％} |
+| `--format` 值    | `json` 或自定义格式：{％raw％} {{.Id}} {{.Name}} {％cndraw％} |
 
 ```
-$ rancher env ls
+$ rancher cnv ls
 ID NAME ORCHESTRATION STATE CREATED
 1a5默认牛活动于08-15T19：20：46Z
-1a6 k8sEnv Kubernetes active 2016-08-17T03：25：04Z
+1a6 k8scnv Kubernetes active 2016-08-17T03：25：04Z
 ＃仅列出环境的ID
-$ rancher env ls -q
+$ rancher cnv ls -q
 1A5
 1A6
 ```
 
-#### Rancher Env创建
+#### Rancher cnv创建
 
-该`rancher env create`命令创建不同业务流程类型的新环境。默认情况下，编排类型将为牛。
+该`rancher cnv create`命令创建不同业务流程类型的新环境。默认情况下，编排类型将为牛。
 
 ##### 选项
 
@@ -232,14 +232,14 @@ $ rancher env ls -q
 
 ```
 ＃创建一个环境
-$ rancher env create newCattleEnv
+$ rancher cnv create newCattlecnv
 ＃创建一个kubernetes环境 
-$ rancher env create -t kubernetes newk8sEnv
+$ rancher cnv create -t kubernetes newk8scnv
 ```
 
-#### Rancher Env模板
+#### Rancher cnv模板
 
-该`rancher env template`命令允许您导出和导入模板到Rancher。
+该`rancher cnv template`命令允许您导出和导入模板到Rancher。
 
 ##### 选项
 
@@ -247,7 +247,7 @@ $ rancher env create -t kubernetes newk8sEnv
 | --------------- | ---------------------------------------- |
 | `--all`， `-a`   | 显示停止/不活动和最近删除的资源                         |
 | `--quiet`， `-q` | 只显示ID                                    |
-| `--format` 值    | `json` 或自定义格式：{％raw％} {{.Id}} {{.Name}} {％endraw％} |
+| `--format` 值    | `json` 或自定义格式：{％raw％} {{.Id}} {{.Name}} {％cndraw％} |
 
 ##### 子命令
 
@@ -259,32 +259,32 @@ $ rancher env create -t kubernetes newk8sEnv
 
 #### 牧场人环境
 
-该`rancher env rm`命令删除环境。您可以使用环境名称或环境ID进行删除。
+该`rancher cnv rm`命令删除环境。您可以使用环境名称或环境ID进行删除。
 
 ```
 ＃按名称删除环境
-$ rancher env rm newk8sEnv
+$ rancher cnv rm newk8scnv
 ＃通过ID 
-$ rancher env rm 1a20删除环境
+$ rancher cnv rm 1a20删除环境
 ```
 
-#### Rancher Env停用
+#### Rancher cnv停用
 
-该`rancher env deactivate`命令禁用环境。您可以使用环境名称或环境ID选择要更新的环境。
+该`rancher cnv deactivate`命令禁用环境。您可以使用环境名称或环境ID选择要更新的环境。
 
-#### Rancher Env激活
+#### Rancher cnv激活
 
-该`rancher env activate`命令激活环境。您可以使用环境名称或环境ID选择要更新的环境。
+该`rancher cnv activate`命令激活环境。您可以使用环境名称或环境ID选择要更新的环境。
 
 ### 牧场活动参考
 
-该`rancher events`命令列出了Rancher服务器中发生的所有活动事件。
+该`rancher evcnts`命令列出了Rancher服务器中发生的所有活动事件。
 
 #### 选项
 
 | 名称                  | 描述                                       |
 | ------------------- | ---------------------------------------- |
-| `--format` 值        | `json` 或自定义格式：{％raw％} {{.Id}} {{.Name}} {％endraw％} |
+| `--format` 值        | `json` 或自定义格式：{％raw％} {{.Id}} {{.Name}} {％cndraw％} |
 | `--reconnect`， `-r` | 重新连接错误                                   |
 
 ### 牧师执行参考
@@ -337,7 +337,7 @@ $ rancher export -f files.tar mystack
 | --------------- | ---------------------------------------- |
 | `--all`， `-a`   | 显示停止/不活动和最近删除的资源                         |
 | `--quiet`， `-q` | 只显示ID                                    |
-| `--format` 值    | `json` 或自定义格式：{％raw％} {{.Id}} {{.Name}} {％endraw％} |
+| `--format` 值    | `json` 或自定义格式：{％raw％} {{.Id}} {{.Name}} {％cndraw％} |
 
 #### 子命令
 
@@ -361,7 +361,7 @@ $ rancher export -f files.tar mystack
 
 ```
 
-`--format`值| `json`或自定义格式：{％raw％} {{.Id}} {{.Name}} {％endraw％}
+`--format`值| `json`或自定义格式：{％raw％} {{.Id}} {{.Name}} {％cndraw％}
 
 ```
 $ rancher主持ls
@@ -384,7 +384,7 @@ $ rancher主机ls -q
 
 #### 牧场主创建
 
-该`rancher hosts create`命令允许您创建[主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/commands/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts)。在创建主机时，您将调用Docker Machine命令，并且需要传递Docker Machine驱动程序所需的相同选项。
+该`rancher hosts create`命令允许您创建[主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/commands/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts)。在创建主机时，您将调用Docker Machine命令，并且需要传递Docker Machine驱动程序所需的相同选项。
 
 ### 牧场主日志参考
 
@@ -405,7 +405,7 @@ $ rancher主机ls -q
 ＃使用容器ID 
 $ rancher日志获取最后50行的日志--tail 50 < ID > 
 ＃使用容器名称尾部日志 
-$ rancher logs -f < stackName > / < serviceName >
+$ rancher logs -f < stackName > / < serviccname >
 ```
 
 ### 牧师ps参考
@@ -420,12 +420,12 @@ $ rancher logs -f < stackName > / < serviceName >
 | `--system`， `-s`     | 显示系统资源                                   |
 | `--containers`， `-c` | 显示容器                                     |
 | `--quiet`， `-q`      | 只显示ID                                    |
-| `--format` 值         | `json` 或自定义格式：{％raw％} {{.Id}} {{.Name}} {％endraw％} |
+| `--format` 值         | `json` 或自定义格式：{％raw％} {{.Id}} {{.Name}} {％cndraw％} |
 
 ```
 ＃列出所有的服务
 $ rancher ps
-ID类型名称图像状态规模ENDPOINTS细节
+ID类型名称图像状态规模cnDPOINTS细节
 1S1服务的默认/博客鬼激活3等待了 [例如：Default_blog_3。实例状态：存储：下载
  ＃列出所有容器而不是服务
 $ rancher ps -c
@@ -453,7 +453,7 @@ ID NAME IMAGE STATE HOST DETAIL
 ＃重新启动服务的ID，容器，主机 
 $ rancher restart < ID > 
 ＃按服务名称重新启动，容器和主机 
-$rancherrestart < stackName > / < serviceName >
+$rancherrestart < stackName > / < serviccname >
 ```
 
 > **注意：**服务名称将始终包含堆栈名称，以确保我们引用正确的服务。
@@ -475,7 +475,7 @@ $ rancher rm < ID >
 
 ### 牧场主运行参考
 
-该`run`命令将使用1个容器的规模部署一个服务到Rancher。创建服务时，如果要将服务放置在特定的堆栈中，则需要传入`--name`并提供`stackName/serviceName`。如果使用no `--name`，那么它将服务放在`Default`堆栈中，并提供一个docker提供的名称。
+该`run`命令将使用1个容器的规模部署一个服务到Rancher。创建服务时，如果要将服务放置在特定的堆栈中，则需要传入`--name`并提供`stackName/serviccname`。如果使用no `--name`，那么它将服务放在`Default`堆栈中，并提供一个docker提供的名称。
 
 ```
 $ rancher run --name App2 / app nginx
@@ -494,15 +494,15 @@ $ rancher -p 2368：2368  -  name blog ghost
 
 ### 牧场大小参考
 
-默认情况下，当您启动服务时`rancher run`，服务的比例将为1.您可以使用该`rancher scale`命令增加任何服务的比例。您可以按名称，即`stackName/serviceName`服务ID或服务ID 选择服务。
+默认情况下，当您启动服务时`rancher run`，服务的比例将为1.您可以使用该`rancher scale`命令增加任何服务的比例。您可以按名称，即`stackName/serviccname`服务ID或服务ID 选择服务。
 
 ```
-$ rancher scale < stackName > / < serviceName > = 5 < serviceID > = 3
+$ rancher scale < stackName > / < serviccname > = 5 < serviceID > = 3
 ```
 
 ### 牧师ssh参考
 
-将`rancher ssh`让你ssh到由UI创建的任何主机。它不会允许您将ssh添加到由[自定义](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/commands/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts/custom)命令添加的主机中。
+将`rancher ssh`让你ssh到由UI创建的任何主机。它不会允许您将ssh添加到由[自定义](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/commands/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts/custom)命令添加的主机中。
 
 ```
 $ rancher ssh < hostID >
@@ -518,7 +518,7 @@ $ rancher ssh < hostID >
 | ---------------- | ---------------------------------------- |
 | `--system`， `-s` | 显示系统资源                                   |
 | `--quiet`， `-q`  | 只显示ID                                    |
-| `--format` 值     | `json` 或自定义格式：{％raw％} {{.Id}} {{.Name}} {％endraw％} |
+| `--format` 值     | `json` 或自定义格式：{％raw％} {{.Id}} {{.Name}} {％cndraw％} |
 
 #### 命令
 
@@ -537,7 +537,7 @@ $ rancher ssh < hostID >
 | ---------------- | ---------------------------------------- |
 | `--system`， `-s` | 显示系统资源                                   |
 | `--quiet`， `-q`  | 只显示ID                                    |
-| `--format` 值     | `json` 或自定义格式：{％raw％} {{.Id}} {{.Name}} {％endraw％} |
+| `--format` 值     | `json` 或自定义格式：{％raw％} {{.Id}} {{.Name}} {％cndraw％} |
 
 ```
 ＃列出所有堆栈
@@ -590,7 +590,7 @@ $ rancher stacks create NewStack -f dc.yml -r rc.yml --start
 ＃从服务ID，容器，主机 
 开始$ rancher start < ID > 
 ＃以服务名称，容器和主机名开始 
-$rancherstart < stackName > / < serviceName >
+$rancherstart < stackName > / < serviccname >
 ```
 
 > **注意：**服务名称将始终包含堆栈名称，以确保我们引用正确的服务。
@@ -609,7 +609,7 @@ $rancherstart < stackName > / < serviceName >
 ＃停止服务的ID，容器，主机 
 $ rancher stop < ID > 
 ＃停止服务名称，容器，主机 
-$rancherstop < stackName > / < serviceName >
+$rancherstop < stackName > / < serviccname >
 ```
 
 > **注意：**服务名称将始终包含堆栈名称，以确保我们引用正确的服务。
@@ -631,7 +631,7 @@ $rancherstop < stackName > / < serviceName >
 | `--batch-size` 值                      | 一次升级的容器数量（默认值：2）                         |
 | `--interval` 值                        | 更新间隔（以毫秒为单位）（默认值：1000）                   |
 | `--rancher-file` 值                    | 指定一个备用的Rancher组合文件（默认值：rancher-compose.yml） |
-| `--env-file`价值，`-e`价值                 | 指定读取环境变量的文件                              |
+| `--cnv-file`价值，`-e`价值                 | 指定读取环境变量的文件                              |
 | `--file`价值，`-f`价值                     | 指定一个或多个替代撰写文件（默认值：docker-compose.yml）[$ COMPOSE_FILE] |
 | `--stack`价值，`-s`价值                    | 指定备用项目名称（默认值：目录名）                        |
 
@@ -650,7 +650,7 @@ $rancherup -s < stackName > -d
 | --------------- | ---------------------------------------- |
 | `--all`， `-a`   | 显示停止/不活动和最近删除的资源                         |
 | `--quiet`， `-q` | 只显示ID                                    |
-| `--format` 值    | `json` 或自定义格式：{％raw％} {{.Id}} {{.Name}} {％endraw％} |
+| `--format` 值    | `json` 或自定义格式：{％raw％} {{.Id}} {{.Name}} {％cndraw％} |
 
 #### 命令
 
@@ -670,7 +670,7 @@ $rancherup -s < stackName > -d
 | --------------- | ---------------------------------------- |
 | `--all`， `-a`   | 显示停止/不活动和最近删除的资源                         |
 | `--quiet`， `-q` | 只显示ID                                    |
-| `--format` 值    | `json` 或自定义格式：{％raw％} {{.Id}} {{.Name}} {％endraw％} |
+| `--format` 值    | `json` 或自定义格式：{％raw％} {{.Id}} {{.Name}} {％cndraw％} |
 
 ```
 $ rancher卷ls
@@ -718,13 +718,13 @@ $ rancher volume create NewVolume --driver rancher-nfs
 | ------------ | ---------------------------------------- |
 | `--type` 值   | 限制检查具体类型（服务，容器，主机）                       |
 | `--links`    | 将URL包含到资源输出中的操作和链接中                      |
-| `--format` 值 | `json` 或自定义格式：{％raw％} {{.Id}} {{.Name}} {％endraw％}（默认值：“json”） |
+| `--format` 值 | `json` 或自定义格式：{％raw％} {{.Id}} {{.Name}} {％cndraw％}（默认值：“json”） |
 
 ```
 ＃检查服务的ID，容器，主机 
 $ rancher inspect < ID > 
 ＃根据服务名称，容器，主机 
-检查$rancherinspect < stackName > / < serviceName >
+检查$rancherinspect < stackName > / < serviccname >
 ```
 
 > **注意：**服务名称将始终包含堆栈名称，以确保我们引用正确的服务。

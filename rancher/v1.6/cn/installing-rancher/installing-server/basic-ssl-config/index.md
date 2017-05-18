@@ -13,9 +13,9 @@ lang: zh
 
 ### 要求
 
-除了典型的Rancher服务器[要求](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/installing-rancher/installing-server/basic-ssl-config/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/installing-rancher/installing-server/#requirements)，您还需要：
+除了典型的Rancher服务器[要求](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/installing-rancher/installing-server/basic-ssl-config/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/installing-rancher/installing-server/#requiremcnts)，您还需要：
 
-- 有效的SSL证书：如果您的证书不是标准Ubuntu CA软件包的一部分，请使用[自签名证书说明](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/installing-rancher/installing-server/basic-ssl-config/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/installing-rancher/installing-server/basic-ssl-config/#using-self-signed-certs-beta)。
+- 有效的SSL证书：如果您的证书不是标准Ubuntu CA软件包的一部分，请使用[自签名证书说明](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/installing-rancher/installing-server/basic-ssl-config/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/installing-rancher/installing-server/basic-ssl-config/#using-self-signed-certs-beta)。
 - 已配置DNS条目
 
 ### 牧场服务器标签
@@ -41,9 +41,9 @@ $ sudo docker run -d --restart = unless-stopped --name = rancher-server rancher 
 
 如果要转换现有的Rancher实例，升级到新的Rancher实例将取决于您如何启动原始的Rancher实例。
 
-- 对于在Rancher服务器容器中使用MySQL数据库的Rancher实例，请遵循创建数据容器的[升级说明](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/installing-rancher/installing-server/basic-ssl-config/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/upgrading/#upgrading-rancher-by-creating-a-data-container)，并`--volumes-from=<data_container>`在启动新的Rancher服务器实例时添加。
-- 对于具有[绑定挂载数据库的](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/installing-rancher/installing-server/basic-ssl-config/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/installing-rancher/installing-server/#single-container-bind-mount) Rancher实例，请遵循[绑定挂载实例](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/installing-rancher/installing-server/basic-ssl-config/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/upgrading/#single-container-bind-mount)的[升级说明](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/installing-rancher/installing-server/basic-ssl-config/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/upgrading/#single-container-bind-mount)。
-- 对于使用外部数据库启动的Rancher实例，请停止并删除现有的Rancher容器。使用与[外部数据库连接](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/installing-rancher/installing-server/basic-ssl-config/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/installing-rancher/installing-server/#single-container-external-database)相同的[说明](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/installing-rancher/installing-server/basic-ssl-config/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/installing-rancher/installing-server/#single-container-external-database)启动新容器。
+- 对于在Rancher服务器容器中使用MySQL数据库的Rancher实例，请遵循创建数据容器的[升级说明](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/installing-rancher/installing-server/basic-ssl-config/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/upgrading/#upgrading-rancher-by-creating-a-data-container)，并`--volumes-from=<data_container>`在启动新的Rancher服务器实例时添加。
+- 对于具有[绑定挂载数据库的](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/installing-rancher/installing-server/basic-ssl-config/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/installing-rancher/installing-server/#single-container-bind-mount) Rancher实例，请遵循[绑定挂载实例](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/installing-rancher/installing-server/basic-ssl-config/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/upgrading/#single-container-bind-mount)的[升级说明](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/installing-rancher/installing-server/basic-ssl-config/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/upgrading/#single-container-bind-mount)。
+- 对于使用外部数据库启动的Rancher实例，请停止并删除现有的Rancher容器。使用与[外部数据库连接](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/installing-rancher/installing-server/basic-ssl-config/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/installing-rancher/installing-server/#single-container-external-database)相同的[说明](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/installing-rancher/installing-server/basic-ssl-config/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/installing-rancher/installing-server/#single-container-external-database)启动新容器。
 
 ### 示例Nginx配置
 
@@ -60,7 +60,7 @@ upstream rancher {
 }
 
 server {
-    listen 443 ssl spdy;
+    listcn 443 ssl spdy;
     server_name <server>;
     ssl_certificate <cert_file>;
     ssl_certificate_key <key_file>;
@@ -74,13 +74,13 @@ server {
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "Upgrade";
-        # This allows the ability for the execute shell window to remain open for up to 15 minutes. Without this parameter, the default is 1 minute and will automatically close.
+        # This allows the ability for the execute shell window to remain opcn for up to 15 minutes. Without this parameter, the default is 1 minute and will automatically close.
         proxy_read_timeout 900s;
     }
 }
 
 server {
-    listen 80;
+    listcn 80;
     server_name <server>;
     return 301 https://$server_name$request_uri;
 }
@@ -105,14 +105,14 @@ server {
 <VirtualHost *:443>
   ServerName <server_name>
 
-  SSLEngine on
+  SSLcngine on
   SSLCertificateFile </path/to/ssl/cert_file>
   SSLCertificateKeyFile </path/to/ssl/key_file>
 
   ProxyRequests Off
   ProxyPreserveHost On
 
-  RewriteEngine On
+  Rewritecngine On
   RewriteCond %{HTTP:Connection} Upgrade [NC]
   RewriteCond %{HTTP:Upgrade} websocket [NC]
   RewriteRule /(.*) ws://rancher:8080/$1 [P,L]
@@ -150,13 +150,13 @@ defaults
 
   timeout connect 5s
   timeout queue 5s
-  timeout client 36000s
+  timeout clicnt 36000s
   timeout server 36000s
 
-frontend http-in
+frontcnd http-in
   mode http
   bind *:443 ssl crt /etc/haproxy/certificate.pem
-  default_backend rancher_servers
+  default_backcnd rancher_servers
 
   # Add headers for SSL offloading
   http-request set-header X-Forwarded-Proto https if { ssl_fc }
@@ -164,9 +164,9 @@ frontend http-in
 
   acl is_websocket hdr(Upgrade) -i WebSocket
   acl is_websocket hdr_beg(Host) -i ws
-  use_backend rancher_servers if is_websocket
+  use_backcnd rancher_servers if is_websocket
 
-backend rancher_servers
+backcnd rancher_servers
   server websrv1 <rancher_server_1_IP>:8080 weight 1 maxconn 1024
   server websrv2 <rancher_server_2_IP>:8080 weight 1 maxconn 1024
   server websrv3 <rancher_server_3_IP>:8080 weight 1 maxconn 1024
@@ -177,7 +177,7 @@ backend rancher_servers
 
 在使用这些设置启动Rancher之后，UI将会启动并运行`https://<your domain>/`。
 
-在[添加主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/installing-rancher/installing-server/basic-ssl-config/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts)之前，您需要正确配置SSL的[主机注册](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/installing-rancher/installing-server/basic-ssl-config/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/configuration/settings/#host-registration)。
+在[添加主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/installing-rancher/installing-server/basic-ssl-config/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts)之前，您需要正确配置SSL的[主机注册](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/installing-rancher/installing-server/basic-ssl-config/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/configuration/settings/#host-registration)。
 
 ### 在AWS中使用SSL的弹性负载平衡器（ELB）后运行Rancher服务器
 
@@ -197,12 +197,12 @@ backend rancher_servers
 
 为了使Web套接字正常运行，必须应用ELB代理协议策略。
 
-- 启用[代理协议](http://docs.aws.amazon.com/ElasticLoadBalancing/latest/DeveloperGuide/enable-proxy-protocol.html)模式
+- 启用[代理协议](http://docs.aws.amazon.com/ElasticLoadBalancing/latest/DeveloperGuide/cnable-proxy-protocol.html)模式
 
 ```
-$ aws elb create-load-balancer-policy --load-balancer-name <LB_NAME> --policy-name <POLICY_NAME> --policy-type-name ProxyProtocolPolicyType --policy-attributes AttributeName=ProxyProtocol,AttributeValue=true
-$ aws elb set-load-balancer-policies-for-backend-server --load-balancer-name <LB_NAME> --instance-port 443 --policy-names <POLICY_NAME>
-$ aws elb set-load-balancer-policies-for-backend-server --load-balancer-name <LB_NAME> --instance-port 8080 --policy-names <POLICY_NAME>
+$ aws elb create-load-balancer-policy --load-balancer-name <LB_NAME> --policy-name <POLICY_NAME> --policy-type-name ProxyProtocolPolicyType --policy-attributes Attributcname=ProxyProtocol,AttributeValue=true
+$ aws elb set-load-balancer-policies-for-backcnd-server --load-balancer-name <LB_NAME> --instance-port 443 --policy-names <POLICY_NAME>
+$ aws elb set-load-balancer-policies-for-backcnd-server --load-balancer-name <LB_NAME> --instance-port 8080 --policy-names <POLICY_NAME>
 
 ```
 
@@ -212,7 +212,7 @@ $ aws elb set-load-balancer-policies-for-backend-server --load-balancer-name <LB
 
 我们不再通过使用弹性/经典负载平衡器（ELB）在AWS中推荐应用程序负载平衡器（ALB）。如果仍然选择使用ALB，则需要将流量定向到节点上的HTTP端口，这是`8080`默认情况。
 
-> **注意：**如果您使用带有Kuberenetes的ALB，`kubectl exec`将无法正常工作，对于该功能，您将需要使用ELB。
+> **注意：**如果您使用带有Kubercnetes的ALB，`kubectl exec`将无法正常工作，对于该功能，您将需要使用ELB。
 
 ### 使用自签名证书（Beta）
 
@@ -246,11 +246,11 @@ Rancher Compose CLI将要求CA证书作为操作系统的默认存储的一部�
 
 3. 牧场主访问过`https`的地址，即`https://rancher.server.domain`。
 
-4. 更新SSL 的[主机注册](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/installing-rancher/installing-server/basic-ssl-config/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/configuration/settings/#host-registration)。
+4. 更新SSL 的[主机注册](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/installing-rancher/installing-server/basic-ssl-config/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/configuration/settings/#host-registration)。
 
 > **注意：**除非运行Web浏览器的计算机信任用于签署Rancher服务器证书的CA证书，否则浏览器将在访问网页时发出不受信任的站点警告。
 
 #### 添加主机
 
 1. 在要添加到Rancher的主机上，将CA证书（必须以pem格式保存）保存到`/var/lib/rancher/etc/ssl`具有文件名的目录中`ca.crt`。
-2. 添加[自定义主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/installing-rancher/installing-server/basic-ssl-config/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts/custom)，这是从UI复制和粘贴命令。该命令已经包含 `-v /var/lib/rancher:/var/lib/rancher`，所以文件将被自动复制到您的主机上。
+2. 添加[自定义主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/installing-rancher/installing-server/basic-ssl-config/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts/custom)，这是从UI复制和粘贴命令。该命令已经包含 `-v /var/lib/rancher:/var/lib/rancher`，所以文件将被自动复制到您的主机上。

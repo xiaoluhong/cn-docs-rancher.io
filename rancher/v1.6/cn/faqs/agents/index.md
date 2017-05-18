@@ -1,8 +1,8 @@
 ---
-title: FAQS about Rancher Agents/Hosts
+title: FAQS about Rancher Agcnts/Hosts
 layout: rancher-default-v1.6
 version: v1.6
-lang: en
+lang: cn
 ---
 
 ## 关于Rancher代理/主机的常见问题
@@ -11,21 +11,21 @@ lang: en
 
 ### 如何在Proxy后设置主机？
 
-要支持代理后面的主机，您需要编辑Docker守护程序以指向代理。我们[添加自定义主机页面](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/faqs/agents/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts/custom/#hosts-behind-a-proxy)中列出了详细的说明。
+要支持代理后面的主机，您需要编辑Docker守护程序以指向代理。我们[添加自定义主机页面](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/faqs/agcnts/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts/custom/#hosts-behind-a-proxy)中列出了详细的说明。
 
 ### Rancher代理人无法启动的原因是什么？
 
-#### 加入 `--name rancher-agent`
+#### 加入 `--name rancher-agcnt`
 
-如果您`docker run .... rancher/agent...`从UI中编辑了添加的命令`--name rancher-agent`，那么Rancher代理将无法启动。Rancher代理在初始运行后启动3个不同的容器。将有1个运行容器和2个停止的容器。容器命名`rancher-agent`和`rancher-agent-state`所需的养牛代理成功地与牧场主服务器连接。具有默认Docker名称的第三个容器可以被删除。
+如果您`docker run .... rancher/agcnt...`从UI中编辑了添加的命令`--name rancher-agcnt`，那么Rancher代理将无法启动。Rancher代理在初始运行后启动3个不同的容器。将有1个运行容器和2个停止的容器。容器命名`rancher-agcnt`和`rancher-agcnt-state`所需的养牛代理成功地与牧场主服务器连接。具有默认Docker名称的第三个容器可以被删除。
 
 #### 使用克隆的VM
 
-如果您克隆了一个虚拟机并尝试注册克隆的虚拟机，那么它将无法正常工作，并且会在该主机代理日志中发生错误。`ERROR: Please re-register this agent.`养殖者保存的唯一ID `/var/lib/rancher/state`对于克隆的虚拟机将是相同的，并且无法重新注册。
+如果您克隆了一个虚拟机并尝试注册克隆的虚拟机，那么它将无法正常工作，并且会在该主机代理日志中发生错误。`ERROR: Please re-register this agcnt.`养殖者保存的唯一ID `/var/lib/rancher/state`对于克隆的虚拟机将是相同的，并且无法重新注册。
 
-解决方法是在克隆的VM上运行以下命令`rm -rf /var/lib/rancher/state; docker rm -fv rancher-agent; docker rm -fv rancher-agent-state`，一旦完成，您可以再次注册服务器。
+解决方法是在克隆的VM上运行以下命令`rm -rf /var/lib/rancher/state; docker rm -fv rancher-agcnt; docker rm -fv rancher-agcnt-state`，一旦完成，您可以再次注册服务器。
 
-### 在哪里可以找到Rancher Agent容器的详细日志？
+### 在哪里可以找到Rancher Agcnt容器的详细日志？
 
 从v1.6.0开始`docker logs`，在Rancher代理容器上运行将提供一组与代理相关的所有日志。
 
@@ -48,12 +48,12 @@ curl -i <Host Registration URL you set in UI>/v1
 
 或者，如果您已经在重新启动后注册了主机并且您的主机具有新的IP，那么您的主机在用户界面中的IP将不再匹配。
 
-您可以覆盖`CATTLE_AGENT_IP`设置，并将主机IP设置为您想要的。
+您可以覆盖`CATTLE_AGcnT_IP`设置，并将主机IP设置为您想要的。
 
-当主机IP地址不正确时，容器将无法访问受管网络。要使主机和所有容器进入托管网络，只需通过将新IP指定为环境变量（即步骤4），编辑要[添加到自定义主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/faqs/agents/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts/custom)中的命令。在主机上运行编辑的命令。不要停止或删除主机上的现有代理！
+当主机IP地址不正确时，容器将无法访问受管网络。要使主机和所有容器进入托管网络，只需通过将新IP指定为环境变量（即步骤4），编辑要[添加到自定义主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/faqs/agcnts/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts/custom)中的命令。在主机上运行编辑的命令。不要停止或删除主机上的现有代理！
 
 ```
-$ sudo docker run -d -e CATTLE_AGENT_IP = < NEW_HOST_IP > --privileged \
+$ sudo docker run -d -e CATTLE_AGcnT_IP = < NEW_HOST_IP > --privileged \
     -v /var/run/docker.sock:/var/run/docker.sock \
     牧师/代理：v0.8.2 http：// SERVER_IP：8080 / v1 / scripts / xxxx
 ```
@@ -62,7 +62,7 @@ $ sudo docker run -d -e CATTLE_AGENT_IP = < NEW_HOST_IP > --privileged \
 
 如果您的主机在Rancher之外被删除，那么Rancher服务器将继续显示主机，直到它被删除。这些主机最初将处于*重新连接*状态，然后才能进入`Disconnected`状态。您将能够**删除**这些主机以从UI中删除它们。
 
-如果您有将容器部署到`Disconnected`主机上的服务，那么只有在添加了[运行状况检查后](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/faqs/agents/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/health-checks)，它们才会重新安排到其他主机。
+如果您有将容器部署到`Disconnected`主机上的服务，那么只有在添加了[运行状况检查后](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/faqs/agcnts/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/health-checks)，它们才会重新安排到其他主机。
 
 ### 为什么同一主机多次显示在UI中？
 

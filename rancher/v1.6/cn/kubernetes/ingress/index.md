@@ -2,13 +2,13 @@
 title: Kubernetes Ingress Support in Rancher
 layout: rancher-default-v1.6
 version: v1.6
-lang: en
+lang: cn
 ---
 
 ## Ingress Support
 ---
 
-能够开始使用之前[Kubernetes入口资源](http://kubernetes.io/docs/user-guide/ingress/)，你需要有一个[环境](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/kubernetes/ingress/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/environments)有一个orchestation类型Kubernetes。我们还建议[您在本地机器上](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/kubernetes/ingress/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/#kubectl)[设置，`kubectl`](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/kubernetes/ingress/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/#kubectl)以便将Kubernetes资源更容易地投入到Rancher中。或者，您可以使用Rancher UI提供的shell启动资源。
+能够开始使用之前[Kubernetes入口资源](http://kubernetes.io/docs/user-guide/ingress/)，你需要有一个[环境](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/ingress/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts)有一个orchestation类型Kubernetes。我们还建议[您在本地机器上](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/ingress/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/#kubectl)[设置，`kubectl`](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/ingress/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/#kubectl)以便将Kubernetes资源更容易地投入到Rancher中。或者，您可以使用Rancher UI提供的shell启动资源。
 
 Kubernetes Ingress资源可以由您选择的任何负载平衡器进行备份，因此为了利用Rancher的负载平衡功能，我们引入了Rancher入口控制器的概念。入口控制器是作为入口控制器服务的一部分而创建的，它被部署为Kubernetes的系统堆栈的一部分。
 
@@ -75,7 +75,7 @@ spec:
         - containerPort: 80
 ```
 
-使用`kubectl`，让我们启动我们的nginx服务到Kubernetes。请记住，你可以[配置`kubectl`你的本地计算机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/kubernetes/ingress/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/#kubectl)，也可以根据使用的shell在UI **Kubernetes** - > **kubectl**。
+使用`kubectl`，让我们启动我们的nginx服务到Kubernetes。请记住，你可以[配置`kubectl`你的本地计算机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/ingress/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/#kubectl)，也可以根据使用的shell在UI **Kubernetes** - > **kubectl**。
 
 ```bash
 $ kubectl create -f nginx-service.yml
@@ -90,13 +90,13 @@ replicationcontroller "nginx-service" created
 Example `simple-ingress.yml`
 
 ```yaml
-apiVersion: extensions/v1beta1
+apiVersion: extcnsions/v1beta1
 kind: Ingress
 metadata:
   name: simplelb
 spec:
-  backend:
-    serviceName: nginx-service
+  backcnd:
+    serviccname: nginx-service
     servicePort: 90
 ```
 
@@ -106,7 +106,7 @@ spec:
 $ kubectl create -f simple-ingress.yml
 ingress "simplelb" created
 $ kubectl get ingress
-NAME          RULE      BACKEND            ADDRESS          AGE
+NAME          RULE      BACKcnD            ADDRESS          AGE
 simplelb      -         nginx-service:80   1.2.3.4          5m
 ```
 
@@ -194,7 +194,7 @@ spec:
         - containerPort: 80
 ```
 
-使用`kubectl`，让我们将服务和复制控制器启动到Kubernetes。请记住，你可以[配置`kubectl`你的本地计算机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/kubernetes/ingress/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/#kubectl)，也可以根据使用的shell在UI **Kubernetes** - > **kubectl**。
+使用`kubectl`，让我们将服务和复制控制器启动到Kubernetes。请记住，你可以[配置`kubectl`你的本地计算机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/ingress/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/#kubectl)，也可以根据使用的shell在UI **Kubernetes** - > **kubectl**。
 
 ```bash
 $ kubectl create -f multiple-nginx-services.yml
@@ -211,7 +211,7 @@ replicationcontroller "nginx-service-2" created
 Example `host-based-ingress.yml`
 
 ```yaml
-apiVersion: extensions/v1beta1
+apiVersion: extcnsions/v1beta1
 kind: Ingress
 metadata:
   name: host-based-ingress
@@ -220,14 +220,14 @@ spec:
   - host: foo.bar.com
     http:
       paths:
-      - backend:
-          serviceName: nginx-service-1
+      - backcnd:
+          serviccname: nginx-service-1
           servicePort: 90
   - host: bar.foo.com
     http:
       paths:
-      - backend:
-          serviceName: nginx-service-2
+      - backcnd:
+          serviccname: nginx-service-2
           servicePort: 90
 ```
 
@@ -240,7 +240,7 @@ spec:
 $ kubectl create -f host-based-ingress.yml
 ingress "host-based-ingress" created
 $ kubectl get ingress
-NAME                    RULE            BACKEND             ADDRESS     AGE
+NAME                    RULE            BACKcnD             ADDRESS     AGE
 host-based-ingress      -                                   1.2.3.4     20m
                         foo.bar.com    
                                         nginx-service-1:80
@@ -261,7 +261,7 @@ host-based-ingress      -                                   1.2.3.4     20m
 Example `path-based-ingress.yml`
 
 ```yaml
-apiVersion: extensions/v1beta1
+apiVersion: extcnsions/v1beta1
 kind: Ingress
 metadata:
   name: path-based-ingress
@@ -271,12 +271,12 @@ spec:
     http:
       paths:
       - path: /foo
-        backend:
-          serviceName: nginx-service-1
+        backcnd:
+          serviccname: nginx-service-1
           servicePort: 90
       - path: /bar
-        backend:
-          serviceName: nginx-service-2
+        backcnd:
+          serviccname: nginx-service-2
           servicePort: 90
 ```
 
@@ -289,7 +289,7 @@ spec:
 $ kubectl create -f path-based-ingress.yml
 ingress "path-based-ingress" created
 $ kubectl get ingress
-NAME                    RULE            BACKEND             ADDRESS            AGE
+NAME                    RULE            BACKcnD             ADDRESS            AGE
 path-based-ingress      -                                   1.2.3.4             15s
                         foo.bar.com    
                         /foo            nginx-service1:80
@@ -308,12 +308,12 @@ path-based-ingress      -                                   1.2.3.4             
 
 #### 例子：
 
-- [使用不同端口的多个负载平衡器](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/kubernetes/ingress/index.md#scale-and-other-port)
-- [使用TLS](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/kubernetes/ingress/index.md#tls)
-- [阻止HTTP](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/kubernetes/ingress/index.md#blocking-http)
-- [自定义HAProxy](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/kubernetes/ingress/index.md#custom-haproxy)
-- [负载平衡器安排在所有主机上](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/kubernetes/ingress/index.md#scheduled-globally)
-- [负载平衡器安排在特定主机上](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/kubernetes/ingress/index.md#host-scheduling)
+- [使用不同端口的多个负载平衡器](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/ingress/index.md#scale-and-other-port)
+- [使用TLS](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/ingress/index.md#tls)
+- [阻止HTTP](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/ingress/index.md#blocking-http)
+- [自定义HAProxy](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/ingress/index.md#custom-haproxy)
+- [负载平衡器安排在所有主机上](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/ingress/index.md#scheduled-globally)
+- [负载平衡器安排在特定主机上](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/ingress/index.md#host-scheduling)
 
 > **注意：**如果您选择增加入口的规模，则需要确保Kubernetes环境中至少有相当数量的可用主机可用。
 
@@ -362,7 +362,7 @@ spec:
         - containerPort: 80
 ```
 
-使用`kubectl`，让我们启动我们的nginx服务到Kubernetes。请记住，你可以[配置`kubectl`你的本地计算机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/kubernetes/ingress/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/#kubectl)，也可以根据使用的shell在UI **Kubernetes** - > **kubectl**。
+使用`kubectl`，让我们启动我们的nginx服务到Kubernetes。请记住，你可以[配置`kubectl`你的本地计算机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/ingress/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/#kubectl)，也可以根据使用的shell在UI **Kubernetes** - > **kubectl**。
 
 ```bash
 $ kubectl create -f nginx-service.yml
@@ -376,18 +376,18 @@ replicationcontroller "nginx-service" created
 Example `scaled-ingress.yml`
 
 ```yaml
-apiVersion: extensions/v1beta1
+apiVersion: extcnsions/v1beta1
 kind: Ingress
 metadata:
   name: scaledlb
   annotations:
     # Scaling to 2 load balancer instances
     scale: "2"
-    # Using a different port (not 80)
+    # Using a differcnt port (not 80)
     http.port: "99"
 spec:
-  backend:
-    serviceName: nginx-service
+  backcnd:
+    serviccname: nginx-service
     servicePort: 90
 ```
 
@@ -400,13 +400,13 @@ spec:
 $ kubectl create -f scaled-ingress.yml
 ingress "host-based-ingress" created
 $ kubectl get ingress
-NAME       RULE      BACKEND            ADDRESS             AGE
+NAME       RULE      BACKcnD            ADDRESS             AGE
 simplelb   -         nginx-service:90   1.2.3.4,5.6.7.8     41s
 ```
 
 #### 使用TLS的示例
 
-如果要使用TLS与Kubernetes，您需要[将证书添加](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/kubernetes/ingress/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/environments/certificates)到Rancher中。添加到Rancher中的证书可用于确保TLS终止的入口。
+如果要使用TLS与Kubernetes，您需要[将证书添加](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/ingress/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts/certificates)到Rancher中。添加到Rancher中的证书可用于确保TLS终止的入口。
 
 假设我们添加了一个证书`foo`。
 
@@ -415,7 +415,7 @@ simplelb   -         nginx-service:90   1.2.3.4,5.6.7.8     41s
 
 
 ```yaml
-apiVersion: extensions/v1beta1
+apiVersion: extcnsions/v1beta1
 kind: Ingress
 metadata:
   name: tlslb
@@ -424,8 +424,8 @@ metadata:
 spec:
   tls:
    - secretName: foo
-  backend:
-    serviceName: nginx-service
+  backcnd:
+    serviccname: nginx-service
     servicePort: 90
 ```
 
@@ -440,7 +440,7 @@ spec:
 Example `tls-ingress.yml` and blocking port `80`
 
 ```yaml
-apiVersion: extensions/v1beta1
+apiVersion: extcnsions/v1beta1
 kind: Ingress
 metadata:
   name: tlslb
@@ -451,8 +451,8 @@ metadata:
 spec:
   tls:
    - secretName: foo
-  backend:
-    serviceName: nginx-service
+  backcnd:
+    serviccname: nginx-service
     servicePort: 90
 ```
 <a id="custom-haproxy"></a>
@@ -464,7 +464,7 @@ spec:
 Example `custom-ingress.yml`
 
 ```yaml
-apiVersion: extensions/v1beta1
+apiVersion: extcnsions/v1beta1
 kind: Ingress
 metadata:
   name: customlb
@@ -472,8 +472,8 @@ metadata:
     # Customizing HAProxy in the load balancer
     config: "defaults\nbalance source\ntimeout server 70000\nglobal\nmaxconnrate 60"
 spec:
-  backend:
-    serviceName: nginx-service
+  backcnd:
+    serviccname: nginx-service
     servicePort: 80
 ```
 
@@ -486,16 +486,16 @@ spec:
 Example `global-ingress.yml`
 
 ```yaml
-apiVersion: extensions/v1beta1
+apiVersion: extcnsions/v1beta1
 kind: Ingress
 metadata:
   name: globallb
   annotations:
-    # Create load balancers on every host in the environment
+    # Create load balancers on every host in the cnvironmcnt
     io.rancher.scheduler.global: "true"
 spec:
-  backend:
-    serviceName: nginx-service
+  backcnd:
+    serviccname: nginx-service
     servicePort: 80
 ```
 
@@ -504,7 +504,7 @@ spec:
 您可以将负载平衡器调度到环境中的特定主机。要将负载均衡器安排到特定主机，您需要向主机添加标签。主机上的标签是键值对。例如，您可以拥有一个标签的主机`foo=bar`。将标签添加到主机后，您将使用注释，即将`io.rancher.scheduler.affinity.host_label: "foo=bar"`负载均衡器容器调度到标记的主机上。
 
 ```yaml
-apiVersion: extensions/v1beta1
+apiVersion: extcnsions/v1beta1
 kind: Ingress
 metadata:
   name: scheduledlb
@@ -512,8 +512,8 @@ metadata:
     # Search for a host that has label foo=bar and schedule the load balancer on that host.
     io.rancher.scheduler.affinity.host_label: "foo=bar"
 spec:
-  backend:
-    serviceName: nginx-service
+  backcnd:
+    serviccname: nginx-service
     servicePort: 80
 ```
 
@@ -522,7 +522,7 @@ spec:
 您可以配置负载平衡器将流量路由到**仅**在负载平衡器容器的同一主机上的服务的容器。如果主机上没有目标服务的容器，则负载平衡器不会将目标服务的其他容器的任何流量路由到其他主机上。为了配置负载均衡器，您将使用注释，即`io.rancher.lb_service.target: "only-local"`。
 
 ```yaml
-apiVersion: extensions/v1beta1
+apiVersion: extcnsions/v1beta1
 kind: Ingress
 metadata:
   name: onlylocallb
@@ -530,8 +530,8 @@ metadata:
     # Direct traffic to only containers that are on the same host as the load balancer container
     io.rancher.lb_service.target: "only-local"
 spec:
-  backend:
-    serviceName: nginx-service
+  backcnd:
+    serviccname: nginx-service
     servicePort: 80
 ```
 
@@ -540,7 +540,7 @@ spec:
 您可以配置负载平衡器来优先处理负载均衡器容器的同一主机上的服务的容器的流量。如果主机上没有目标服务的容器，则负载平衡器将流量引导到其他主机上的目标服务的其他容器。为了配置负载均衡器，您将使用注释，即`io.rancher.lb_service.target: "prefer-local"`。
 
 ```yaml
-apiVersion: extensions/v1beta1
+apiVersion: extcnsions/v1beta1
 kind: Ingress
 metadata:
   name: preferlocallb
@@ -548,8 +548,8 @@ metadata:
     # Prioritize traffic to containers that are on the same host as the load balancer container
     io.rancher.lb_service.target: "prefer-local"
 spec:
-  backend:
-    serviceName: nginx-service
+  backcnd:
+    serviccname: nginx-service
     servicePort: 80
 ```
 
@@ -558,7 +558,7 @@ spec:
 可以配置在Rancher负载平衡器中运行的HAProxy软件的粘性策略。例如，您可以配置负载平衡器将流量从同一个源路由到相同的容器。为了配置负载平衡器，您将使用注释（即`io.rancher.stickiness.policy`）并包含粘性策略。该值可以设置为`\n`HAProxy软件所理解的一组键值参数。
 
 ```yaml
-apiVersion: extensions/v1beta1
+apiVersion: extcnsions/v1beta1
 kind: Ingress
 metadata:
   name: test
@@ -566,7 +566,7 @@ metadata:
     # Configure stickiness policy
     io.rancher.stickiness.policy: "name: testname\n cookie: cookie123\ndomain: test.domain"
 spec:
-  backend:
-    serviceName: nginx-service
+  backcnd:
+    serviccname: nginx-service
     servicePort: 80
 ```

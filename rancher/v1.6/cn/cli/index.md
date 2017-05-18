@@ -2,13 +2,13 @@
 title: Rancher Command Line Interface (CLI)
 layout: rancher-default-v1.6
 version: v1.6
-lang: en
+lang: cn
 ---
 
 ## Rancher Command Line Interface
 ---
 
-Rancher命令行界面（CLI）是一个统一的工具来管理您的Rancher服务器。使用此工具，您可以控制您的[环境](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/environments)，[主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts)，堆栈，服务和容器。
+Rancher命令行界面（CLI）是一个统一的工具来管理您的Rancher服务器。使用此工具，您可以控制您的[环境](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts)，[主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts)，堆栈，服务和容器。
 
 ### 安装
 
@@ -16,7 +16,7 @@ Rancher命令行界面（CLI）是一个统一的工具来管理您的Rancher服
 
 ### 配置Rancher命令行界面
 
-有几种方法可以配置Rancher CLI与Rancher进行交互时使用的设置，即Rancher URL和帐户[API密钥](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/api/api-keys)。帐户API密钥可以在**API中**创建。
+有几种方法可以配置Rancher CLI与Rancher进行交互时使用的设置，即Rancher URL和帐户[API密钥](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/api/api-keys)。帐户API密钥可以在**API中**创建。
 
 有什么将要使用的特定加载顺序。
 
@@ -55,11 +55,11 @@ $ export RANCHER_ACCESS_KEY = < accessKey_of_account_api_key >
 $ export RANCHER_SECRET_KEY = < secretKey_of_account_api_key >
 ```
 
-如果您的Rancher服务器中有多个环境，您还需要设置一个环境变量来选择特定的环境，即`RANCHER_ENVIRONMENT`。
+如果您的Rancher服务器中有多个环境，您还需要设置一个环境变量来选择特定的环境，即`RANCHER_cnVIRONMcnT`。
 
 ```
 ＃设置要使用的环境，可以使用环境ID或环境名称 
-$ export RANCHER_ENVIRONMENT = < environment_id >
+$ export RANCHER_cnVIRONMcnT = < cnvironmcnt_id >
 ```
 
 #### 传递选项
@@ -67,22 +67,22 @@ $ export RANCHER_ENVIRONMENT = < environment_id >
 如果您选择不运行`rancher config`或设置环境变量，则可以将与选项相同的值作为任何`rancher`命令的一部分传递。
 
 ```
-$ rancher --url http：// server_ip：8080 --access-key < accessKey_of_account_api_key > --secret-key < secretKey_of_account_api_key > --env < environment_id > ps
+$ rancher --url http：// server_ip：8080 --access-key < accessKey_of_account_api_key > --secret-key < secretKey_of_account_api_key > --cnv < cnvironmcnt_id > ps
 ```
 
 ### 使用Rancher CLI进行调试
 
-使用Rancher CLI时，您可以将环境变量设置`RANCHER_CLIENT_DEBUG`为`true`，将所有CLI命令打印出正在进行的API调用的详细消息。
+使用Rancher CLI时，您可以将环境变量设置`RANCHER_CLIcnT_DEBUG`为`true`，将所有CLI命令打印出正在进行的API调用的详细消息。
 
 ```
 ＃打印所有CLI调用的详细消息 
-$ export RANCHER_CLIENT_DEBUG = true
+$ export RANCHER_CLIcnT_DEBUG = true
 ```
 
-如果您不想在每个CLI命令上进行详细的响应，请将环境变量设置`RANCHER_CLIENT_DEBUG`为`false`并传入`--debug`特定命令以获取详细消息。
+如果您不想在每个CLI命令上进行详细的响应，请将环境变量设置`RANCHER_CLIcnT_DEBUG`为`false`并传入`--debug`特定命令以获取详细消息。
 
 ```
-$ rancher --debug env create newEnv
+$ rancher --debug cnv create newcnv
 ```
 
 ### 使用环境
@@ -90,7 +90,7 @@ $ rancher --debug env create newEnv
 如果您使用帐户API密钥，您将能够创建和更新环境。如果您使用环境API密钥，您将无法创建或更新其他环境，您将只能看到现有的环境。
 
 ```
-$ rancher env ls
+$ rancher cnv ls
 ID名称状态目录系统细节
 1e1动物园管理员健康目录：//社区：zookeeper：1    false      
 1e2默认健康                                      假      
@@ -131,7 +131,7 @@ $ rancher --host host-2 docker ps上运行的容器
 
 ```
 $ rancher ps
-ID类型名称图像状态规模ENDPOINTS细节
+ID类型名称图像状态规模cnDPOINTS细节
 1s1服务zookeeper / zk rawmind / alpine-zk：3.4.8-4健康3                              
 1s2服务默认/ nginxApp nginx健康1                              
 1s4服务App1 / db1 mysql健康1                              
@@ -207,13 +207,13 @@ ID NAME IMAGE STATE HOST IP DOCKER DETAIL
 ＃如果没有提供任何堆，栈名称将是该命令运行文件夹名称
 ＃如果堆栈不高的农场存在，它会创建
 ＃添加在-d结束时不阻止和记录 
-$ rancher --url URL_of_Rancher --access-key < username_of_account_api_key > --secret-key < password_of_account_api_key > --env默认值up -s stack1 -d
+$ rancher --url URL_of_Rancher --access-key < username_of_account_api_key > --secret-key < password_of_account_api_key > --cnv默认值up -s stack1 -d
 
 ＃创建和启动一个已经设置了环境变量的服务
 ＃在最后添加-d以阻止和记录
 $ rancher up -s stack1 -d
 
-＃要更改现有服务的规模，可以使用stackName / serviceName或service ID
+＃要更改现有服务的规模，可以使用stackName / serviccname或service ID
 $ rancher scale Default / service1 = 3
 $ rancher scale 1s4 = 5
 ```
@@ -229,4 +229,4 @@ $ rancher run --name stackA / service1 nginx
 
 ### 命令参考
 
-要了解有关所有支持的命令的更多信息，请阅读我们的Rancher [命令](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cli/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cli/commands)文档。
+要了解有关所有支持的命令的更多信息，请阅读我们的Rancher [命令](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cli/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cli/commands)文档。

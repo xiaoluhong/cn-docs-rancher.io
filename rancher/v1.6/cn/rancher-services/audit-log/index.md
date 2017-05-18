@@ -2,14 +2,14 @@
 title: Audit Logging in Rancher
 layout: rancher-default-v1.6
 version: v1.6
-lang: en
+lang: cn
 ---
 
 ## 审核记录
 
 ------
 
-只有[管理员](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/rancher-services/audit-log/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/configuration/access-control/#admin)才能访问审核日志。审核日志可以在**管理** - > **审核日志中**找到。
+只有[管理员](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/rancher-services/audit-log/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/configuration/access-control/#admin)才能访问审核日志。审核日志可以在**管理** - > **审核日志中**找到。
 
 Rancher的审核日志是不同事件类型的汇编。
 

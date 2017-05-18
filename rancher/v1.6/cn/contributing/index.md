@@ -2,9 +2,9 @@
 title: Contributing to Rancher
 layout: rancher-default-v1.6
 version: v1.6
-lang: en
+lang: cn
 redirect_from:
-  - /rancher/latest/en/contributing/
+  - /rancher/latest/cn/contributing/
 ---
 
 ## 为牧场主贡献
@@ -27,13 +27,13 @@ redirect_from:
 
 [UI Repo](https://github.com/rancher/ui)：这个repo是Rancher开发的所有UI。
 
-[牧场主目录回购](https://github.com/rancher/rancher-catalog)：此回购了大部分的[基础设施服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/contributing/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services)为模板[牧场主目录](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/contributing/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/catalog)中`infra-templates`的文件夹，这是在使用[环境中](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/contributing/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/environments)的一部分[环境模板](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/contributing/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/environments/#what-is-an-environment-template)。我们欢迎社区对Rancher目录的贡献，以获得额外的[负载均衡器供应商](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/contributing/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/%7D%7D)。
+[牧场主目录回购](https://github.com/rancher/rancher-catalog)：此回购了大部分的[基础设施服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/contributing/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services)为模板[牧场主目录](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/contributing/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/catalog)中`infra-templates`的文件夹，这是在使用[环境中](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/contributing/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts)的一部分[环境模板](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/contributing/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts/#what-is-an-cnvironmcnt-template)。我们欢迎社区对Rancher目录的贡献，以获得额外的[负载均衡器供应商](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/contributing/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/%7D%7D)。
 
-[社区目录回收](https://github.com/rancher/community-catalog)：此回购具有所有社区提供的牧场主[目录](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/contributing/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/catalog)模板。我们欢迎社区对Rancher模板的贡献。
+[社区目录回收](https://github.com/rancher/community-catalog)：此回购具有所有社区提供的牧场主[目录](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/contributing/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/catalog)模板。我们欢迎社区对Rancher模板的贡献。
 
-[Rancher CLI Repo](https://github.com/rancher/cli)：这个repo是[Rancher CLI](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/contributing/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cli) CLI所基于的。
+[Rancher CLI Repo](https://github.com/rancher/cli)：这个repo是[Rancher CLI](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/contributing/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cli) CLI所基于的。
 
-[Rancher Compose Repo](https://github.com/rancher/rancher-compose)：这个repo是[Rancher Compose](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/contributing/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/rancher-compose) CLI所基于的。它与docker / libcompose同步。
+[Rancher Compose Repo](https://github.com/rancher/rancher-compose)：这个repo是[Rancher Compose](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/contributing/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/rancher-compose) CLI所基于的。它与docker / libcompose同步。
 
 ### 错误
 
