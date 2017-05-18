@@ -77,7 +77,7 @@ jekyll serve
 您还可以在处理更改时定期执行此过程，以确保您正在处理最新版本的文档。
 
 ```shell
-# Checkout your local 'master' branch.
+# ＃检查你的本地“主”分支。
 git checkout master
 
 # Synchronize your local repository with 'upstream/master', so that you have all the latest changes.
