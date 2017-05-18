@@ -77,19 +77,19 @@ jekyll serve
 您还可以在处理更改时定期执行此过程，以确保您正在处理最新版本的文档。
 
 ```shell
-# ＃检查你的本地“主”分支。
+# 检查你的本地“主”分支。
 git checkout master
 
-# Synchronize your local repository with 'upstream/master', so that you have all the latest changes.
+# 将本地存储库与'upstream / master'同步，以便您具有所有最新的更改。
 git fetch upstream
 
-# Merge the latest changes from the 'upstream/master' into your local 'master' branch to make it up-to-date.
+# 将最新的“上游/主机”更改合并到本地“主”分支中以使其更新。
 git merge upstream/master
 
-# Checkout your local development branch (e.g.: 'dev').
+# 查看你的本地开发分支（例如：'dev'）。
 git checkout dev
 
-# Pull the latest changes into your local development branch.
+# 将最新的更改拉取到您的本地开发分支。
 git pull master
 ```
 
