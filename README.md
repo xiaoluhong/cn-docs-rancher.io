@@ -4,7 +4,7 @@
 
 ## Rancher
 
-Rancher是一个开源项目，为Docker在生产中提供了一个完整的平台。它提供基础架构服务，如多主机网络，全局和本地负载平衡以及卷快照。它集成了Docker Machine和Docker Swarm等本地Docker管理功能。它提供了丰富的用户体验，使得管理员能够在大规模生产中操作Docker。
+Rancher是一个开源项目，为Docker在生产中提供了一个完整的平台。它提供基础架构服务，如多主机网络、全局和本地负载平衡以及卷快照。它集成了Docker Machine和Docker Swarm等本地Docker管理功能。它提供了丰富的用户体验，使得管理员能够在大规模生产中操作Docker。
 
 ## Rancher OS
 
@@ -12,13 +12,13 @@ Rancher是一个开源项目，为Docker在生产中提供了一个完整的平�
 
 ## Rancher Labs Documentation website
 
-Rancher文档可在http://docs.rancher.com/rancher/获得。
+Rancher官方文档可在http://docs.rancher.com/rancher/获得。
 
 随着Rancher已经走出GA，我们加入了版本控制。默认的Rancher文档站点始终是指最新版本。我们将分支被认为是GA的具体版本的Rancher，也将被标记为rancher/server:stable。
 
-目前，我们已经添加了对每个社区请求的中文版文档站点的支持。目前，Rancher不会积极翻译文档网站，但我们欢迎PRs。
+目前，我们已经添加了对每个社区请求的中文文档站点的支持。目前，Rancher不会积极翻译文档网站，但我们欢迎PRs。
 
-Rancher操作系统文档可从http://docs.rancher.com/os/获取。
+RancherOS官方文档可从http://docs.rancher.com/os/获取。
 
 ## 为Rancher Labs文档项目做出贡献
 
@@ -47,15 +47,15 @@ git merge upstream/master
 
 ### 更新文件
 
-我们建议您创建一个新的分支来更新文档文件，并且不要干扰主分支，而不是从中更改upstream/master。例如，您dev在计算机上创建一个分支，在本地进行文档更改。该dev分支将是您的本地存储库，然后将其推送到您在GitHub上的分支存储库，您将在其中创建一个Pull请求，以将更改提交到官方文档中。
+我们建议您创建一个新的分支来更新文档文件，并且您不会影响主分支，而不是从upstream/master那里进行更改。例如，您在计算机上创建一个dev分支，在本地进行文档更改。该dev分支将存储在本地，然后将其推送到您在GitHub上的分支存储库，您将在其中创建一个Pull请求，以将更改提交到官方文档中。
 
-每当您想要对文档做出贡献并且只跟踪该分支中的拉动请求的更改时，创建一个新的分支是一种健康的做法。
+每当您想要对文档做出贡献并且只跟踪该分支中的拉动请求的更改时，创建一个新的分支是一种正确的做法。
 
 ```shell
 git checkout -b dev
 ```
 
-该参数-b dev创建一个名为的新分支dev。现在您可以对文档进行必要的更改。
+该参数-b 创建一个名为dev的新分支dev。现在您可以对文档进行必要的更改。
 
 ```shell
 git add .
