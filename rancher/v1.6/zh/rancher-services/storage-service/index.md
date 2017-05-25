@@ -13,9 +13,9 @@ Rancher提供不同的存储服务，能够将卷暴露于容器。
 
 ### 设置存储服务
 
-设置环境[模板](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/rancher-services/storage-service/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts/#what-is-an-cnvironmcnt-template)时，可以选择要在环境中使用的存储服务。
+设置环境[模板]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environmcnts/#what-is-an-cnvironmcnt-template)时，可以选择要在环境中使用的存储服务。
 
-或者，如果您已经设置了一个环境，则可以从[目录](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/rancher-services/storage-service/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/catalog)中选择并启动存储服务。
+或者，如果您已经设置了一个环境，则可以从[目录]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/catalog)中选择并启动存储服务。
 
 > **注意：**某些存储服务可能与某些容器编排类型（即Kubernetes）不兼容。环境模板将根据业务流程限制哪些模板兼容，但所有选项都可以从目录中获得。
 
@@ -27,13 +27,13 @@ Rancher提供不同的存储服务，能够将卷暴露于容器。
 
 ### 卷范围
 
-通过我们的存储服务，我们可以在不同的级别进行范围的量化。目前，只有[Rancher Compose](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/rancher-services/storage-service/index.md#using-storage-drivers-with-rancher-compose)支持创建不同类型的卷。UI仅创建环境范围的卷。
+通过我们的存储服务，我们可以在不同的级别进行范围的量化。目前，只有[Rancher Compose]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/storage-service/index.md#using-storage-drivers-with-rancher-compose)支持创建不同类型的卷。UI仅创建环境范围的卷。
 
 #### 堆栈范围
 
 使用堆栈范围的卷，引用堆栈中相同卷的服务将共享相同的卷。堆栈外的服务不能使用相同的卷。
 
-在Rancher中，堆栈范围的卷以堆栈名称作为前缀命名，以指示卷的范围为哪个堆栈，后缀为随机数，以确保不会重复。引用卷时，仍然使用原始卷名。例如，如果创建一个名为卷`foo`中`stackA`的UI，并在主机上会，卷名`stackA_foo_<randomNumber>`，而是使用同一个卷在你的服务，你会使用的名称`foo`。
+在Rancher中，堆栈范围的卷以堆栈名称作为前缀命名，以指示卷的范围为哪个堆栈，后缀为随机数，以确保不会重复。引用卷时，仍然使用原始卷名。例如，如果在stackA中创建一个名为`foo`的卷，在UI和主机上卷名显示为 stackA_foo_<randomNumber>， 而在你服务中使用相同的卷，你应该使用foo这个名称。
 
 #### 环境范围
 
@@ -41,7 +41,7 @@ Rancher提供不同的存储服务，能够将卷暴露于容器。
 
 ### 在UI中使用存储驱动程序
 
-存储服务启动后`active`， [服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/rancher-services/storage-service/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/adding-services)可以开始使用共享存储。在创建服务时，在“ **卷** ”选项卡中，提供**卷**和**卷驱动程序**。
+存储服务启动后`active`， [服务]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-services)可以开始使用共享存储。在创建服务时，在“ **卷** ”选项卡中，提供**卷**和**卷驱动程序**。
 
 该**卷**将与Docker的语法相同`<volume_name>:</path/in/container>`。Docker卷默认以读写模式进行装载，但您可以通过`:ro`在卷的末尾加入将其设置为只读。
 
