@@ -2,9 +2,9 @@
 title: Networking in Rancher
 layout: rancher-default-v1.6
 version: v1.6
-lang: cn
+lang: zh
 redirect_from:
-  - /rancher/latest/cn/rancher-services/networking/
+  - /rancher/latest/zh/rancher-services/networking/
 ---
 
 ## 联网

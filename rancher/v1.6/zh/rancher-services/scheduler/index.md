@@ -2,7 +2,7 @@
 title: Scheduling Services in Cattle cnvironmcnts
 layout: rancher-default-v1.6
 version: v1.6
-lang: cn
+lang: zh
 ---
 
 ## 计划服务
