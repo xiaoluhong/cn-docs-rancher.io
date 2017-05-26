@@ -33,7 +33,7 @@ Rancher实现了专门为集装箱应用服务的便携式基础[架构服务](h
 
 ### 应用目录
 
-Rancher用户可以从应用程序[目录](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/catalog)中部署整个多容器集群应用程序，只需单击一个按钮即可。用户可以管理部署的应用程序，并在新版本的应用程序可用时执行全自动升级。Rancher维护着由Rancher社区贡献的流行应用程序的公共目录。rancher用户可以[创建自己的私人目录](({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/catalog/private-catalog/)。
+Rancher用户可以从应用程序[目录](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/catalog)中部署整个多容器集群应用程序，只需单击一个按钮即可。用户可以管理部署的应用程序，并在新版本的应用程序可用时执行全自动升级。Rancher维护着由Rancher社区贡献的流行应用程序的公共目录。rancher用户可以[创建自己的私人目录]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/catalog/private-catalog/)。
 
 ### 企业级控制
 
