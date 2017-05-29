@@ -9,7 +9,7 @@ lang: cn
 
 ------
 
-如果您正在升级现有的Kubernetes设置以[要求平面隔离](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/upgrading/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/resilicncy-planes)，请阅读有关迁移过程的更多信息。
+如果您正在升级现有的Kubernetes设置以[要求平面隔离]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/resilicncy-planes)，请阅读有关迁移过程的更多信息。
 
 迁移过程分两个阶段进行。
 
