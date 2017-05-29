@@ -2,7 +2,7 @@
 title: Rancher API - agent
 layout: rancher-api-v1-default-v1.6
 version: v1.6
-lang: en
+lang: zh
 apiVersion: v1
 #redirect_from:
 #  - /rancher/v1.6/zh/api/v1/api-resources/agent/
@@ -16,20 +16,20 @@ apiVersion: v1
 
 #### Writeable Fields
 
-Field | Type | Create | Update | Default | Notes
----|---|---|---|---|---
-description | string | Optional | Yes | - | 
-name | string | Optional | Yes | - | 
+| Field       | Type   | Create   | Update | Default | Notes |
+| ----------- | ------ | -------- | ------ | ------- | ----- |
+| description | string | Optional | Yes    | -       |       |
+| name        | string | Optional | Yes    | -       |       |
 
 
 #### Read Only Fields
 
-Field | Type   | Notes
----|---|---
-data | map[json]  | 
-id | int  | The unique identifier for the agent
-managedConfig | boolean  | 
-uri | string  | 
+| Field         | Type      | Notes                               |
+| ------------- | --------- | ----------------------------------- |
+| data          | map[json] |                                     |
+| id            | int       | The unique identifier for the agent |
+| managedConfig | boolean   |                                     |
+| uri           | string    |                                     |
 
 
 <br>

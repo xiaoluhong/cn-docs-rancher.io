@@ -2,7 +2,7 @@
 title: Rancher API - apiKey
 layout: rancher-api-v1-default-v1.6
 version: v1.6
-lang: en
+lang: zh
 apiVersion: v1
 #redirect_from:
 #  - /rancher/v1.6/zh/api/v1/api-resources/apiKey/
@@ -16,20 +16,20 @@ An API Key provides access to the Rancher API if access control has been turned 
 
 #### Writeable Fields
 
-Field | Type | Create | Update | Default | Notes
----|---|---|---|---|---
-description | string | Optional | Yes | - | 
-name | string | Optional | Yes | - | 
-publicValue | string | Optional | - | - | The public value of the apiKey
-secretValue | [password]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/api/{{page.apiVersion}}/api-resources/password/) | Optional | - | - | The secret value of the apiKey
+| Field       | Type                                     | Create   | Update | Default | Notes                          |
+| ----------- | ---------------------------------------- | -------- | ------ | ------- | ------------------------------ |
+| description | string                                   | Optional | Yes    | -       |                                |
+| name        | string                                   | Optional | Yes    | -       |                                |
+| publicValue | string                                   | Optional | -      | -       | The public value of the apiKey |
+| secretValue | [password]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/api/{{page.apiVersion}}/api-resources/password/) | Optional | -      | -       | The secret value of the apiKey |
 
 
 #### Read Only Fields
 
-Field | Type   | Notes
----|---|---
-data | map[json]  | 
-id | int  | The unique identifier for the apiKey
+| Field | Type      | Notes                                |
+| ----- | --------- | ------------------------------------ |
+| data  | map[json] |                                      |
+| id    | int       | The unique identifier for the apiKey |
 
 
 <br>
