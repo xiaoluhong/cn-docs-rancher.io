@@ -6,7 +6,7 @@ lang: zh
 redirect_from:
   - /rancher/latest/zh/
   - /
-  - /rancher/zh/
+  - /rancher/
   - /rancher/latest/
   - /rancher/latest/zh/
 ---
