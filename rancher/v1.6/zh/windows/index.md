@@ -9,7 +9,7 @@ lang: zh
 
 ------
 
-要在Rancher中部署Windows，您首先需要创建一个具有容器编排设置为**Windows**的[环境模板]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#what-is-an-environment-template)的新[环境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/)。****
+要在Rancher中部署Windows，您首先需要创建一个具有容器编排设置为**Windows**的[环境模板]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#what-is-an-environment-template)的新[环境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/)。
 
 目前，Rancher只支持在特定主机上创建容器。目前不支持在UI中显示的Cattle的其他功能（例如，服务发现，健康检查，元数据，DNS，负载平衡器）。
 
