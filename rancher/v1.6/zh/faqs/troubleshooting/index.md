@@ -92,17 +92,17 @@ $ cat /etc/rancher-dns/answers.json
 
 如果您在主机上运行容器（例如docker run -it ubuntu），并且容器不能与互联网或主机外的任何东西通信，那么您可能会遇到网络问题。
 
-CentOS将默认设置/proc/sys/net/ipv4/ip_forward为0，这将为Docker提供所有的网络连接。Docker将这个值设置为1，但是如果您在CentOS上运行服务重新启动网络，则将其设置为0
+CentOS将默认设置/proc/sys/net/ipv4/ip_forward为0，这将禁止Docker容器所有的网络连接。Docker需要将这个值设置为1，但是如果您在CentOS上重新启动网络服务，则其值又会变为0 。
 
 ### 负载平衡器
 
 #### 为什么我的负载均衡器卡在`Initializing`>？
 
-负载平衡器自动对其启用[健康检查](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/faqs/troubleshooting/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/health-checks)。如果负载平衡器卡在`initializing`状态，则很可能[主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/faqs/troubleshooting/index.md#cross-host-communication)之间的[跨主机通信不起作用](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/faqs/troubleshooting/index.md#cross-host-communication)。
+负载平衡器自动对其启用[健康检查]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//cattle/health-checks)。如果负载平衡器卡在`initializing`状态，则很可能[主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//faqs/troubleshooting/index.md#cross-host-communication)之间的[跨主机通信不起作用]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//faqs/troubleshooting/index.md#cross-host-communication)。
 
 #### 我如何看到我的负载均衡器的配置？
 
-如果要查看负载平衡器的配置，则需要执行特定的负载均衡器容器并查找配置文件。您可以使用UI并在容器上选择**Execute Shell**。
+如果要查看负载平衡器的配置，则需要进入特定的负载均衡器容器并查找配置文件。您可以使用UI并在容器上选择**Execute Shell**。
 
 ```
 $ cat /etc/haproxy/haproxy.cfg
@@ -119,15 +119,15 @@ $ cat /var/log/haproxy
 
 ```
 
-### 哈
+### HA
 
-#### 牧师撰写执行者和Go-Machine-Service不断重新启动。
+#### Rancher Compose Executor 和Go-Machine-Service不断重新启动。
 
-在HA集中，如果您正在使用代理服务器后，如果生产者配合执行器和go-machine-service不断重新启动，请确保正在使用代理协议。
+在HA集中，如果您正在使用代理服务器，Rancher Compose Executor 和 Go-Machine-Service不断重新启动，请确保使用正确的代理协议。
 
 ### 认证
 
-#### 帮帮我！我打开[访问控制](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/faqs/troubleshooting/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/configuration/access-control)，不能再访问Rancher。如何重置牧场手来停用访问控制？
+#### 打开[访问控制]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//configuration/access-control)，不能再访问Rancher。如何重置Rancher来停用访问控制？
 
 如果您的身份验证出现问题（例如您的GitHub身份验证已损坏），则可能会将其锁定在Rancher中。要重新获得对Rancher的访问权限，您需要关闭数据库中的Access Control。为此，您需要访问运行Rancher Server的计算机。
 
@@ -135,31 +135,31 @@ $ cat /var/log/haproxy
 $ docker exec -it < rancher_server_container_ID > mysql
 ```
 
-> **注：**在`<rancher_server_container_ID>`将具有牧场主数据库容器。如果您[升级](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/faqs/troubleshooting/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/upgrading)并创建了一个Rancher数据容器，则需要使用Rancher数据容器的ID而不是Rancher服务器容器。
+> **注：**在`<rancher_server_container_ID>`将具有Rancher 数据库容器。如果您[升级]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//upgrading)并创建了一个Rancher数据容器，则需要使用Rancher数据容器的ID而不是Rancher服务器容器。
 
-访问牛数据库。
+访问cattle 数据库。
 
 ```
-的MySQL >使用牛;
+mysql> use cattle;
 ```
 
 查看`setting`表。
 
 ```
-的MySQL >  选择 *从设置;  
+mysql> select * from setting;  
 ```
 
 更新`api.security.cnabled`到`false`并清除该`api.auth.provider.configured`值。此更改将关闭访问控制，任何人都可以使用UI / API访问Rancher服务器。
 
 ```
-mysql > update setting set value = “ false ”其中name = “ api.security.cnabled ” ; 
-mysql > update setting set value = “ ”其中name = “ api.auth.provider.configured ” ;
+mysql> update setting set value="false" where name="api.security.enabled";
+mysql> update setting set value="" where name="api.auth.provider.configured";
 ```
 
 确认已在`setting`表中进行更改。
 
 ```
-的MySQL >  选择 *从设置;  
+mysql> select * from setting;  
 ```
 
 可能需要约1分钟才能在用户界面中关闭身份验证，但您可以刷新网页并访问Rancher，并关闭访问控制。
