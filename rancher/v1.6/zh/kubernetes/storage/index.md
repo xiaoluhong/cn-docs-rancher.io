@@ -2,16 +2,16 @@
 title: Kubernetes Persistcnt Storage Support in Rancher
 layout: rancher-default-v1.6
 version: v1.6
-lang: cn
+lang: zh
 ---
 
 ## 持久存储在 Kubernetes
 
 ---
 
-Rancher可以通过本地Kubernetes资源启动具有持久存储的服务。在Kubernetes，[持久性存储](https://kubernetes.io/docs/user-guide/persistcnt-volumes/)通过Kubernetes API资源管理，`PersistcntVolume`和`PersistcntVolumeClaim`。Kubernetes的存储组件支持各种后端（例如NFS，EBS等），它们具有与pod的单独的生命周期。根据您有兴趣使用的持久性卷的类型，您可能需要[配置您的Kubernetes环境](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/storage/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/providers)。
+Rancher可以通过本地Kubernetes资源启动具有持久存储的服务。在Kubernetes，[持久性存储](https://kubernetes.io/docs/user-guide/persistcnt-volumes/)通过Kubernetes API资源管理，`PersistcntVolume`和`PersistcntVolumeClaim`。Kubernetes的存储组件支持各种后端（例如NFS，EBS等），它们具有与pod的单独的生命周期。根据您有兴趣使用的持久性卷的类型，您可能需要[配置您的Kubernetes环境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//kubernetes/providers)。
 
-我们概述了如何在Rancher 中使用[NFS](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/storage/index.md#persistcnt-volumes---nfs)和[EBS](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/storage/index.md#persistcnt-volumes---ebs)与Kubernetes的一些示例。
+我们概述了如何在Rancher 中使用[NFS]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//kubernetes/storage/index.md#persistcnt-volumes---nfs)和[EBS]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//kubernetes/storage/index.md#persistcnt-volumes---ebs)与Kubernetes的一些示例。
 
 ### 持久卷 - NFS
 
@@ -43,13 +43,13 @@ spec:
     path: "/nfs"
 ```
 
-使用`kubectl`，让我们将持久的卷发送到Kubernetes。请记住，你可以[配置`kubectl`你的本地计算机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/storage/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/#kubectl)，也可以根据使用的shell在UI **Kubernetes** - > **kubectl**。
+使用`kubectl`，让我们将持久的卷发送到Kubernetes。请记住，你可以[配置`kubectl`你的本地计算机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//kubernetes/#kubectl)，也可以根据使用的shell在UI **Kubernetes** - > **kubectl**。
 
 ```bash
 $ kubectl create -f pv-nfs.yml
 ```
 
-创建持久卷之后，您可以创建持久卷声明，该声明声明刚刚创建的持久卷。
+创建持久卷之后，您可以创建持久卷声明，声明刚刚创建的持久卷。
 
 Example `pvc-nfs.yml`
 
@@ -65,7 +65,7 @@ spec:
       storage: 1Mi
 ```
 
-使用`kubectl`，让我们将持久的卷发送到Kubernetes。请记住，你可以[配置`kubectl`你的本地计算机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/storage/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/#kubectl)，也可以根据使用的shell在UI **Kubernetes** - > **kubectl**。
+使用`kubectl`，让我们将持久的卷发送到Kubernetes。请记住，你可以[配置`kubectl`你的本地计算机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//kubernetes/#kubectl)，也可以根据使用的shell在UI **Kubernetes** - > **kubectl**。
 
 ```bash
 $ kubectl create -f pvc-nfs.yml
@@ -118,7 +118,7 @@ spec:
           claimName: nfs
 ```
 
-使用`kubectl`，让我们创建我们的复制控制器和两个pod到Kubernetes。两个pod都将使用`nfs`持久卷，使用`nfs`持久卷声明。它将安装在荚内`/usr/share/nginx/html`。请记住，你可以[配置`kubectl`你的本地计算机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/storage/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/#kubectl)，也可以根据使用的shell在UI **Kubernetes** - > **kubectl**。
+使用`kubectl`，让我们创建我们的复制控制器和两个pod到Kubernetes。两个pod都将使用`nfs`持久卷，使用`nfs`持久卷声明。它将映射在容器内部路径`/usr/share/nginx/html`。请记住，你可以[配置`kubectl`你的本地计算机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/#kubectl)，也可以根据使用的shell在UI **Kubernetes** - > **kubectl**。
 
 
 ```bash
@@ -151,10 +151,10 @@ NFS Works!
 
 为了在Kubernetes中使用EBS作为持久卷，您需要配置几个特定选项的Kubernetes。
 
-1. 使用[云提供程序选项](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/storage/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/providers/#aws)将Kubernetes环境配置[为AWS](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/storage/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/providers/#aws)。
-2. 任何[主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/storage/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts)应在AWS EC2中启动，并具有正确的IAM策略。
+1. 使用[云提供程序选项]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//kubernetes/providers/#aws)将Kubernetes环境配置[为AWS]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//kubernetes/providers/#aws)。
+2. 任何[主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//hosts)应在AWS EC2中启动，并具有正确的IAM策略。
 
-将Kubernetes的EBS卷用作持久卷可以分为两部分：[静态配置](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/storage/index.md#static-provisioning)和使用存储类的[动态配置](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/storage/index.md#dynamic-provisioning)。
+将Kubernetes的EBS卷用作持久卷可以分为两部分：[静态配置]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/storage/index.md#static-provisioning)和使用存储类的[动态配置]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//kubernetes/storage/index.md#dynamic-provisioning)。
 
 #### 静态配置
 
@@ -179,7 +179,7 @@ spec:
     volumeID: <VOLUME_ID_IN_EBS>
 ```
 
-使用`kubectl`，让我们将持久的卷发送到Kubernetes。在`<VOLUME_ID_IN_EBS>`将需要与EBS卷ID来代替。请记住，你可以[配置`kubectl`你的本地计算机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/storage/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/#kubectl)，也可以根据使用的shell在UI **Kubernetes** - > **kubectl**。
+使用`kubectl`，让我们将持久的卷发送到Kubernetes。需要用EBS卷ID来代替`<VOLUME_ID_IN_EBS>`。请记住，你可以[配置`kubectl`你的本地计算机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//kubernetes/#kubectl)，也可以根据使用的shell在UI **Kubernetes** - > **kubectl**。
 
 ```bash
 $ kubectl create -f pv-ebs.yml
