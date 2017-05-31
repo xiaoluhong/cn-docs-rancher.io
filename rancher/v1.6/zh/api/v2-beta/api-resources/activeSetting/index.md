@@ -2,7 +2,7 @@
 title: API
 layout: rancher-api-v2-beta-default-v1.6
 version: v1.6
-lang: en
+lang: zh
 apiVersion: v2-beta
 #redirect_from:
 #  - /rancher/v1.6/zh/api/v2-beta/api-resources/activeSetting/
@@ -12,24 +12,25 @@ apiVersion: v2-beta
 
 
 
-### Resource Fields
+### 可写字段
 
-#### Writeable Fields
+#### 可写字段
 
-Field | Type | Create | Update | Default | Notes
----|---|---|---|---|---
-value | string | - | Yes | - | 
+| Field | Type   | Create | Update | Default | Notes |
+| ----- | ------ | ------ | ------ | ------- | ----- |
+| value | string | -      | Yes    | -       |       |
 
 
-#### Read Only Fields
+#### 只读字段
 
-Field | Type   | Notes
----|---|---
-activeValue | json  | 
-id | string  | The unique identifier for the activeSetting
-inDb | boolean  | 
-name | string  | 
-source | string  | 
+
+| Field       | Type    | Notes                                    |
+| ----------- | ------- | ---------------------------------------- |
+| activeValue | json    |                                          |
+| id          | string  | The unique identifier for the activeSetting |
+| inDb        | boolean |                                          |
+| name        | string  |                                          |
+| source      | string  |                                          |
 
 
 <br>

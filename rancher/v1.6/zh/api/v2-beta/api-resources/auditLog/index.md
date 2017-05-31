@@ -2,40 +2,40 @@
 title: Rancher API - auditLog
 layout: rancher-api-v2-beta-default-v1.6
 version: v1.6
-lang: en
+lang: zh
 apiVersion: v2-beta
 #redirect_from:
 #  - /rancher/v1.6/zh/api/v2-beta/api-resources/auditLog/
 ---
 
-## AuditLog
+## 审计日志
 
-The audit log provides a list of API requests. It logs the environment as well as the API call. After access control is enabled, it also logs the user.
+审计日志提供了一个API请求列表。它记录环境以及API调用。启用访问控制后，还会记录用户。
 
-### Resource Fields
+### 资源领域
 
 
-#### Read Only Fields
+#### 只读字段
 
-Field | Type   | Notes
----|---|---
-authType | enum  | The options are `AdminAuth`, `BasicAuth`, `RegistrationToken`, `TokenAccount`, `TokenAuth`.
-authenticatedAsAccountId | [account]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/api/{{page.apiVersion}}/api-resources/account/)  | 
-authenticatedAsIdentityId | [identity]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/api/{{page.apiVersion}}/api-resources/identity/)  | 
-clientIp | string  | 
-description | string  | 
-eventType | string  | 
-id | int  | The unique identifier for the auditLog
-requestObject | string  | 
-resourceId | int  | 
-resourceType | string  | 
-responseCode | string  | 
-responseObject | string  | 
+| Field                     | Type                                     | Notes                                    |
+| ------------------------- | ---------------------------------------- | ---------------------------------------- |
+| authType                  | enum                                     | The options are `AdminAuth`, `BasicAuth`, `RegistrationToken`, `TokenAccount`, `TokenAuth`. |
+| authenticatedAsAccountId  | [account]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/api/{{page.apiVersion}}/api-resources/account/) |                                          |
+| authenticatedAsIdentityId | [identity]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/api/{{page.apiVersion}}/api-resources/identity/) |                                          |
+| clientIp                  | string                                   |                                          |
+| description               | string                                   |                                          |
+| eventType                 | string                                   |                                          |
+| id                        | int                                      | The unique identifier for the auditLog   |
+| requestObject             | string                                   |                                          |
+| resourceId                | int                                      |                                          |
+| resourceType              | string                                   |                                          |
+| responseCode              | string                                   |                                          |
+| responseObject            | string                                   |                                          |
 
 
 <br>
 
-Please read more about the [common resource fields]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/api/{{page.apiVersion}}/common/). These fields are read only and applicable to almost every resource. We have segregated them from the list above.
+请阅读有关[公共资源领域的]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/api/{{page.apiVersion}}/common/). T更多信息。这些字段是只读的，适用于几乎每个资源。我们把它们从上面的列表中分离出来。
 
 
 

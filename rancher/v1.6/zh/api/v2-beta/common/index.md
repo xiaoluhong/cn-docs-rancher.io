@@ -2,7 +2,7 @@
 title: API Common Resource Fields
 layout: rancher-api-v2-beta-default-v1.6
 version: v1.6
-lang: en
+lang: zh
 apiVersion: v2-beta
 ---
 

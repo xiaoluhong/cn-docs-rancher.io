@@ -2,7 +2,7 @@
 title: Rancher API - azureadconfig
 layout: rancher-api-v2-beta-default-v1.6
 version: v1.6
-lang: en
+lang: zh
 apiVersion: v2-beta
 #redirect_from:
 #  - /rancher/v1.6/zh/api/v2-beta/api-resources/azureadconfig/
@@ -16,16 +16,16 @@ apiVersion: v2-beta
 
 #### Writeable Fields
 
-Field | Type | Create | Update | Default | Notes
----|---|---|---|---|---
-accessMode | string | Yes | - | unrestricted | 
-adminAccountPassword | string | Yes | - | - | 
-adminAccountUsername | string | Yes | - | - | 
-clientId | string | Optional | - | - | 
-domain | string | Optional | - | - | 
-enabled | boolean | Optional | - | - | 
-name | string | Optional | Yes | - | 
-tenantId | string | Optional | - | - | 
+| Field                | Type    | Create   | Update | Default      | Notes |
+| -------------------- | ------- | -------- | ------ | ------------ | ----- |
+| accessMode           | string  | Yes      | -      | unrestricted |       |
+| adminAccountPassword | string  | Yes      | -      | -            |       |
+| adminAccountUsername | string  | Yes      | -      | -            |       |
+| clientId             | string  | Optional | -      | -            |       |
+| domain               | string  | Optional | -      | -            |       |
+| enabled              | boolean | Optional | -      | -            |       |
+| name                 | string  | Optional | Yes    | -            |       |
+| tenantId             | string  | Optional | -      | -            |       |
 
 
 

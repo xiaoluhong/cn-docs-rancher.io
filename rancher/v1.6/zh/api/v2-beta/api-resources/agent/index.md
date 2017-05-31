@@ -2,44 +2,44 @@
 title: Rancher API - agent
 layout: rancher-api-v2-beta-default-v1.6
 version: v1.6
-lang: en
+lang: zh
 apiVersion: v2-beta
 #redirect_from:
 #  - /rancher/v1.6/zh/api/v2-beta/api-resources/agent/
 ---
 
-## Agent
+## 代理
 
 
 
-### Resource Fields
+### 资源领域
 
-#### Writeable Fields
+#### 可写字段
 
-Field | Type | Create | Update | Default | Notes
----|---|---|---|---|---
-description | string | Optional | Yes | - | 
-name | string | Optional | Yes | - | 
+| Field       | Type   | Create   | Update | Default | Notes |
+| ----------- | ------ | -------- | ------ | ------- | ----- |
+| description | string | Optional | Yes    | -       |       |
+| name        | string | Optional | Yes    | -       |       |
 
 
-#### Read Only Fields
+#### 只读字段
 
-Field | Type   | Notes
----|---|---
-data | map[json]  | 
-id | int  | The unique identifier for the agent
-managedConfig | boolean  | 
-uri | string  | 
+| Field         | Type      | Notes                               |
+| ------------- | --------- | ----------------------------------- |
+| data          | map[json] |                                     |
+| id            | int       | The unique identifier for the agent |
+| managedConfig | boolean   |                                     |
+| uri           | string    |                                     |
 
 
 <br>
 
-Please read more about the [common resource fields]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/api/{{page.apiVersion}}/common/). These fields are read only and applicable to almost every resource. We have segregated them from the list above.
+请阅读有关 [公共资源领域的]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/api/{{page.apiVersion}}/common/). 更多信息。这些字段是只读的，适用于几乎每个资源。我们把它们从上面的列表中分离出来。
 
 
 
 
-### Actions
+### 操作
 
 <div class="action" id="activate">
 <span class="header">

@@ -2,10 +2,10 @@
 title: What are API Keys
 layout: rancher-api-v2-beta-default-v1.6
 version: v1.6
-lang: en
+lang: zh
 apiVersion: v2-beta
 redirect_from:
-  - /rancher/v1.6/en/api/api-keys/
+  - /rancher/v1.6/zh/api/api-keys/
 ---
 
 ## 什么是API密钥

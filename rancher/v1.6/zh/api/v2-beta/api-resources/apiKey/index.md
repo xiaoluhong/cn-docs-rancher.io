@@ -2,7 +2,7 @@
 title: Rancher API - apiKey
 layout: rancher-api-v2-beta-default-v1.6
 version: v1.6
-lang: en
+lang: zh
 apiVersion: v2-beta
 #redirect_from:
 #  - /rancher/v1.6/zh/api/v2-beta/api-resources/apiKey/
@@ -10,33 +10,33 @@ apiVersion: v2-beta
 
 ## ApiKey
 
-An API Key provides access to the Rancher API if access control has been turned on. The access key and secret key pair are created per environment and can be used to directly call the API or used with [rancher-compose]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/rancher-compose).
+如果访问控制已打开，API密钥可以访问Rancher API。访问密钥和密钥对是根据每个环境创建的，可用于直接调用API或与[生产者组合一起使用]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/rancher-compose).
 
-### Resource Fields
+### 资源领域
 
-#### Writeable Fields
+#### 可写字段
 
-Field | Type | Create | Update | Default | Notes
----|---|---|---|---|---
-description | string | Optional | Yes | - | 
-name | string | Optional | Yes | - | 
-publicValue | string | Optional | - | - | The public value of the apiKey
-secretValue | [password]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/api/{{page.apiVersion}}/api-resources/password/) | Optional | - | - | The secret value of the apiKey
+| Field       | Type                                     | Create   | Update | Default | Notes                          |
+| ----------- | ---------------------------------------- | -------- | ------ | ------- | ------------------------------ |
+| description | string                                   | Optional | Yes    | -       |                                |
+| name        | string                                   | Optional | Yes    | -       |                                |
+| publicValue | string                                   | Optional | -      | -       | The public value of the apiKey |
+| secretValue | [password]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/api/{{page.apiVersion}}/api-resources/password/) | Optional | -      | -       | The secret value of the apiKey |
 
 
-#### Read Only Fields
+#### 只读字段
 
-Field | Type   | Notes
----|---|---
-data | map[json]  | 
-id | int  | The unique identifier for the apiKey
+| Field | Type      | Notes                                |
+| ----- | --------- | ------------------------------------ |
+| data  | map[json] |                                      |
+| id    | int       | The unique identifier for the apiKey |
 
 
 <br>
 
-Please read more about the [common resource fields]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/api/{{page.apiVersion}}/common/). These fields are read only and applicable to almost every resource. We have segregated them from the list above.
+请阅读有关[公共资源领域的]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/api/{{page.apiVersion}}/common/).更多信息。这些字段是只读的，适用于几乎每个资源。我们把它们从上面的列表中分离出来。
 
-### Operations
+### 操作
 {::options parse_block_html="true" /}
 <a id="create"></a>
 <div class="action"><span class="header">Create<span class="headerright">POST:  <code>/v2-beta/projects/${PROJECT_ID}/apiKeys</code></span></span>
