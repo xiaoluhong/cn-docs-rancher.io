@@ -12,44 +12,36 @@ redirect_from:
 
 ------
 
-Rancher被部署为一组Docker容器。运行的牧场主是简单的启动两个容器。一个容器作为管理服务器，另一个容器在节点上作为代理。
+Rancher被作为一组Docker容器来部署，rancher运行只启动两个简单容器。一个容器作为管理服务器，另一个容器在节点上作为代理。
 
-- [牧场服务器 - 单个容器（非HA）](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/installing-rancher/installing-server/index.md#single-container)
-- [Rancher服务器 - 单个容器（非HA） - 外部数据库](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/installing-rancher/installing-server/index.md#single-container-external-database)
-- [Rancher服务器 - 单容器（非HA） - 绑定的MySQL卷](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/installing-rancher/installing-server/index.md#single-container-bind-mount)
-- [Rancher服务器 - 完全主动/主动HA](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/installing-rancher/installing-server/index.md#multi-nodes)
-- [Rancher服务器 - 在AWS中使用ELB](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/installing-rancher/installing-server/index.md#elb)
-- [Rancher服务器 - 使用TLS的AD / OpcnLDAP](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/installing-rancher/installing-server/index.md#ldap)
-- [Rancher服务器 - HTTP代理](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/installing-rancher/installing-server/index.md#http-proxy)
+- [Rancher服务器 - 单个容器（非HA）]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//installing-rancher/installing-server/index.md#single-container)
+- [Rancher服务器 - 单个容器（非HA） - 外部数据库]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/index.md#single-container-external-database)
+- [Rancher服务器 - 单容器（非HA） - 绑定的MySQL卷]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//installing-rancher/installing-server/index.md#single-container-bind-mount)
+- [Rancher服务器 - 完全主动/主动HA]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//installing-rancher/installing-server/index.md#multi-nodes)
+- [Rancher服务器 - 在AWS中使用ELB]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//installing-rancher/installing-server/index.md#elb)
+- [Rancher服务器 - 使用TLS的AD / OpcnLDAP]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//installing-rancher/installing-server/index.md#ldap)
+- [Rancher服务器 - HTTP代理]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//installing-rancher/installing-server/index.md#http-proxy)
 
-> **注意：**您可以通过运行获取Rancher服务器容器的所有帮助选项`docker run rancher/server --help`。
+> **注意：**您可以通过运行`docker run rancher/server --help`获取Rancher服务器容器的所有帮助选项。
 
 ### 要求
 
-- 任何具有受
-
-  支持版本的Docker的
-
-  现代Linux发行[版](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/installing-rancher/installing-server/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts/#supported-docker-versions)。
-
-  RancherOS
-
-  ，Ubuntu，RHEL / CcntOS 7进行了更严格的测试。
+- 任何流行的Linux[发行版]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//hosts/#supported-docker-versions)都有docker的支持版本。RancherOS，Ubuntu，RHEL / CcntOS 7进行了更严格的测试。
 
   - 对于RHEL / CcntOS，[Docker](https://docs.docker.com/cngine/refercnce/commandline/dockerd/#/storage-driver-options)不推荐使用默认存储驱动程序，即使用环回的devicemapper 。请参考Docker文档，了解如何更改。
-  - 对于RHEL / CcntOS，如果要启用SELinux，则需要[安装其他SELinux模块](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/installing-rancher/installing-server/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/installing-rancher/selinux)。
+  - 对于RHEL / CcntOS，如果要启用SELinux，则需要[安装其他SELinux模块]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//installing-rancher/selinux)。
 
 - 1GB RAM
 
 - MySQL服务器应该有一个max_connections设置> 150
 
   - MYSQL配置要求
-    - 选项1：用羚羊运行，默认值为 `COMPACT`
-    - 选项2：使用Barracuda运行MySQL 5.7，默认`ROW_FORMAT`值为`Dynamic`
+    - 选项1：用Antelope运行，默认值为 `COMPACT`
+    - 选项2：与Barracuda一起运行MySQL 5.7，默认`ROW_FORMAT`值为`Dynamic`
 
 > **注意：**目前，Rancher不支持Docker for Mac。
 
-### 牧场服务器标签
+### Rancher服务器标签
 
 Rancher服务器有2个不同的标签。对于每个主要版本标签，我们将提供特定版本的文档。
 
@@ -63,14 +55,14 @@ Rancher服务器有2个不同的标签。对于每个主要版本标签，我们
 在安装了Docker的Linux机器上，启动Rancher的单个实例的命令很简单。
 
 ```
-$ sudo docker run -d --restart = unless-stopped -p 8080：8080 rancher / server
+$ sudo docker run -d --restart=unless-stopped -p 8080：8080 rancher/server
 ```
 
-### 牧场用户界面
+### Rancher用户界面
 
 UI和API将在暴露的端口上可用`8080`。在Docker图像下载完成之后，Rancher成功启动后可能需要一两分钟的时间才能查看。
 
-导航到以下网址：`http://<SERVER_IP>:8080`。该`<SERVER_IP>`是运行牧场主服务器主机的公网IP地址。
+导航到以下网址：`http://<SERVER_IP>:8080`。该`<SERVER_IP>`是运行Rancher主服务器主机的公网IP地址。
 
 一旦UI启动并运行，您可以通过[添加主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/installing-rancher/installing-server/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts)或从基础架构目录中选择一个容器编排。默认情况下，如果不选择不同的容器编排类型，环境将使用牛。将主机添加到Rancher之后，您可以从[Rancher目录](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/installing-rancher/installing-server/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/catalog)开始添加[服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/installing-rancher/installing-server/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/adding-services)或启动模板。
 
@@ -296,4 +288,4 @@ $ sudo docker run -d \
 
 如果[Rancher目录](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/installing-rancher/installing-server/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/catalog)不会被使用，请像往常一样运行Rancher server命令。
 
-当[主机添加](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/installing-rancher/installing-server/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts)到牧场主，还有后面的HTTP代理没有额外的要求。
+当[主机添加](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/installing-rancher/installing-server/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts)到Rancher主，还有后面的HTTP代理没有额外的要求。

@@ -204,4 +204,4 @@ Secret Key []:  <secretKey_of_account_api_key>
 ```bash
 $ rancher up -d -s NewLetsChatApp
 ```
-在Rancher中，将创建一个新的堆栈，名为** NewLetsChatApp **，其中所有在Rancher中启动的服务。
+在Rancher中，将创建一个新的堆栈，名为 NewLetsChatApp ，其中包含所有在Rancher中启动的服务。
