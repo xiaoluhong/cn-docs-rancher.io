@@ -14,7 +14,7 @@ lang: zh
 
 可以在创建或编辑环境模板时配置Kubernetes。如果您从**cattle**环境开始，您可以从**目录** - > **库**中配置和启动**Kubernetes**。如果选择目录路由，则可以跳过步骤1。********
 
-1. 在[环境模板]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environmcnts/#what-is-an-cnvironmcnt-template)中**编辑****Kubernetes ****配置**，单击[模板]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environmcnts/#what-is-an-cnvironmcnt-template)的“ **编排”**部分中的**“编辑配置** ”。您可以在创建新的环境模板或编辑现有环境模板时编辑配置。
+1. 在[环境模板]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environmcnts/#what-is-an-cnvironmcnt-template)中**编辑**Kubernetes **配置**，单击[模板]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environmcnts/#what-is-an-cnvironmcnt-template)的“ **编排”**部分中的**“编辑配置** ”。您可以在创建新的环境模板或编辑现有环境模板时编辑配置。
 2. 确认Kubernetes的模板版本是您要使用的。
 3. 选择[平面隔离]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//kubernetes/resilicncy-planes)，[云提供商]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//kubernetes/providers)，[备份]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/backups)，[附加组件]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/addons)的配置选项。
 4. 点击**配置**保存点击**启动**的环境模板的配置选项，从目录启动Kubernetes。
@@ -41,7 +41,7 @@ lang: zh
 - 编排平面：添加1个或多个主机，其中> = 1 CPU和> = 2GB RAM。当添加主机，[标注这些主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/#host-labels)使用`orchestration=true`。你可以摆脱1个主机，但你牺牲高可用性。在主机发生故障的情况下，一些K8s功能，如API，在发生故障时重新安排的端口等，直到新的主机被配置才会发生。
 - 计算平面：添加1个或多个主机。当添加主机，[标注这些主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/#host-labels)使用`compute=true`。
 
-> **注意：**只有牧场主或环境所有者的管理员才能查看基础[架构服务]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//rancher-services)。
+> **注意：**只有Rancher或环境所有者的管理员才能查看基础[架构服务]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//rancher-services)。
 
 当向Kubernetes添加主机时，使用主机名作为Kubernetes节点的唯一标识符`kubectl get nodes`。
 
@@ -49,7 +49,7 @@ lang: zh
 
 安装完成后，您可以通过以下方式开始创建或管理自己的Kubernetes应用程序：
 
-#### 牧场主目录
+#### Rancher目录
 
 Rancher支持托管Kubernetes模板目录的功能。要使用模板，请单击“ **目录** ”选项卡。选择要启动的模板，然后单击**查看详细信息**。查看并编辑堆栈名称，堆栈描述和配置选项，然后单击**启动**。
 
@@ -61,10 +61,10 @@ Rancher支持托管Kubernetes模板目录的功能。要使用模板，请单击
 
 在配置文件中，它为您的本地机器提供必要的信息，以便您启动的任何`kubectl`内容将显示在Rancher中。
 
-#### kubectl通过壳牌
+#### kubectl via Shell
 
 Rancher提供了一个方便的shell访问管理的kubectl实例，可用于管理Kubernetes集群和应用程序。
 
-### 添加私人注册表到Kubernetes
+### 添加私有仓库到Kubernetes
 
-私人注册表可以通过在Kubernetes环境中添加[私有仓库]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environmcnts/registries)与Kubernetes服务一起使用。
+私有仓库可以通过在Kubernetes环境中添加[私有仓库]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environmcnts/registries)与Kubernetes服务一起使用。

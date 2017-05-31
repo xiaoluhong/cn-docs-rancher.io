@@ -8,7 +8,7 @@ lang: zh
 ## Swarm
 ---
 
-要在Rancher中部署Swarm，您首先需要创建一个具有容器编排设置为**Swarm**的[环境模板]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#what-is-an-environment-template)的新[环境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments)。****
+要在Rancher中部署Swarm，您首先需要创建一个具有容器编排设置为**Swarm**的[环境模板]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#what-is-an-environment-template)的新[环境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments)。
 
 ### 要求
 
