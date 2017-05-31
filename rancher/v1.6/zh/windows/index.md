@@ -41,8 +41,6 @@ lang: zh
 
 ### Windows中的网络
 
-默认情况下，我们支持NAT和透明[网络](https://docs.microsoft.com/en-us/virtualization/windowscontainers/manage-containers/container-networking)。
-
-目前，默认的**Windows**环境模板支持一个名为transparent的透明网络，通过docker network create -d transparent transparent创建。
+默认情况下，我们支持NAT和透明[网络](https://docs.microsoft.com/en-us/virtualization/windowscontainers/manage-containers/container-networking)。目前，默认的**Windows**环境模板支持一个名为transparent的透明网络，通过docker network create -d transparent transparent创建。
 
 如果要创建具有不同名称的透明网络，则需要使用**Windows**创建一个新的环境模板作为容器编排。选择**Windows后**，可以单击“ **编辑配置”**，更改透明网络的名称。默认名称为`transparent`。创建更新的环境模板后，您可以创建一个新环境，以支持新命名的透明网络。UI将继续保持透明作为默认名称，因此您需要使用命令去更新`docker network create -d transparent <NEW_NAME_IN_TEMPLATE`。
