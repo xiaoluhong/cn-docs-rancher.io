@@ -2,7 +2,7 @@
 title: Hosts in Rancher
 layout: rancher-default-v1.6
 version: v1.6
-lang: cn
+lang: zh
 ---
 
 ## 主机入门
@@ -11,26 +11,13 @@ lang: cn
 
 主机是Rancher中最基本的资源单元，并且表示为虚拟或物理的任何Linux服务器，具有以下最低要求：
 
-- 任何具有受
-
-  支持版本的Docker的
-
-  现代Linux发行[版](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/index.md#supported-docker-versions)。
-
-  RancherOS
-
-  ，Ubuntu，RHEL / CcntOS 7进行了更严格的测试。
-
+- 任何流行的Linux发行[版]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/index.md#supported-docker-versions)都具有受支持的Docker版本。RancherOS，Ubuntu，RHEL / CcntOS 7进行了更严格的测试。
   - 对于RHEL / CcntOS，[Docker](https://docs.docker.com/cngine/refercnce/commandline/dockerd/#/storage-driver-options)不推荐使用默认存储驱动程序，即使用环回的devicemapper 。请参考Docker文档，了解如何更改。
-  - 对于RHEL / CcntOS，如果要启用SELinux，则需要[安装其他SELinux模块](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/installing-rancher/selinux)。
+  - 对于RHEL / CcntOS，如果要启用SELinux，则需要[安装其他SELinux模块]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//installing-rancher/selinux)。
   - 对于RHEL / CcntOS，请使用内核版本`3.10.0-514.2.2.el7.x86_64`或更高版本。使用7.3版或更高版本时包括。
-
 - 1GB RAM
-
 - 推荐CPU / AES-NI
-
 - 能够通过预先配置的端口通过http或https与Rancher服务器进行通信。默认值为8080。
-
 - 能够在同一环境下路由到任何其他主机，以利用Rancher对Docker容器的跨主机网络。
 
 Rancher还支持Docker Machine，并允许您通过任何支持的驱动程序添加主机。

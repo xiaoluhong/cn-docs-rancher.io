@@ -2,7 +2,7 @@
 title: Labels
 layout: rancher-default-v1.6
 version: v1.6
-lang: en
+lang: zh
 ---
 
 ## 标签

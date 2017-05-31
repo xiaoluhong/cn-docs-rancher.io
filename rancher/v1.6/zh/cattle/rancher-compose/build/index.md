@@ -2,7 +2,7 @@
 title: Building with AWS S3 in Rancher Compose
 layout: rancher-default-v1.6
 version: v1.6
-lang: en
+lang: zh
 ---
 
 ## 使用AWS S3构建

@@ -2,7 +2,7 @@
 title: Adding Other Hosts
 layout: rancher-default-v1.6
 version: v1.6
-lang: cn
+lang: zh
 ---
 
 ## 从其他云提供商添加主机

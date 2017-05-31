@@ -2,7 +2,7 @@
 title: Secrets in Rancher
 layout: rancher-default-v1.6
 version: v1.6
-lang: en
+lang: zh
 ---
 
 ## 秘密 - 实验

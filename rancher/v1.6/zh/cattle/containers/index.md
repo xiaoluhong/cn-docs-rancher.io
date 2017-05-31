@@ -2,7 +2,7 @@
 title: Containers
 layout: rancher-default-v1.6
 version: v1.6
-lang: en
+lang: zh
 ---
 
 ## 容器

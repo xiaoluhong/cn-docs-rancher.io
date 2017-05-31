@@ -2,7 +2,7 @@
 title: Kubernetes - Disaster Recovery
 layout: rancher-default-v1.6
 version: v1.6
-lang: cn
+lang: zh
 ---
 
 ## Kubernetes -  灾难恢复

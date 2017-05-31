@@ -2,7 +2,7 @@
 title: Adding External Service
 layout: rancher-default-v1.6
 version: v1.6
-lang: en
+lang: zh
 ---
 
 ## 添加外部服务

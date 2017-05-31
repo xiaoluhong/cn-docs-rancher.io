@@ -2,7 +2,7 @@
 title: Adding Amazon EC2 Hosts
 layout: rancher-default-v1.6
 version: v1.6
-lang: cn
+lang: zh
 ---
 
 ## 添加Amazon EC2主机

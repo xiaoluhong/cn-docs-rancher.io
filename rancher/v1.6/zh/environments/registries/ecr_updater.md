@@ -2,7 +2,7 @@
 title: ECR Credcntial Updater
 layout: rancher-default-v1.6
 version: v1.6
-lang: cn
+lang: zh
 ---
 
 ## AWS弹性容器注册表（ECR）凭证更新程序

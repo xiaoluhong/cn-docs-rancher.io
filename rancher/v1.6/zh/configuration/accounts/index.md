@@ -2,7 +2,7 @@
 title: Accounts in Rancher
 layout: rancher-default-v1.6
 version: v1.6
-lang: cn
+lang: zh
 ---
 
 ## 帐号

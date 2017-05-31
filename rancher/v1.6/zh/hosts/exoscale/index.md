@@ -2,7 +2,7 @@
 title: Adding Exoscale Hosts
 layout: rancher-default-v1.6
 version: v1.6
-lang: cn
+lang: zh
 ---
 
 ## 添加Exoscale主机

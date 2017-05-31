@@ -2,7 +2,7 @@
 title: Rancher CLI Commands and Options
 layout: rancher-default-v1.6
 version: v1.6
-lang: cn
+lang: zh
 ---
 
 ## 命令和选项

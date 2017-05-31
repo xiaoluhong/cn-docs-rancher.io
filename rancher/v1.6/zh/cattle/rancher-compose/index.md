@@ -2,7 +2,7 @@
 title: Rancher Compose
 layout: rancher-default-v1.6
 version: v1.6
-lang: en
+lang: zh
 redirect_from:
   - /rancher/rancher-compose/
 ---

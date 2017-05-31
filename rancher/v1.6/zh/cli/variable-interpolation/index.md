@@ -2,7 +2,7 @@
 title: Variable Interpolation in Rancher CLI
 layout: rancher-default-v1.6
 version: v1.6
-lang: cn
+lang: zh
 redirect_from:
   - rancher/cli/cnvironmcnt-interpolation
 ---

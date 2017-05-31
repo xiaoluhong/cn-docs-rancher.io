@@ -2,7 +2,7 @@
 title: Kubernetes - Resilicncy Planes
 layout: rancher-default-v1.6
 version: v1.6
-lang: cn
+lang: zh
 ---
 
 ## Kubernetes - Resilicncy Planes
@@ -11,40 +11,40 @@ lang: cn
 
 对于生产部署，最佳实践是每个平面都运行在专用物理或虚拟主机上。为了开发，可以使用多租户来简化管理并降低成本。
 
-#### 数据平面
+#### Data Plane
 
-该平面由一个或多个**etcd**容器组成。Etcd是一个分布式可靠的键值存储，存储所有Kubernetes状态。该平面可以被称为有状态，意味着包括平面的软件维护应用状态。
+This plane由一个或多个**etcd**容器组成。Etcd是一个分布式可靠的键值存储，存储所有Kubernetes状态。该平面可以被称为有状态，意味着包括平面的软件维护应用状态。
 
-#### 编排平面
+#### Orchestration Plane
 
-这架飞机由无国籍的组成部分组成，为我们的Kubernetes分配提供动力。
+This plane 由无状态的部件组成，它为我们的Kubernetes的分布提供动力。
 
-#### 计算平面
+#### Compute Plane
 
-这架飞机由Kubernetes [荚组成](https://kubernetes.io/docs/user-guide/pods/)。
+This plane is comprised of the Kubernetes [pods](https://kubernetes.io/docs/user-guide/pods/).
 
 ### 规划
 
 在安装之前，请考虑您的具体用例很重要。Rancher提供两种不同的部署类型。
 
-如果您正在寻找一种快速启动Kubernetes来开始测试Kubernetes的方法，我们建议您使用[重叠飞机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/resilicncy-planes/index.md#overlapping-planes)启动[Kubernetes](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/resilicncy-planes/index.md#overlapping-planes)。默认情况下，这是默认的Kubernetes模板中的设置。
+如果您正在寻找一种快速启动Kubernetes来开始测试Kubernetes的方法，我们建议您使用[Overlapping Planes]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//kubernetes/resilicncy-planes/index.md#overlapping-planes)启动[Kubernetes]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/resilicncy-planes/index.md#overlapping-planes)。默认情况下，这是默认的Kubernetes模板中的设置。
 
-对于生产环境，Rancher建议使用[分离的飞机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/resilicncy-planes/index.md#separated-planes)发射Kubernetes 。
+对于生产环境，Rancher建议使用[Separated Planes]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/resilicncy-planes/index.md#separated-planes)运行Kubernetes 。
 
 ### 安装
 
-#### 重叠飞机
+#### Overlapping Planes
 
 默认情况下，Kubernetes被配置为在重叠平面上部署。所有飞机重叠，所有服务都可以在单个主机上运行。服务随机安排。添加至少三个主机以使数据平面（即etcd）具有弹性。
 
 1. 创建Kubernetes环境。
 2. 添加至少1个CPU，2GB RAM的1个或多个主机。资源需求因工作负载而异。
 
-#### 分离飞机
+#### Separated Planes
 
-此部署允许用户通过专用于每个平面类型的特定主机来分离平面。它提供数据平面弹性和计算平面性能保证。添加主机之前，需要[配置Kubernetes](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/resilicncy-planes/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/#configuring-kubernetes)。配置Kubernetes时，选择`required`“ **平面隔离”**选项。
+此部署允许用户通过专用于每个平面类型的特定主机来分离平面。它提供数据平面弹性和计算平面性能保证。添加主机之前，需要[配置Kubernetes]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/#configuring-kubernetes)。配置Kubernetes时，选择`required`“ **平面隔离”**选项。
 
-> **注意：**如果您将Kubernetes从重叠平面升级到分离的飞机，请[阅读有关升级的更多信息](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/resilicncy-planes/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/upgrading)以正确处理更改。
+> **注意：**如果您将Kubernetes从重叠平面升级到分离的飞机，请[阅读有关升级的更多信息]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//kubernetes/upgrading)以正确处理更改。
 
 ##### 添加主机标签主机
 
