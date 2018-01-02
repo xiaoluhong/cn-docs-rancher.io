@@ -51,3 +51,5 @@ defaults:
       version: v1.1
       osbaseurl: "/docs/os/v1.1/en"
 
+
+theme: jekyll-theme-cayman
