@@ -1,50 +1,54 @@
 ---
 title: Adding Amazon EC2 Hosts
-layout: rancher-default-v1.6
+layout: rancher-default-v1.6-zh
 version: v1.6
 lang: zh
 ---
 
 ## 添加Amazon EC2主机
+---
 
-------
+Rancher支持使用`docker machine`部署[Amazon EC2](http://aws.amazon.com/ec2/)。
 
-Rancher支持配置[Amazon EC2](http://aws.amazon.com/ec2/)主机`docker machine`。
+### 找到AWS凭据
 
-### 查找AWS证书
-
-在AWS上启动主机之前，您需要找到您的AWS帐户凭据以及您的安全组信息。该**帐户访问**信息可以使用亚马逊的找到[文件](http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSGettingStartedGuide/AWSCredcntials.html)找到正确的钥匙。创建**访问密钥**和**秘密密钥**时，请确保将其保存在某处，除非您创建新的密钥对，否则它将不可用。
+在AWS上开启一台主机之前，你需要找到你的AWS账号凭证和你的安全组信息。通过亚马逊的[文档](http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSGettingStartedGuide/AWSCredentials.html)找到正确的密钥，从而找到你的**账号访问**信息。对新创建的密钥对**access key**和**secret key**，务必将它们保存好，一旦丢失将会不可用。
 
 ### 启动Amazon EC2主机
 
-在基础结构 - >主机选项卡下，单击**添加主机**。选择**Amazon EC2**图标。选择您所需的**区域**。提供您的AWS **Access密钥**和**密钥**，单击**下一步：验证并选择一个网络**。Rancher将使用您的凭据来确定AWS中可用于启动实例的内容。
+通过**基础架构** -> **主机**进入主机主界面，点击**添加主机**，选中**Amazon EC2**图标，选择你所在的**区域**，并提供你访问AWS的密钥对**Access key**和**Secret Key**，点击**下一步：验证及选择网络**。Rancher将会根据你提供的凭据决定是否在AWS上创建新的实例。
 
-您需要选择可用性区域来创建实例。根据您选择的区域，将显示可用的VPC ID和子网ID。选择**VPC ID**或**子网ID**，然后单击**下一步：选择安全组**。
+为了创建实例，你需要选择一个可用的区域，根据你选择的区域，会显示可用的VPC IDs和Subnet IDs，选择一个**VPC ID**或者**子网ID**，并点击**下一步：选择一个安全组**.
 
-接下来，您将选择要用于主机的安全组。安全组有两种选择。该**标准的**选项将创建或使用现有的`rancher-machine`安全组。如果Rancher创建`rancher-machine`安全组，它将打开所有必需的端口，以允许Rancher成功工作。`docker machine`将自动打开端口`2376`，这是Docker守护进程端口。
+接下来，为你的主机使用选择一个安全组，这里有两种模式可供选择。一种是**Standard**，该模式将会创建或者直接使用已经存在的`rancher-machine`安全组，这种安全组默认会开放所有必要的端口，以便Rancher能够正常工作。`docker machine`将会自动打开`2376`，该端口是Docker守护进程用到的端口。
 
-在**自定义**选项中，您可以选择一个现有的安全组，但是您需要确保特定端口打开，以使Rancher正常工作。
+另一种是**Custom**，该模式下你可以选择一个存在的安全组，但是需要自己确定指定的端口已经打开，以便Rancher能够正常工作。
 
-### 牧场工作所需的端口：
+<a id="EC2Ports"></a>
 
-- 从`22`牧场服务器到TCP端口（SSH安装和配置Docker）
-- 如果您正在使用IPsec [网络驱动程序](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/amazon/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services/networking)，从UDP端口`500`和/或UDP端口的所有其他主机`4500`
-- 如果使用VXLAN [网络驱动程序](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/amazon/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services/networking)，则从UDP端口上的所有其他主机使用`4789`
+### Rancher需要用到的端口：
 
-> **注意：**如果重新使用`rancher-machine`安全组，安全组中的任何缺少的端口将不会被重新打开。如果主机无法正常启动，则需要检查AWS中的安全组。
+* Rancher Server访问的TCP端口 `22` (通过SSH安装和配置Docker)
+* 如果你正在使用IPsec [网络驱动]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/networking/), 所有主机都需要打开UDP端口`500`和`4500`
+* 如果你正在使用VXLAN [网络驱动]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/networking/), 所有主机需要打开UDP端口`4789`
 
-选择安全选项后，单击**下一步：设置实例选项**。
+> **注意：** 如果你再次使用`rancher-machine`安全组, 之前任何丢失的端口都不会再次打开。如果主机没有正常启动，你需要检查一下AWS上的安全组。
 
-最后，您只需填写主机的最终详细信息。
+选择安全组选项之后，点击**下一步：设置实例选项**。
 
-1. 使用滑块选择要启动的主机数量。
-2. 提供一个**名称**，如果需要，**说明**主机。
-3. 选择要启动的**实例类型**。
-4. 选择图像的**根大小**。默认值`docker machine`是16GB，这是我们在Rancher中默认的。
-5. （可选）对于**AMI**，`docker machine`在特定区域中默认使用Ubuntu 16.04 LTS映像。您还可以选择自己的AMI。如果您输入自己的AMI，请确保在该地区可用！
-6. （可选）提供要用作实例配置文件的**IAM配置**文件。
-7. （可选）向主机添加**标签**，以帮助组织主机并[安排服务/负载均衡器，](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/amazon/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/scheduling)或[使用主机IP以外的IP](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/amazon/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/external-dns-service/#using-a-specific-ip-for-external-dns)对[外部DNS记录进行编程](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/amazon/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/external-dns-service/#using-a-specific-ip-for-external-dns)。
-8. （可选）在**高级选项中**，`docker-machine create`使用[Docker引擎选项](https://docs.docker.com/machine/refercnce/create/#specifying-configuration-options-for-the-created-docker-cngine)自定义命令。
-9. 完成后，单击**创建**。
+最后，你只需要完成填写主机的的一些细节信息。
 
-Rancher将创建EC2实例，并在该实例中启动Rancher *-agcnt*容器。在几分钟之内，主机将被激活并可用于[服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/amazon/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/adding-services)。
+1. 使用滚动条选择需要启动的主机的数量。
+2. 如果需要为主机提供一个**名字**和**描述**。
+3. 根据你的需要选择**实例类型**。
+4. 选择镜像的**根大小**，`docker machine`中默认大小为16G，这也是Rancher默认需要的大小。
+5. (可选) 对于**AMI**，`docker machine` 默认是该特定区域的一个Ubuntu 16.04 LTS镜像。你也可以选择你自己的AMI，但是如果你选择自己的AMI，请确保以下几点：
+   1. 在前面选中的区域中是可访问的；
+   2. 定义正确的**SSH User**。如果是使用的[RancherOS AMI](https://github.com/rancher/os#amazon)，SSH User就应该是`rancher`。
+6. (可选)提供用作实例概要的**IAM简介**。
+7. (可选)向主机添加**[标签]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/#labels)**，以帮助组织主机并[调度服务/负载均衡器]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/scheduling/)或者是[使用除主机IP之外的其他IP解析外部DNS记录]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/external-dns-service/#为外部dns使用特定的ip)。
+8. (可选)在***高级选项**中，你可以定制`docker-machine create`命令[Docker引擎配置选项](https://docs.docker.com/machine/reference/create/#specifying-configuration-options-for-the-created-docker-engine)。
+9. 完成之后，点击**创建**。
+
+
+Rancher将会创建EC2的实例，并在实例中开启 _rancher-agent_ 容器。几分钟之后，主机将会启动并正常提供[服务]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-services/)。

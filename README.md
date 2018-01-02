@@ -1,40 +1,42 @@
-# Rancher Labs 文档
+# Rancher Labs Documentation
 
-此README文件包括有关Rancher和Rancher OS的文档项目的信息。
+This README file includes information pertaining to the documentation project for both Rancher and Rancher OS.
 
 ## Rancher
 
-Rancher是一个开源项目，为Docker在生产中提供了一个完整的平台。它提供基础架构服务，如多主机网络、全局和本地负载平衡以及卷快照。它集成了Docker Machine和Docker Swarm等本地Docker管理功能。它提供了丰富的用户体验，使得管理员能够在大规模生产中操作Docker。
+Rancher is an open source project that provides a complete platform for operating Docker in production. It provides infrastructure services such as multi-host networking, global and local load balancing, and volume snapshots. It integrates native Docker management capabilities such as Docker Machine and Docker Swarm. It offers a rich user experience that enables devops admins to operate Docker in production at large scale.
 
 ## Rancher OS
 
-操作系统完全由Docker容器组成。RancherOS中的所有内容都是由Docker管理的容器。这包括系统服务，如udev和syslog。RancherOS仅包含运行Docker所需的最少量的软件。
+Operating system composed entirely of Docker containers. Everything in RancherOS is a container managed by Docker. This includes system services such as udev and syslog. RancherOS includes only the bare minimum amount of software needed to run Docker.
 
 ## Rancher Labs Documentation website
 
-Rancher官方文档可在http://docs.rancher.com/rancher/获得。
+Rancher documentation is available at <http://rancher.com/docs/rancher/>.
 
-随着Rancher已经走出GA，我们加入了版本控制。默认的Rancher文档站点始终是指最新版本。我们将分支被认为是GA的具体版本的Rancher，也将被标记为rancher/server:stable。
+As Rancher has gone GA, we've added in version control. The default Rancher docs site will always be referring to the latest release. We will branch off specific versions of Rancher that are deemed GA, which would also be tagged as `rancher/server:stable`.
 
-目前，我们已经添加了对每个社区请求的中文文档站点的支持。目前，Rancher不会积极翻译文档网站，但我们欢迎PRs。
+Currently, we've added support for Chinese version of the docs site per community request. Currently, Rancher will not be actively translating the docs site, but we welcome PRs.
 
-RancherOS官方文档可从http://docs.rancher.com/os/获取。
+Rancher OS documentation is available at <http://rancher.com/docs/os/>.
 
-## 为Rancher Labs文档项目做出贡献
+## Contributing to Rancher Labs Documentation Project
 
-### 关于Rancher Labs文档站点
+### About Rancher Labs Documentation Site
 
-Rancher Labs文档托管在GitHub Pages上，并通过使用Jekyll在线发布，Jekyll是一个易于浏览的静态网站生成器。有关如何设置Jekyll的更多详细信息，我们建议您阅读https://help.github.com/articles/using-jekyll-with-pages/。如果您使用Windows，我们强烈建议您按照http://jekyllrb.com/docs/windows/中的说明进行操作。
+Rancher Labs documentation is hosted on GitHub Pages and published online by using Jekyll, an easy blog-aware static website generator. For more details on how to set up Jekyll, we recommend you to read <https://help.github.com/articles/using-jekyll-with-pages/>. If you are using Windows, we strongly advise you to follow the instruction given at <http://jekyllrb.com/docs/windows/>.
 
-有关编辑.md文件（Markdown）的信息，请参阅https://daringfireball.net/projects/markdown/syntax。
+For information on editing `.md` files (Markdown), refer to <https://daringfireball.net/projects/markdown/syntax>.
 
-### 设置Git环境
+Or you can use the `make live` Makefile target (or run `docker run --rm -it -p 80:4000 -v $(PWD):/build rancher/rancher.github.io:build jekyll serve -w -P 4000 --incremental` by hand to use the Jekyll build image used for our production pipeline.
 
-在您的浏览器中，导航到https://github.com/rancher/rancher.github.io。
+### Setting up the Git Environment
 
-通过点击右上角的“叉”按钮将该仓库叉上。为您生成存储库的一个fork。在您的分支页面的右侧，在“HTTPS克隆URL”下，通过单击“复制到剪贴板”图标复制URL。
+In your browser, navigate to <https://github.com/rancher/rancher.github.io>.
 
-在您的计算机上，按照以下步骤设置本地存储库以开始处理文档：
+Fork this repository by clicking the Fork button on the upper right-hand side. A fork of the repository is generated for you. On the right-hand side of the page of your fork, under 'HTTPS clone URL', copy the URL by clicking the Copy to clipboard icon.
+
+On your computer, follow these steps to setup a local repository to start working on the documentation:
 
 ```shell
 git clone https://github.com/YOUR_ACCOUNT/rancher.github.io.git
@@ -45,77 +47,92 @@ git fetch upstream
 git merge upstream/master
 ```
 
-### 更新文件
+### Updating the Files
 
-我们建议您创建一个新的分支来更新文档文件，并且您不会影响主分支，而不是从upstream/master那里进行更改。例如，您在计算机上创建一个dev分支，在本地进行文档更改。该dev分支将存储在本地，然后将其推送到您在GitHub上的分支存储库，您将在其中创建一个Pull请求，以将更改提交到官方文档中。
+We recommend you to create a new branch to update the documentation files and that you do not disturb the master branch, other than pulling in changes from `upstream/master`.
+For example, you create a branch, `dev`, on your computer to make changes locally to the documentation. This `dev` branch will be your local repository which then be pushed to your forked repository on GitHub where you will create a Pull Request for the changes to be committed into the official documentation.
 
-每当您想要对文档做出贡献并且只跟踪该分支中的拉动请求的更改时，创建一个新的分支是一种正确的做法。
+It is a healthy practice to create a new branch each time you want to contribute to the documentation and only track the changes for that pull request in this branch.
 
 ```shell
 git checkout -b dev
 ```
 
-该参数-b 创建一个名为dev的新分支dev。现在您可以对文档进行必要的更改。
+The argument `-b dev` creates a new branch named `dev`. Now you can make necessary changes to the documentation.
 
 ```shell
 git add .
 git commit -a -m "commit message for your changes"
 ```
 
-您可以选择在计算机上运行Jekyll本地，以便能够看到修改的最终结果，并写入它们。为此，请使用以下命令。您可以参考Jekyll的官方网站了解更多详情。
+You can optionally run Jekyll locally on your computer to be able to see the final result of your modifications and you write them. For that, use the command below. You can refer to [Jekyll's official website](https://jekyllrb.com/) for more details.
 
 ```shell
 jekyll serve
 ```
 
-### 将upstream/master并入您的本地分支（dev）
-
-在本地存储库中维护最新的主分支。将每日更改从upstream/master（官方文档资料库）合并到本地存储库中。
-
-在您开始处理功能之前，以及在作为拉取请求提交更改之前，请确保完成此活动。
-
-您还可以在处理更改时定期执行此过程，以确保您正在处理最新版本的文档。
+Additionally, you can use the provided `Makefile` to build and test in a Docker container:
 
 ```shell
-# 检查你的本地“主”分支。
+make live
+```
+
+### Merging upstream/master into Your Local Branch (`dev`)
+
+Maintain an up-to-date master branch in your local repository. Merge the changes on a daily basis from the `upstream/master` (the official documentation repository) into your local repository.
+
+Ensure that you do complete this activity before you start working on a feature as well as right before you submit your changes as a pull request.
+
+You can also do this process periodically while you work on your changes to make sure that you are working off the most recent version of the documentation.
+
+```shell
+# Checkout your local 'master' branch.
 git checkout master
 
-# 将本地存储库与'upstream / master'同步，以便您具有所有最新的更改。
+# Synchronize your local repository with 'upstream/master', so that you have all the latest changes.
 git fetch upstream
 
-# 将最新的“上游/主机”更改合并到本地“主”分支中以使其更新。
+# Merge the latest changes from the 'upstream/master' into your local 'master' branch to make it up-to-date.
 git merge upstream/master
 
-# 查看你的本地开发分支（例如：'dev'）。
+# Checkout your local development branch (e.g.: 'dev').
 git checkout dev
 
-# 将最新的更改拉取到您的本地开发分支。
+# Pull the latest changes into your local development branch.
 git pull master
 ```
 
-### 在GitHub上提出请求
+### Checklist for contributions
 
-重要：upstream/master在执行以下操作之前，确保已经合并到您的开发分支。
+Please check the following list before you submit a Pull Request to make sure we can approve it right away!
 
-在对文档进行必要的更改并准备提交文档之后，请在GitHub上创建一个Pull请求。您可以将更改推送到您的分支库（通常称为origin），然后启动拉取请求。
+* Check if your change applies to more than one version, and if so, please make the same change in other versions as well. (Rancher only)
+* If your change only applies to a minor version, make sure it is specified in the text, i.e. `Available as of Rancher v1.6.6` or `Available as of RancherOS v1.1.0`.
+* If your change is regarding an item in the `rancher-catalog`, make sure the change is also applied in the README there.
+
+### Making a Pull Request on GitHub
+
+**Important:** Ensure that you have merged `upstream/master` into your dev branch before you do the following.
+
+After you have made necessary changes to the documentation and are ready to contribute them, create a Pull Request on GitHub. You do it by pushing your changes to your forked repository (usually called `origin`) and then initiating a pull request.
 
 ```
 git push origin master
 git push origin dev
 ```
 
-现在按照以下步骤在GitHub上启动Pull请求。
+Now follow the steps below to initiate a Pull request on GitHub.
 
-1、浏览浏览器到您的分支库：https：//github.com/YOUR_ACCOUNT/rancher.github.io.git。
-2、点击分叉存储库上侧的比较和拉取请求按钮。
-3、输入您所做更改的明确说明。
-4、单击发送拉请求。
+1.  Navigate your browser to your forked repository: <https://github.com/YOUR_ACCOUNT/rancher.github.io.git>.
+1.  Click the *Compare & pull request* button on the upper side of the forked repository.
+1.  Enter a clear description for the changes you have made.
+1.  Click *Send Pull Request*.
 
-如果您被要求修改您的建议的更改，请在您的dev分支上本地进行更改并推送更改。拉请求将自动更新。
+If you are asked to make modifications to your proposed changes, make the changes locally on your `dev` branch and push the changes. The Pull Request will be automatically updated.
 
-### 清理本地存储库
+### Cleaning up the Local Repository
 
-dev变更完成后，您不再需要分支upstream/master。如果要进行其他文档更改，请使用新的分支重新启动该过程。
+You no longer need the `dev` branch after the changes have been committed into `upstream/master`. If you want to make additional documentation changes, restart the process with a new branch.
 
 ```
 git checkout master

@@ -1,44 +1,38 @@
 ---
-title: Overview of Rancher
-layout: rancher-default-v1.6
+title: Rancher文档
+description: Rancher是一个容器管理平台，通过Rancher可以实现Docker和Kubernetes的轻松部署。这个文档描述了如何安装和使用Rancher。
+layout: rancher-default-v1.6-zh
 version: v1.6
 lang: zh
-redirect_from:
-  - /rancher/latest/zh/
-  - /
-  - /rancher/
-  - /rancher/latest/
-  - /rancher/latest/zh/
 ---
 
-## Rancher概述
+## Rancher概览
+---
 
-------
+Rancher是一个开源的企业级容器管理平台。通过Rancher，企业再也不必自己使用一系列的开源软件去从头搭建容器服务平台。Rancher提供了在生产环境中使用的管理Docker和Kubernetes的全栈化容器部署与管理平台。
 
-ranhcer是一个开放源码的软件平台，使企业能够在生产中运行容器。使用Rancher，组织不再需要使用不同的开源技术从头开始构建容器服务平台。Rancher提供管理生产中的容器所需的整个软件堆栈。
+Rancher由以下四个部分组成：
 
-rancher软件由四个主要组成部分组成：
+### 基础设施编排
 
-### 基础设施协调
+Rancher可以使用任何公有云或者私有云的Linux[主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/)资源。Linux主机可以是虚拟机，也可以是物理机。Rancher仅需要主机有CPU，内存，本地磁盘和网络资源。从Rancher的角度来说，一台云厂商提供的云主机和一台自己的物理机是一样的。
 
-Rancher以Linux [主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts)的形式从任何公共或私有云接收原始计算资源。每个Linux主机都可以是虚拟机或物理机。Rancher不会期望每个主机的CPU，内存，本地磁盘存储和网络连接都有更多的空间。从Rancher的角度来看，来自云提供商的VM实例和托管的裸机服务器是没有区别的。
+Rancher为运行容器化的应用实现了一层灵活的[基础设施服务]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/)。Rancher的基础设施服务包括[网络]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/networking)， [存储]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/storage-service/)， [负载均衡]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/load-balancer/)， [DNS]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/dns-service/)和安全模块。Rancher的基础设施服务也是通过容器部署的，所以同样Rancher的基础设施服务可以运行在任何Linux主机上。
 
-Rancher实现了专门为集装箱应用服务的便携式基础[架构服务]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services)层。rancher基础架构服务包括[网络]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//rancher-services/networking)，[存储]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/storage-service)，[负载平衡器]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services/load-balancer)，[DNS]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services/dns-service)和安全性。Rancher基础架构服务通常作为容器部署，因此，相同的Rancher基础架构服务可以在来自云端的任何Linux主机上运行。
+### 容器编排与调度
 
-### 集装箱协调和调度
+很多用户都会选择使用容器编排调度框架来运行容器化应用。Rancher包含了当前全部主流的编排调度引擎，例如[Docker Swarm]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/swarm)， [Kubernetes]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes)， 和[Mesos]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/mesos/)。同一个用户可以创建Swarm或者Kubernetes集群。并且可以使用原生的Swarm或者Kubernetes工具管理应用。
 
-许多用户选择使用容器编排和调度框架运行容器化应用程序。Rancher包含了所有受欢迎的容器编排和调度框架，包括[Docker Swarm]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/swarm)，[Kubernetes]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes)和[Mesos]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/mesos)。同一用户可以创建多个Swarm或Kubernetes群集。然后，他们可以使用本机Swarm或Kubernetes工具来管理其应用程序。
+除了Swarm，Kubernetes和Mesos之外，Rancher还支持自己的Cattle容器编排调度引擎。Cattle被广泛用于编排Rancher自己的基础设施服务以及用于Swarm集群，Kubernetes集群和Mesos集群的配置，管理与升级。
 
-除了Swarm，Kubernetes和Mesos，Rancher还支持自己的容器编排和调度框架，称为“Cattle”。Cattle最初设计为Docker Swarm的扩展。随着Docker Swarm的不断发展，Cattle和Swarm开始分歧。因此，rancher将支持Cattle和Swarm ，作为未来的单独框架。由Rancher自己广泛使用Cattle来协调基础设施服务，以及建立，管理和升级Swarm，Kubernetes和Mesos群集。
+### 应用商店
 
-### 应用目录
+Rancher的用户可以在[应用商店]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/catalog)里一键部署由多个容器组成的应用。用户可以管理这个部署的应用，并且可以在这个应用有新的可用版本时进行自动化的升级。Rancher提供了一个由Rancher社区维护的应用商店，其中包括了一系列的流行应用。Rancher的用户也可以[创建自己的私有应用商店]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/catalog/private-catalog/)。
 
-Rancher用户可以从应用程序[目录]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/catalog)中部署整个多容器集群应用程序，只需单击一个按钮即可。用户可以管理部署的应用程序，并在新版本的应用程序可用时执行全自动升级。Rancher维护着由Rancher社区贡献的流行应用程序的公共目录。rancher用户可以[创建私有目录]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/catalog/private-catalog/)。
+### 企业级权限管理
 
-### 企业级控制
+Rancher支持灵活的插件式的用户认证。支持Active Directory，LDAP， Github等 [认证方式]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/)。 Rancher支持在[环境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/)级别的基于角色的访问控制 (RBAC)，可以通过角色来配置某个用户或者用户组对开发环境或者生产环境的访问权限。
 
-Rancher支持灵活的用户验证插件，并与Active Directory，LDAP和GitHub 进行预先建立的用户身份[验证集成]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control)。rancher支持基于角色的访问控制（RBAC）在水平[环境中]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments)，允许用户和组共享或拒绝访问，例如，开发和生产环境。
-
-下图显示了Rancher的主要组件和功能。
+下图展示了Rancher的主要组件和功能：
 
 <img src="{{site.baseurl}}/img/rancher/rancher_overview_2.png" width="800" alt="Rancher Overview">

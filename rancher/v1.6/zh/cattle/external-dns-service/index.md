@@ -1,66 +1,103 @@
 ---
 title: External DNS Service
-layout: rancher-default-v1.6
+layout: rancher-default-v1.6-zh
 version: v1.6
 lang: zh
 ---
 
 ## 外部DNS服务
+---
 
-------
+在[应用商店]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/catalog/)中，Rancher提供了多种的DNS服务并且这些服务可以监听rancher-metadata的事件，并根据metadata的更变生成DNS记录。我们会以Route53作为例子说明外部DNS是如何工作的，但Rancher还有其他由其他DNS服务商提的供社区版服务。
 
-作为[Rancher目录的](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/external-dns-service/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/catalog)一部分，Rancher提供了多个DNS服务，用于监听rancher-metadata事件，并根据元数据更改生成DNS记录。示例将使用Route53作为外部DNS服务如何工作的示例，但是Rancher还与其他DNS提供商进行社区贡献服务。
+### 最佳实践
 
-### 最佳做法
+* 在每个你启动的Rancher环境中，应该有且只有1个 `route53` 服务的实例。
+* 多个Rancher实例不应该共享同一个 `hosted zone`。
 
-- 对于Rancher设置中的每个环境，应该有一个`route53`scale 1 的服务。
-- 多个Rancher实例不应该共享相同`hosted zone`。
+### 需要配置AWS IAM权限
 
-### 启动Route53服务
+下面的IAM权限是Route53 DNS所需要的最小权限。
+请确保你设置的主机AWS安全密钥(Access Key ID / Secret Access Key)或者主机IAM权限至少被配置了如下权限。
 
-从**目录**选项卡，您可以选择**Route53 DNS堆栈**。
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "route53:GetHostedZone",
+                "route53:GetHostedZoneCount",
+                "route53:ListHostedZonesByName",
+                "route53:ListResourceRecordSets"
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "route53:ChangeResourceRecordSets"
+            ],
+            "Resource": [
+                "arn:aws:route53:::hostedzone/<HOSTED_ZONE_ID>"
+            ]
+        }
+    ]
+}
+```
 
-提供一个**名称**，并且如果需要的话，**说明**堆栈。
+> **注意：** 当使用这个JSON文档在AWS中创建自定义IAM规则时，请使用Route53所在区域或者通配符('*')来替换`<HOSTED_ZONE_ID>`。
 
-在**配置选项中**，您需要提供以下内容：
+### 启动 Route53 服务
 
-| 名称      | 值                                        |
-| ------- | ---------------------------------------- |
-| AWS访问密钥 | 访问您的AWS API的密钥                           |
-| AWS秘密密钥 | AWS API的秘密密钥                             |
-| AWS地区   | AWS中的区域名称 我们建议将该地区设置为最接近您所在地理位置的地区。它将被转换到AWS API端点，Rancher Route53将发送更新的DNS请求。 |
-| 托管区     | Route53主机区。这必须在您的Route53实例上预先创建。         |
+在 **应用商店** 标签页中，你可以选择 **Route53 DNS Stack**。
 
-填写表单后，点击**创建**。该堆栈将使用`route53'服务创建，您只需要启动服务！
+为你的应用栈填写 **名称**，并填写必要的 **描述**。
 
-### 使用Route53服务
+在 **配置选项** 中，你需要提供一下的信息：
 
-该`route53`服务将仅为具有向主机发布端口的服务生成DNS记录。对于Rancher生成的每个DNS记录，它将以以下格式为服务创建fqdn：
+
+名称| 值
+---|---
+AWS Access Key | 访问AWS API的Access key
+AWS Secret Key | 访问AWS API的Secret key
+AWS Region | 在AWS中的区域名称。我们建议你填写一个与你服务器相近的区域。他会转换成Rancher Route53发送DNS更新请求的地址。
+Hosted Zone | Route53 hosted zone。这个必须在你的Route53实例上预创建。
+
+<br>
+在完成表单后，点击 **创建**。一个带有 `route53` 服务的应用栈将会被创建，你只需要启动这个服务。
+
+
+### 使用Route53的服务
+
+`route53`服务只会为在Host上映射端口的服务生成DNS记录，每一个Rancher生成的DNS记录，他使用一下的格式为服务创建一个fqdn：
 
 ```
 fqdn=<serviceName>.<stackName>.<environmentName>.<yourHostedZoneName>
-
 ```
 
-在AWS中的路由53上，它将被表示为具有名称= fqdn和value = [服务部署的主机的ip地址]的记录集。Rancher `route53`服务将仅管理以。结束的记录集。目前，默认TTL为300秒。
+在AWS的Route 53中，他会以name=fqdn，value=[服务所在的host的ip地址列表]的一个记录集合呈现。Rancher `route53` 服务只会管理以<environmentName>.<yourHostedZoneName>结尾的记录集合。当前TTL的时间为300秒。
 
-一旦在AWS上的Route 53上设置了DNS记录，生成的fqdn将被传回给Rancher，并将在**service.fqdn**字段上设置。您可以从服务的下拉菜单中使用**View in API**找到fqdn字段并搜索**fqdn**。
+一旦DNS记录被设置在AWS的Route 53上，生成的fqdn会返回到Rancher，并会设置 **服务.fqdn** 字段。你可以在服务下拉菜单的 **在API中查看** 并查询 **fqdn** 找到fqdn字段。
 
-当在浏览器中使用fqdn时，它将被定向到服务中的一个容器。如果与服务中的容器相关联的IP有任何更改，则这些更改将更新AWS Route 53中的值。由于用户将始终使用fqdn，用户的角度将不会更改。
+当在浏览器使用fqdn，他会被指向到服务中的其中一个容器。如果服务中容器的IP地址发生了变化，这些变化会在AWS的Route 53服务同步更新。由于用户一直在使用fqdn，所有这些更变对用户是透明的。
 
-> **注：**在以后`route53`的服务推出后，与已经部署在主机端口的任何服务，也将获得一个FQDN。
+> **注意：** 在 `route53` 服务被启动后，任何已经部署并使用了host端口的服务都会获得一个fqdn。
 
-### 删除Route53服务
 
-当`route53`服务从Rancher中删除时，Amazon Route 53中的记录集**不会**被删除。那些需要在您的亚马逊帐户中手动删除。
+### 删除 Route53 服务
 
-### 对外部DNS使用特定IP
+当 `route53` 从Rancher被移除，在AWS Route 53服务中的记录并**不会**被移除。这些记录需要在AWS中手工移除。
 
-默认情况下，Rancher DNS选择在Rancher服务器中注册的主机IP，用于公开服务。将会出现使用私有网络在Rancher中配置主机的用例，但这些主机将需要通过公共网络公开使用外部DNS的服务。如果您要指定要用于外部DNS的IP，则需要在启动外部DNS服务之前添加[主机标签](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/external-dns-service/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts/#host-labels)。
+### 为外部DNS使用特定的IP
 
-在启动外部DNS服务之前，请向您的主机添加以下标签。标签的价值是Rancher的Route53 DNS服务将在编程规则时使用。如果主机上未设置此标签，Rancher的Route53 DNS服务将自动使用Rancher中显示的主机IP。
+在默认下，Rancher DNS选择注册在Rancher Server中的主机IP去暴露服务。其中会有一个应用场景是主机在一个私有网络中，但主机将需要使用外部DNS在公网中暴露服务。你需要在启动外部DNS服务前添加一个[主机标签]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/#主机标签)，来指定在外部DNS中使用的IP地址。
+
+在启动外部服务前，需要添加以下标签到主机上。标签的值需要是Rancher的Route53 DNS服务上要用到的IP。如果这个标签没有设置在主机上，Rancher的Route53服务将会默认使用主机注册在Rancher上的IP的地址。
 
 ```
 io.rancher.host.external_dns_ip=<IP_TO_BE_USED_FOR_EXTERNAL_DNS>
 ```
-

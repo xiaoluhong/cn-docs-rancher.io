@@ -1,262 +1,272 @@
 ---
-title: Kubernetes Addons in Rancher
-layout: rancher-default-v1.6
+title: Rancher中的Kubernetes插件
+layout: rancher-default-v1.6-zh
 version: v1.6
 lang: zh
 ---
 
-## Kubernetes附件
+## Kubernetes 插件
+---
 
-------
+Rancher 会自动安装好 Kubernetes 插件以提高用户使用Kubernetes的体验. 如果你想要关闭这一功能, 你需要 [配置 Kubernetes]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/#设置kubernetes) 来禁用插件的自动安装.
 
-Rancher自动安装Kubernetes附加组件，以帮助增强Kubernetes的体验。如果要关闭安装附加组件，则需要[配置Kubernetes](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/#configuring-kubernetes)以禁用自动安装加载项。
+* [Helm](#helm) - Kubernetes的软件包管理工具
+* Dashboard - Kubernetes的Web仪表板
+* [SkyDNS](#skydns) - Kubernetes的DNS服务器
 
-- [Helm](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/index.md#helm) - Kubernetes的软件包经理
-- [仪表板](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/index.md#dashboard) - Kubernetes的仪表板Web界面
-- [SkyDNS](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/index.md#skydns) - [Kubernetes](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/index.md#skydns)的DNS服务器
+### Helm
 
-### 舵
+Helm是一个用来提高Kubernetes中应用安装及管理效率的工具。 它通过将复杂应用打包为Charts的方式来帮助你在Kubernetes中运行应用。一个Chart是描述Kubernetes资源的一组文件，可以用来部署简单的Pods，也可以用来部署复杂的应用（例如一个完整的web应用栈）。
 
-Helm是一种简化安装和管理Kubernetes应用程序的工具。它可以帮助您通过将复杂应用程序打包到Charts中来运行Kubernetes上的应用程序。图表是描述Kubernetes资源的文件的集合，可用于部署简单的pod或复杂应用程序（例如，具有所有组件的完整Web堆栈）。
+Helm包括两个部分，一个叫Tiller的服务端和一个叫Helm的客户端。Tiller由Rancher自动在**kube-system** 命名空间启动. Helm客户端安装在集成的`kubectl` CLI中.
 
-Helm由两部分组成，称为Tiller的服务器和名为Helm的客户端。耕耘机由Rancher自动启动，并在**kube系统**命名空间中启动。Helm客户端安装在嵌入式`kubectl`CLI中。
+#### 在Rancher中使用Helm
 
-#### 开始与牧师的头盔
+在Rancher中安装Kubernetes时，你需要[配置你的 Kubernetes]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/#设置kubernetes) 为启用插件，这样Helm可以自动安装好。等Kubernetes安装完成后，你可以[通过Rancher在UI提供的Shell](#using-helm-in-the-rancher-ui)直接使用Helm或者[配置你的工作站来使用helm](#using-helm-on-a-workstation).
 
-在Rancher上安装Kubernetes时，您需要[配置您的Kubernetes](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/#configuring-kubernetes)，以便启用加载项才能自动安装Helm。在安装Kubernetes之后，您可以直接[通过Rancher在UI中提供的shell](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/index.md#using-helm-in-the-rancher-ui)或者[将工作站配置为使用舵来开始使用舵手](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/index.md#using-helm-on-a-workstation)。
+##### 在Rancher的UI中使用 `helm`
 
-##### 用`helm`在养牛UI
+Rancher提供对一个`kubectl`实例直接的shell访问，可以用它来管理Kubernetes集群和应用。要想使用这个shell，点击 **Kubernetes** -> **CLI**. 这个shell中自动安装好了Helm客户端，可以直接使用Helm的命令。
 
-ancher将shell访问直接提供给`kubectl`可用于管理Kubernetes群集和应用程序的受管实例。要开始使用此shell，请导航到**Kubernetes** - > **CLI**。该shell自动安装Helm客户端，Helm命令可以立即使用。
+![Kubectl]({{site.baseurl}}/img/kubernetes/kubectl.png)
 
-[![Kubectl](https://github.com/rancher/rancher.github.io/raw/master/rancher/v1.6/cn/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/img/kubernetes/kubectl.png)](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/img/kubernetes/kubectl.png)
+##### 在你的工作站使用 `helm`
 
-##### 使用`helm`在工作站上
+在Rancher中安装好Kubernetes之后，通过 **Kubernetes** -> ** CLI** 菜单下生成一个配置文件，你可以在你的工作站配置 `kubectl`。
 
-在Rancher上安装Kubernetes后，您可以`kubectl`通过在**Kubernetes** - > ** CLI ** 下**生成**配置来在您的工作站上进行配置。
+要在你的工作站使用Helm，你需要根据要求安装Helm工具。请参考官方的 [Helm安装文档](https://github.com/kubernetes/helm/blob/master/docs/install.md) 来安装 Helm.
 
-为了在您的工作站上使用Helm，您需要根据需要进行安装。请使用[Helm](https://github.com/kubernetes/helm/blob/master/docs/install.md)的官方[安装文档](https://github.com/kubernetes/helm/blob/master/docs/install.md)来安装Helm。
+在你的工作站，验证可以通过你安装的Helm客户端和Tiller通信：
 
-在您的工作站上，验证您是否可以使用安装的Helm客户端与Tiller进行通信：
-
-```
+```bash
 $ helm init
- $ HELM_HOME已配置为$ HOME /.helm。
-警告：Tiller已经安装在群集中。（使用 - 仅限客户端来抑制此消息。）
-快乐嗨！
+$HELM_HOME has been configured at $HOME/.helm.
+Warning: Tiller is already installed in the cluster. (Use --client-only to suppress this message.)
+Happy Helming!
 
-$ helm版本
-客户端：＆ version.Version {SemVer：“ v2.1.3 ”，GitCommit：“ 5cbc48fb305ca4bf68c26eb8d2a7eb363227e973 ”，GitTreeState：“ clean ” }
-服务器：＆ version.Version {SemVer：“ v2.1.3 ”，GitCommit：“ 5cbc48fb305ca4bf68c26eb8d2a7eb363227e973 ”，GitTreeState：“ clean ” }
+$ helm version
+Client: &version.Version{SemVer:"v2.1.3", GitCommit:"5cbc48fb305ca4bf68c26eb8d2a7eb363227e973", GitTreeState:"clean"}
+Server: &version.Version{SemVer:"v2.1.3", GitCommit:"5cbc48fb305ca4bf68c26eb8d2a7eb363227e973", GitTreeState:"clean"}
 ```
 
-#### 使用头盔
+#### Upgrading Helm
+Each Rancher release comes with a specific release of Helm based on the current state of the upstream Kubernetes add-ons repo, however you can upgrade the helm components at any time based on your requirements.
 
-与所有包裹经理一样，在使用掌舵之前，我们应该验证图表是否为最新。
-
-```
->舵报更新
-当我们抓住最新的图表存储库时， 
-挂紧...
-...成功从“稳定”图表存储库获取更新
-更新完成。嗨快乐！一个
-```
-
-Kubernetes有自己的官方Helm图表，可以直接使用。我们将演示在Kubercnetes上安装Wordpress图表的示例。
-
-> **注意：**随着图表在Helm中更新，我们的版本可能与最新的版本不符。您应该始终安装最新版本。
-
-首先，我们将开始使用`helm search`查找可用的图表。
+Helm has two versioned components, the client (helm) and the server (tiller). For best results it is recommended to run the same version of the client and server. Upgrading the client can be done by downloading a newer binary on your local system. The client can then be used to upgrade the server component to the matching version by running the following:
 
 ```
->舵搜索
-名称版本说明
-稳定/ drupal 0.3.4最通用的开源内容之一
-稳定/詹金斯0.1.1 Jcnkins 针对 Kubernetes的头盔图表。
-stable / mariadb 0.5.2图表为 MariaDB
-稳定/ MySQL的0.1.1图表为 MySQL的
-稳定/ redmine 0.3.3灵活的项目管理Web应用程序。
-稳定/ WordPress的0.3.1 Web发布平台的建立博客和...
+$ helm init --upgrade
+
+Tiller (the helm server side component) has been upgraded to the current version.
+Happy Helming!
+```
+**NOTE** The CLI built into the Rancher UI has its own copy of the `helm` client, so upgrading the server without upgrading this client may break functionality with the UI based CLI until Rancher releases an updated version.
+
+#### Using Helm
+
+如同其他包管理工具，在使用Helm的时候我们应该确认Charts更到最新。
+
+```bash
+> helm repo update
+
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "stable" chart repository
+Update Complete. â Happy Helming!â
 ```
 
-您可以直接从Helm仓库安装图表，但是我们将获取Wordpress图表，以检查可用于部署图表的选项。
+Kubernetes有自己的官方Helm charts，可以直接拿来使用。接下来我们通过一个例子来演示如何在Kubernetes安装一个Wordpress Chart。
 
+> **注意：** 因为Helm中的Charts在持续更新，我们在这的版本不一定跟最新的版本相匹配。你应该安装最新的版本。
+
+首先，我们通过使用 `helm search` 来查找可用的 Charts.
+
+```bash
+> helm search
+NAME                    VERSION DESCRIPTION
+stable/drupal           0.3.4   One of the most versatile open source content m...
+stable/jenkins          0.1.1   A Jenkins Helm chart for Kubernetes.
+stable/mariadb          0.5.2   Chart for MariaDB
+stable/mysql            0.1.1   Chart for MySQL
+stable/redmine          0.3.3   A flexible project management web application.
+stable/wordpress        0.3.1   Web publishing platform for building blogs and ...
 ```
-$ helm fetch stable / wordpress
-$ tar xzvf wordpress- * .tgz
+
+你可以立即从Helm的仓库中安装Chart，不过我们先获取Wordpress Chart，检查看看部署这一Chart可用的选项。
+
+```bash
+$ helm fetch stable/wordpress
+$ tar xzvf wordpress-*.tgz
 $ cd wordpress
 ```
+你可以通过`values.yaml`文件来查看对Wordpress Chart可用的选项。这个文件包括了Chart中使用到的所有变量。用你喜欢的文本编辑器打开这个文件，你可以看到如下所示多个配置。
 
-您可以通过检查`values.yaml`文件来查看Wordpress图表的可用选项。此文件包括图表中使用的所有变量。通过在自己喜欢的文本编辑器中打开文件，您可以看到有多个设置。
-
-```
-image：bitnami / wordpress：4.7-r0
-imagePullPolicy：IfNotPrescnt
-wordpressUsername：user
-＃ wordpressPassword：
-wordpressEmail：user@example.com
-wordpressFirstName：FirstName
-wordpressLastName：LastName
-wordpressBlogName：用户'的博客！
+```bash
+image: bitnami/wordpress:4.7-r0
+imagePullPolicy: IfNotPresent
+wordpressUsername: user
+# wordpressPassword:
+wordpressEmail: user@example.com
+wordpressFirstName: FirstName
+wordpressLastName: LastName
+wordpressBlogName: User's Blog!
 ....
 ```
 
-在Wordpress中的文件中，您将看到默认情况下已启用永久存储。默认值是使用存储类动态配置持久卷，这被称为`default`。为了开始在Kuchernetes Rancher上动态配置持久存储，请阅读关于[存储在Rancher中的存储方式](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/storage)的文档。
+在Wordpress的这个文件中，你会看到持久存储默认是激活的。默认配置使用一个叫default的storage class 来动态提供持久存储卷。想要在Rancher的Kubernetes中使用动态供给持久存储，请阅读关于 [在 Rancher 中使用持久存储]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/storage)的文档。
 
-如果用例中不需要永久存储，那么我们可以在安装图表时禁用持久存储。
+如果在用例中持久存储不是必须的，我们可以在安装这个Chart的时候禁用持久存储。
 
-```
-$ helm install --name wordpress --set mariadb.persistcnce.cnabled = false，persistcnce.cnabled = false stable / wordpress
-NAME：wordpress
-最近部署：Fri Apr 21 16:46:18 2017
-NAMESPACE：默认
-状态：已部署
+```bash
+$ helm install --name wordpress --set mariadb.persistence.enabled=false,persistence.enabled=false stable/wordpress
+NAME:   wordpress
+LAST DEPLOYED: Fri Apr 21 16:46:18 2017
+NAMESPACE: default
+STATUS: DEPLOYED
 
-资源：
-== > v1 / Secret
-名称类型数据年龄
-wordpress-mariadb不透明2 2s
-wordpress-wordpress不透明2 2s
+RESOURCES:
+==> v1/Secret
+NAME                TYPE      DATA      AGE
+wordpress-mariadb   Opaque    2         2s
+wordpress-wordpress   Opaque    2         2s
 
-== > v1 / ConfigMap
-名称数据年龄
-wordpress-mariadb 1 2s
+==> v1/ConfigMap
+NAME                DATA      AGE
+wordpress-mariadb   1         2s
 
-== > v1 /服务
-NAME CLUSTER-IP EXTERNAL-IP PORT（S）AGE
-wordpress-wordpress 10.43.218.155    < pcnding >      80：32247 / TCP，443：31795 / TCP 2s
-wordpress-mariadb 10.43.57.189    < none >     3306 / TCP 2s
+==> v1/Service
+NAME                  CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
+wordpress-wordpress   10.43.218.155   <pending>     80:32247/TCP,443:31795/TCP   2s
+wordpress-mariadb   10.43.57.189   <none>    3306/TCP   2s
 
-== > extcnsions / Deploymcnt
-名称希望在当前可用的年龄
-wordpress-wordpress 1 1 1 0 2s
-wordpress-mariadb 1 1 1 0 2s
+==> extensions/Deployment
+NAME                  DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+wordpress-wordpress   1         1         1            0           2s
+wordpress-mariadb   1         1         1         0         2s
 
 
-笔记：
-获取WordPress网址：
+NOTES:
+1. Get the WordPress URL:
 
-  注意：这可能需要几分钟的负载均衡器IP可用。
-        观察状态：' kubectl get svc --namespace default -w wordpress-wordpress '
+  NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+        Watch the status with: 'kubectl get svc --namespace default -w wordpress-wordpress'
 
-  export SERVICE_IP = $（ kubectl get svc --namespace default wordpress-wordpress -o jsonpath = ' {.status.loadBalancer.ingress [0] .ip} '）
-   echo http：// $ SERVICE_IP / admin
+  export SERVICE_IP=$(kubectl get svc --namespace default wordpress-wordpress -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+  echo http://$SERVICE_IP/admin
 
-2.使用以下凭据登录以查看您的博客
+2. Login with the following credentials to see your blog
 
-  echo用户名：user
-   echo密码：$（ kubectl get secret --namespace default wordpress-wordpress -o jsonpath = “ {.data.wordpress-password} ”  | base64 --decode ）
-```
-
-您将注意到`NOTES`将有助于您开始安装Wordpress图表的部分。备注包括有关如何获取WordPress URL以及如何使用默认凭据登录到博客的信息。
-
-```
-$ export SERVICE_IP = $（ kubectl get svc --namespace default wordpress-wordpress -o jsonpath = ' {.status.loadBalancer.ingress [0] .ip} '） 
-$ echo http：// $ SERVICE_IP / admin
-HTTP：// XXXX /管理
-
-$ echo用户名：user
-$ echo密码：$（ kubectl get secret --namespace default wordpress-wordpress -o jsonpath = “ {.data.wordpress-password} ”  | base64 --decode ）
-用户名：user
-密码：58wygIT06m
+  echo Username: user
+  echo Password: $(kubectl get secret --namespace default wordpress-wordpress -o jsonpath="{.data.wordpress-password}" | base64 --decode)
 ```
 
-通过访问显示的URL，您将可以开始在Kubernetes上使用Wordpress并使用提供的凭据登录。
+你会注意到有一个 `NOTES` 的小节来帮助你使用安装的Wordpress Chart。这个 `NOTES` 提供的信息包括如何获取WordPress URL以及如何用默认的认证去登陆。
 
-#### 使用Helm Chart使用持久存储
+```bash
+$ export SERVICE_IP=$(kubectl get svc --namespace default wordpress-wordpress -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+$ echo http://$SERVICE_IP/admin
+http://x.x.x.x/admin
 
-如果您[在Rancher](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/storage)中设置了[持久存储](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/storage)，那么您将能够在Kubernetes上创建存储类。在下一个示例中，我们将使用相同的Wordpress图表，并选择在AWS上使用永久存储。
-
-需要配置以下先决条件：
-
-- Kubernetes被配置为`aws`用作[云提供商](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/providers/#aws)。
-- 所有[主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts)已经通过正确的IAM策略添加到AWS EC2中的Rancher中。
-- 命名的[存储类](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/storage/#dynamic_provisioning)`default`已安装并配置为使用AWS卷。
-
-在Kubernetes正确启动并创建存储类之后，您可以部署Wordpress图表以使用永久存储。
-
-```
-$ helm install --name wordpress stable / wordpress
-NAME：wordpress
-最近部署：Fri Apr 21 17:12:35 2017
-NAMESPACE：默认
-状态：已部署
-
-资源：
-== > v1 / Secret
-名称类型数据年龄
-wordpress-mariadb不透明2 2s
-wordpress-wordpress不透明2 2s
-
-== > v1 / ConfigMap
-名称数据年龄
-wordpress-mariadb 1 2s
-
-== > v1 /服务
-NAME CLUSTER-IP EXTERNAL-IP PORT（S）AGE
-wordpress-mariadb 10.43.101.232    < none >         3306 / TCP 2s
-wordpress-wordpress 10.43.250.75    < pcnding >    80：30296 / TCP，443：30094 / TCP 2s
-
-== > extcnsions / Deploymcnt
-名称希望在当前可用的年龄
-wordpress-wordpress 1 1 1 0 2s
-wordpress-mariadb 1 1 1 0 2s
-
-== > v1 / PersistcntVolumeClaim
-名称状态容量访问年龄
-wordpress-wordpress-wordpress绑定pvc-f396de3d-26a4-11e7-9213-02ee7a4cff8e 8Gi RWO 2s
-wordpress-wordpress-apache绑定pvc-f3986989-26a4-11e7-9213-02ee7a4cff8e 1Gi RWO 2s
-wordpress-mariadb绑定pvc-f399feb7-26a4-11e7-9213-02ee7a4cff8e 8Gi RWO 2s
-
-
-笔记：
-获取WordPress网址：
-
-  注意：这可能需要几分钟的负载均衡器IP可用。
-        观察状态：' kubectl get svc --namespace default -w wordpress-wordpress '
-
-  export SERVICE_IP = $（ kubectl get svc --namespace default wordpress-wordpress -o jsonpath = ' {.status.loadBalancer.ingress [0] .ip} '）
-   echo http：// $ SERVICE_IP / admin
-
-2.使用以下凭据登录以查看您的博客
-
-  echo用户名：user
-   echo密码：$（ kubectl get secret --namespace default wordpress-wordpress -o jsonpath = “ {.data.wordpress-password} ”  | base64 --decode ）
+$ echo Username: user
+$ echo Password: $(kubectl get secret --namespace default wordpress-wordpress -o jsonpath="{.data.wordpress-password}" | base64 --decode)
+Username: user
+Password: 58wYgIT06m
 ```
 
-您可以看到在图表中使用永久存储的新资源已创建。
+通过访问展示出来的URL，你可以开始使用在Kubernetes中搭好的Wordpress并用提供的认证去登陆。
 
-```
-== > v1 / PersistcntVolumeClaim
-名称状态容量访问年龄
-wordpress-wordpress-wordpress绑定pvc-f396de3d-26a4-11e7-9213-02ee7a4cff8e 8Gi RWO 2s
-wordpress-wordpress-apache绑定pvc-f3986989-26a4-11e7-9213-02ee7a4cff8e 1Gi RWO 2s
-wordpress-mariadb绑定pvc-f399feb7-26a4-11e7-9213-02ee7a4cff8e 8Gi RWO 2s
+#### 配合 Helm Chart 使用持久存储
+
+如果你在Rancher中 [配置了持久存储]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/storage)，你可以在Kubernetes中创建 storage classes。在下一个例子中，我们会使用同一个Wordpress Chart并选择使用AWS上的持久存储。
+
+如下几个先决条件需要配置好：
+
+* Kubernetes 设置为使用 `aws` 作为 [云提供商cloud provider]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/providers/#aws).
+* 所有的 [hosts主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/) 通过AWS EC2 加到Rancher，并设置了正确的IAM策略。
+* 需要创建一个名为 `default`的 [storage class]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/storage/#动态创建) 并配置为使用AWS 存储卷。
+
+在正确启动Kubernetes，添加完storage class之后，你可以部署这个Wordpress Chart并使用你的持久存储。
+
+```bash
+$ helm install --name wordpress stable/wordpress
+NAME:   wordpress
+LAST DEPLOYED: Fri Apr 21 17:12:35 2017
+NAMESPACE: default
+STATUS: DEPLOYED
+
+RESOURCES:
+==> v1/Secret
+NAME                TYPE      DATA      AGE
+wordpress-mariadb   Opaque    2         2s
+wordpress-wordpress   Opaque    2         2s
+
+==> v1/ConfigMap
+NAME                DATA      AGE
+wordpress-mariadb   1         2s
+
+==> v1/Service
+NAME                CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+wordpress-mariadb   10.43.101.232   <none>        3306/TCP   2s
+wordpress-wordpress   10.43.250.75   <pending>   80:30296/TCP,443:30094/TCP   2s
+
+==> extensions/Deployment
+NAME                  DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+wordpress-wordpress   1         1         1            0           2s
+wordpress-mariadb   1         1         1         0         2s
+
+==> v1/PersistentVolumeClaim
+NAME                            STATUS    VOLUME                                     CAPACITY   ACCESSMODES   AGE
+wordpress-wordpress-wordpress   Bound     pvc-f396de3d-26a4-11e7-9213-02ee7a4cff8e   8Gi        RWO           2s
+wordpress-wordpress-apache   Bound     pvc-f3986989-26a4-11e7-9213-02ee7a4cff8e   1Gi       RWO       2s
+wordpress-mariadb   Bound     pvc-f399feb7-26a4-11e7-9213-02ee7a4cff8e   8Gi       RWO       2s
+
+
+NOTES:
+1. Get the WordPress URL:
+
+  NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+        Watch the status with: 'kubectl get svc --namespace default -w wordpress-wordpress'
+
+  export SERVICE_IP=$(kubectl get svc --namespace default wordpress-wordpress -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+  echo http://$SERVICE_IP/admin
+
+2. Login with the following credentials to see your blog
+
+  echo Username: user
+  echo Password: $(kubectl get secret --namespace default wordpress-wordpress -o jsonpath="{.data.wordpress-password}" | base64 --decode)
 ```
 
-您可以验证是否已创建持久卷。
+你可以看到使用持久存储的Chart中的新资源被创建。
 
+```bash
+==> v1/PersistentVolumeClaim
+NAME                            STATUS    VOLUME                                     CAPACITY   ACCESSMODES   AGE
+wordpress-wordpress-wordpress   Bound     pvc-f396de3d-26a4-11e7-9213-02ee7a4cff8e   8Gi        RWO           2s
+wordpress-wordpress-apache   Bound     pvc-f3986989-26a4-11e7-9213-02ee7a4cff8e   1Gi       RWO       2s
+wordpress-mariadb   Bound     pvc-f399feb7-26a4-11e7-9213-02ee7a4cff8e   8Gi       RWO       2s
 ```
+
+你可以验证persistent volumes 已经被创建。
+```bash
 $ kubectl get pv
-名称能力访问恢复状态索赔原因年龄
-pvc-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 8Gi RWO删除绑定默认/ wordpress-wordpress-wordpress 4m
-pvc-yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy 1Gi RWO删除绑定默认/ wordpress-wordpress-apache 4m
-pvc-zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz 8Gi RWO删除绑定默认/ wordpress-mariadb 4m
+NAME                                       CAPACITY   ACCESSMODES   RECLAIMPOLICY   STATUS    CLAIM                                        REASON    AGE
+pvc-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   8Gi        RWO           Delete          Bound     default/wordpress-wordpress-wordpress                  4m
+pvc-yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy   1Gi        RWO           Delete          Bound     default/wordpress-wordpress-apache                     4m
+pvc-zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz   8Gi        RWO           Delete          Bound     default/wordpress-mariadb                              4m
 ```
 
-在这个例子中，我们选择了AWS作为[云提供商](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/addons/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/providers/#aws)，它将在AWS上创建一个ELB作为Wordpress图表的负载均衡器。
+在这个例子中，我们选择了AWS作为 [云提供商cloud provider]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/providers/#aws)，它也会在AWS上创建一个ELB来用作你的Wordpress Chart的负载均衡器。
 
-```
-$ export SERVICE_IP = $（ kubectl get svc --namespace default wordpress-wordpress -o jsonpath = ' {.status.loadBalancer.ingress [0] .hostname} '） 
-$ echo http：// $ SERVICE_IP / admin                                                                                         
+```bash
+$ export SERVICE_IP=$(kubectl get svc --namespace default wordpress-wordpress -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+$ echo http://$SERVICE_IP/admin
 http://xxxxxxxxxxxxxx.us-west-2.elb.amazonaws.com/admin
 ```
 
 ### SkyDNS
 
-在牧场上，每个服务都有一个名字。其他服务可以使用DNS服务名称与服务进行通信。DNS服务名称是`<service_name>.<namespace_name>.svc.cluster.local`。
+在Rancher中，每个服务（service）会被赋予一个名字。其他服务可以使用DNS服务名来和一个服务通信。 DNS服务名为 `<service_name>.<namespace_name>.svc.cluster.local`.
 
-使用在helm示例中启动的wordpress应用程序，您可以获取Wordpress端点服务的名称和命名空间。
+使用上述Helm例子中启动的Wordpress应用，你可以获得Wordpress服务的名字和命名空间（namespace）。
 
 ```
 > kubectl get services
@@ -279,13 +289,12 @@ IP:			10.43.250.75
 LoadBalancer Ingress:	xxxxxxxxxxxxxxxxxxxx.elb.amazonaws.com
 Port:			http	80/TCP
 NodePort:		http	30296/TCP
-cndpoints:		10.42.122.207:80
+Endpoints:		10.42.122.207:80
 Port:			https	443/TCP
 NodePort:		https	30094/TCP
-cndpoints:		10.42.122.207:443
+Endpoints:		10.42.122.207:443
 Session Affinity:	None
-No evcnts.
-
+No events.
 ```
 
-wordpress应用程序命名`wordpress`。对于这个实例，DNS服务名称是`wordpress-wordpress.default.svc.cluster.local`。
+这个Wordpress应用被命名为 `wordpress`。在这个例子中，DNS服务名为 `wordpress-wordpress.default.svc.cluster.local`。

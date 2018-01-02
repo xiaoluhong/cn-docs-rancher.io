@@ -1,57 +1,56 @@
 ---
-title: Kubernetes - Resilicncy Planes
-layout: rancher-default-v1.6
+title: Kubernetes - 弹性平面
+layout: rancher-default-v1.6-zh
 version: v1.6
 lang: zh
 ---
 
-## Kubernetes - Resilicncy Planes
-
+## Kubernetes - 弹性平面（Resiliency Planes）
 ---
 
-对于生产部署，最佳实践是每个平面都运行在专用物理或虚拟主机上。为了开发，可以使用多租户来简化管理并降低成本。
+对生产环境的部署，最佳实践是每一个平面运行在专门的物理或虚拟主机上。对开发环境，可以用多租户去简化管理和减少开销。
 
-#### Data Plane
+#### 数据平面
 
-This plane由一个或多个**etcd**容器组成。Etcd是一个分布式可靠的键值存储，存储所有Kubernetes状态。该平面可以被称为有状态，意味着包括平面的软件维护应用状态。
+数据平面由一个或多个 **etcd** 容器组成。Etcd是一个分布式可靠的键-值存储，它存储了所有Kubernetes状态。可以认为数据平面是有状态的，也就是说组成数据平面的软件维护着应用状态。
 
-#### Orchestration Plane
+#### 编排平面
 
-This plane 由无状态的部件组成，它为我们的Kubernetes的分布提供动力。
+编排平面由无状态的组件组成，它们控制Kubernetes分发。
 
-#### Compute Plane
+#### 计算平面
 
-This plane is comprised of the Kubernetes [pods](https://kubernetes.io/docs/user-guide/pods/).
+计算平面由 Kubernetes [pods](https://kubernetes.io/docs/user-guide/pods/)组成。
 
-### 规划
+### 计划
 
-在安装之前，请考虑您的具体用例很重要。Rancher提供两种不同的部署类型。
+在安装之前，考虑你特定的用例是很重要的。Rancher提供了两种不同的部署类型。
 
-如果您正在寻找一种快速启动Kubernetes来开始测试Kubernetes的方法，我们建议您使用[Overlapping Planes]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//kubernetes/resilicncy-planes/index.md#overlapping-planes)启动[Kubernetes]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/resilicncy-planes/index.md#overlapping-planes)。默认情况下，这是默认的Kubernetes模板中的设置。
+如果你在寻找一种快速启动Kubernetes的方式以试验我们的Kubernetes，我们建议通过 [重叠的平面](#重叠平面overlapping-planes)的方式启动Kubernetes。这是默认Kubernetes模版的默认配置。
 
-对于生产环境，Rancher建议使用[Separated Planes]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/resilicncy-planes/index.md#separated-planes)运行Kubernetes 。
+针对生产环境，Rancher建议通过 [分隔的平面](#分隔平面separated-planes)的方式启动Kubernetes。
 
 ### 安装
 
-#### Overlapping Planes
+#### 重叠平面（OVERLAPPING PLANES）
 
-默认情况下，Kubernetes被配置为在重叠平面上部署。所有飞机重叠，所有服务都可以在单个主机上运行。服务随机安排。添加至少三个主机以使数据平面（即etcd）具有弹性。
+默认情况，Kubernetes设置为用重叠平面的方式做部署。所有平面可以重叠，所有服务可以运行在一个主机上。服务会被随机地调度。增加至少三台主机以使数据平面（亦即 etcd）有复原能力。
 
-1. 创建Kubernetes环境。
-2. 添加至少1个CPU，2GB RAM的1个或多个主机。资源需求因工作负载而异。
+1. 创建一个 Kubernetes 环境。
+2. 增加1个或多个主机，主机至少有 1 CPU， 2GB 内存。资源需求依据工作负荷有所区别。
 
-#### Separated Planes
+#### 分隔平面（SEPARATED PLANES）
 
-此部署允许用户通过专用于每个平面类型的特定主机来分离平面。它提供数据平面弹性和计算平面性能保证。添加主机之前，需要[配置Kubernetes]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/#configuring-kubernetes)。配置Kubernetes时，选择`required`“ **平面隔离”**选项。
+这种部署方式允许用户分割开不通类型的平面，使每一种平面运行在特定、专用的主机上。它可以提供数据平面的恢复能力，保证计算平面的性能。你需要在增加主机之前 [配置 Kubernetes]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/#设置kubernetes)。在配置 Kubernetes 的时候，在 **Plane Isolation** 选项中选择 `required`。
 
-> **注意：**如果您将Kubernetes从重叠平面升级到分离的飞机，请[阅读有关升级的更多信息]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//kubernetes/upgrading)以正确处理更改。
+> **注意：** 如果你想要从重叠平面升级Kubernetes到分隔平面，请 [阅读如何升级Kubernetes]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/upgrading/)以正确地处理改变。
 
-##### 添加主机标签主机
+##### 增加带标签（label）的主机
 
-添加到Kubernetes环境中的所有主机都必须贴上标签，以便Rancher可以根据飞机的类型安排服务。此部署类型至少需要五个主机。
+所有加入到Kubernetes环境的主机必须打好标签，这样 Rancher 就可以根据平面类型去调度不同的服务。在这种部署类型的情况下，最少需要5台主机。
 
-1. **数据平面：**添加3个或更多主机1 CPU，> = 1.5GB RAM，> = 20GB磁盘。当添加主机，[标注这些主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/resilicncy-planes/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts/#host-labels)使用`etcd=true`。
-2. **编排平面：**添加2个或更多主机，其中> = 1 CPU和> = 2GB RAM。当添加主机，[标注这些主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/resilicncy-planes/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts/#host-labels)使用`orchestration=true`。您可以离开1个主机，但是如果发生主机故障，k8s API将不可用，直到添加一个新的业务流程主机。
-3. **计算平面：**添加1个或多个主机。当添加主机，[标注这些主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/resilicncy-planes/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts/#host-labels)使用`compute=true`。
+1. **数据平面：** 增加三个或以上的主机，主机需要有 >=1的CPU，>=1.5GB的内存，>=20GB的磁盘存储空间。在加入主机的时候，[给主机打上标签]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/#主机标签) `etcd=true`。
+2. **编排平面** 增加2个或以上的主机，主机需要有 >=1 的CPU和 >=2GB 的内存。在加入主机的时候， [给主机打上标签]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/#主机标签) `orchestration=true`。你可以只用一台主机，但是在这台主机故障的时候，直到新的用于编排的主机加入之前，K8s API将会不可用。
+3. **计算平面** 增加一个或以上的主机。在加入主机的时候， [给主机打上标签]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/#主机标签) `compute=true`。
 
-> **注意：**可以将主机标签添加到现有主机以将其添加到平面中，但是我们不支持通过更改标签将主机从一种平面类型更改为另一种平面类型。为了更改平面类型，您可以删除旧平面标签，并删除主机上的所有现有服务，然后再添加新的平面标签或更新标签，并根据新的平面标签[升级Kubernetes](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/resilicncy-planes/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/upgrading)以重新平衡容器。
+> **注意：** 主机标签可以加到已有的主机上，从而将这台主机添加到某一种平面中，但我们不支持通过修改标签把一种平面类型的主机转到另一种平面类型。如果想改变一台主机的平面类型，你可以删除旧的平面类型标签，接着删除主机上已有的所有服务，接着再增加或更新为新的平面类型标签，最后通过 [升级 Kubernetes]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/upgrading/)来根据新的平面标签重新平衡容器。

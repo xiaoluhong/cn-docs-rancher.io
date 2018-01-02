@@ -1,165 +1,206 @@
 ---
 title: Troubleshooting FAQs about Rancher
-layout: rancher-default-v1.6
+layout: rancher-default-v1.6-zh
 version: v1.6
 lang: zh
-redirect_from:
-  - /rancher/v1.6/zh/faqs/
-  - /rancher/faqs/
-  - /rancher/faqs/troubleshooting/
 ---
 
-## 故障排除常见问题
+## 常见的故障排查与修复方法
+---
 
-------
+请先阅读有关Rancher Server和Rancher Agent的常见问题。
 
-请阅读有关[Rancher服务器]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//faqs/server)和[Rancher代理/主机的]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//faqs/Agents)更多详细常见问题。
-
-本节假设您能够成功启动Rancher服务器并添加主机。
+本节假设你能够成功启动Rancher Server并添加主机。
 
 ### 服务/容器
 
-#### 为什么只能编辑容器的名称？
+#### 为什么我只能编辑容器的名称？
 
-Docker容器在创建后是不可变的，你能编辑的东西只有我们存储的东西，而不是Docker容器的一部分。这包括重新启动，如果停止并重新启动它，它仍然是同一个容器。您将需要删除并重新创建一个容器来更改任何其他内容。
+Docker容器在创建之后就不可更改了。唯一可更改的内容是我们要存储的不属于Docker容器本身的那一部分数据。 无论是停止、启动或是重新启动，它始终在使用相同的容器。如需改变任何内容都需要删除或重新创建一个容器。
+你可以**克隆**，即选择已存在的容器，并基于已有容器的配置提前在**添加服务**界面中填入所有要设置的内容，如果你忘记填入某项内容，可以通过克隆来改变它之后删除旧的容器。
 
-您可以克隆，它将预先填充使用来自现有容器的所有设置在 **Add Container**页面上。如果您忘记了一件事，您可以克隆容器，更改它，然后删除旧容器。
+#### 关联的容器/服务在Rancher中是如何工作的？
 
-#### 在Rancher中，链接的容器/服务是如何工作的?
+在Docker中，关联的容器（在 `docker run`中使用`--link`）会出现在容器的`/etc/hosts`中。在Rancher中，我们不需要更改容器的`/etc/hosts`文件，而是通过运行一个内部DNS服务器来关联容器，DNS服务器会返回给我们正确的IP。
 
-在Docker中，链接的容器（使用`docker run` `--link`）显示在`/etc/hosts`与其链接的容器中。在Rancher，我们不编辑`/etc/hosts`。相反，我们运行[内部DNS服务器]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/internal-dns-service)，使链接可以跨主机访问。DNS服务器将使用正确的IP进行响应。
 
-#### 不能从UI执行shell或查看容器的日志。Rancher如何访问容器的shell /日志？
+#### 求助! 我不能通过Rancher的界面打开命令行或查看日志。Rancher是如何去访问容器的命令行和日志的?
 
-由于代理商可能对公共互联网开放，因此对容器的shell（或日志等）的代理的请求不会被自动信任。来自Rancher Server的请求包括一个JWT（JSON Web Tokcn），并且该JWT由服务器签名，并且可由代理验证其实际来自服务器。其中的一部分包括到期时间，距离发布时间为5分钟。如果它被拦截，这可以防止令牌长时间被使用。如果不使用SSL，这一点尤其重要。
+Agent主机有可能会暴露在公网上，Agent上接受到的访问容器命令行或者日志的请求是不可信的。Rancher Server中发出的请求包括一个JWT（JSON Web Token)，JWT是由服务器签名并且可由Agent校验的，Agent可以判断出请求是否来自服务器，JWT中包括了有效期限，有效期为5分钟。这个有效期可以防止它被长时间使用。如果JWT被拦截而且没有用SSL时，这一点尤为重要。
 
-如果运行docker logs -f rancher-agent，并且日志显示有关过期令牌的消息，那么请检查Rancher Server主机和Rancher Agent主机的日期/时间是否同步。
+如果你运行`docker logs -f (rancher-agent名称或ID）`。日志会显示令牌过期的信息，随后检查Rancher Server主机和Rancher Agent主机的时钟是否同步。
 
-#### 我在哪里可以看到我的服务日志？
+#### 在哪里可以看到我的服务日志?
 
-在服务详细信息中，我们在名为**Log**的选项卡中提供服务日志。在**日志**选项卡中，它列出与服务相关的所有事件，包括时间戳和API中发生的事件的描述。这些日志会被保留24小时才能被删除。
+在服务的详细页中，我们提供了一个服务日志的页签**日志**。在**日志**页签中，列出了和服务相关的所有事件，包括时间戳和事件相关描述，这些日志将会保留24小时。
 
 ### 跨主机通信
 
-如果不同主机上的容器无法ping通，那么可能会出现一些常见的情况。
+如果容器运行在不同主机上，不能够ping通彼此, 可能是由一些常见的问题引起的.
 
-#### 如何检查跨主机通信是否正常？
+#### 如何检查跨主机通信是否正常?
 
-在**堆栈** - > **基础架构堆栈中**，检查`healthcheck`堆栈的状态。如果堆栈处于活动状态，则交叉主机通信正在运行。
+在**应用**->**基础设施**中，检查 `healthcheck` 应用的状态。如果是active跨主机通信就是正常的。
 
-要手动测试，您可以执行任何容器并ping另一个容器的内部IP（即10.42.xx）。基础架构堆栈的容器可能会隐藏在主机页面上。要查看它们，请选中右上角的“显示系统”复选框。
+手动测试，你可以进入任何一个容器中，去ping另一个容器的内部IP。在主机页面中可能会隐藏掉基础设施的容器，如需查看点击“显示系统容器”的复选框。
 
-#### 用户界面中主机的IP地址是否正确？
+#### UI中显示的主机IP是否正确?
 
-有时，主机的IP将意外地获取为容器桥接的IP而不是实际的主机IP（这些通常`172.17.42.1`或开始`172.17.x.x` ）。如果是这种情况，您需要通过在`docker run`命令中显式设置环境变量`CATTLE_Agent_IP`来重新注册具有正确IP的主机。
+有时，Docker网桥的IP地址会被错误的作为了主机IP，而并没有正确的选择真实的主机IP。这个错误的IP通常是`172.17.42.1`或以`172.17.x.x`开头的IP。如果是这种情况，在使用`docker run`命令添加主机时，请用真实主机的IP地址来配置`CATTLE_AGENT_IP`环境变量。
 
-```
+```bash
 $ sudo docker run -d -e CATTLE_AGENT_IP=<HOST_IP> --privileged \
     -v /var/run/docker.sock:/var/run/docker.sock \
     rancher/agent:v0.8.2 http://SERVER_IP:8080/v1/scripts/xxxx
 ```
 
-#### 运行Ubuntu，容器无法相互通信。
+#### 在Ubuntu上运行容器时彼此间不能正常通信。
 
-如果您已`UFW`启用，您可以禁用`UFW`或更改`/etc/default/ufw`为：
+如果你的系统开启了`UFW`，请关闭`UFW`或更改`/etc/default/ufw`中的策略为：
 
 ```
 DEFAULT_FORWARD_POLICY="ACCEPT"
-
 ```
 
-#### Rancher使用的子网已经在我的网络中使用，并禁止受管网络。如何更改子网？
+<a id="subnet"></a>
 
-要更改容器网络使用的子网，您需要确保要使用的[网络]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//rancher-services/networking/#subnets)基础结构服务`default_network`在`rancher-compose.yml`文件中具有正确的[子网](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/faqs/troubleshooting/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services/networking/#subnets)。
+#### Rancher的默认子网（`10.42.0.0/16`）在我的网络环境中已经被使用或禁止使用，我应该怎么去更改这个子网？
 
-要更改Rancher的IPsec或VXLAN网络驱动程序，您将需要具有更新的基础架构服务的[环境模板]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//environmcnts/#what-is-an-environmcnt-template)。创建新环境模板或编辑现有环境模板时，可以通过单击**编辑配置**来**编辑**网络基础设施服务的**配置**。在编辑屏幕中，您可以输入不同的子网，然后单击**配置**。任何使用更新后的环境模板环境将使用新的子网。编辑现有环境模板将不会更新现有环境中的基础架构服务。
 
-> **注意：**以前通过API更新子网的方法将不再适用，因为Rancher已转移到基础架构服务。
+Rancher Overlay网络默认使用的子网是`10.42.0.0/16`。如果这个子网已经被使用，你将需要更改Rancher网络中使用的默认子网。你要确保基础设施服务里的Network组件中使用着合适的子网。这个子网定义在该服务的`rancher－compose.yml`文件中的`default_network`里。
+
+要更改Rancher的IPsec或VXLAN网络驱动，你将需要在环境模版中修改网络基础设施服务的配置。创建新环境模板或编辑现有环境模板时，可以通过单击**编辑**来配置网络基础结构服务的配置。在编辑页面中，选择**配置选项**　>　**子网**输入不同子网，点击**配置**。在任何新环境中将使用环境模板更新后的子网，编辑已经有的环境模板不会更改现在已有环境的子网。
+
+这个实例是通过升级网络驱动的`rancher-compose.yml`文件去改变子网为`10.32.0.0/16`.
+
+```yaml
+ipsec:
+  network_driver:
+    name: Rancher IPsec
+    default_network:
+      name: ipsec
+      host_ports: true
+      subnets:
+      # After the configuration option is updated, the default subnet address is updated
+      - network_address: 10.32.0.0/16
+      dns:
+      - 169.254.169.250
+      dns_search:
+      - rancher.internal
+    cni_config:
+      '10-rancher.conf':
+        name: rancher-cni-network
+        type: rancher-bridge
+        bridge: docker0
+        # After the configuration option is updated, the default subnet address is updated
+        bridgeSubnet: 10.32.0.0/16
+        logToFile: /var/log/rancher-cni.log
+        isDebugLevel: false
+        isDefaultGateway: true
+        hostNat: true
+        hairpinMode: true
+        mtu: 1500
+        linkMTUOverhead: 98
+        ipam:
+          type: rancher-cni-ipam
+          logToFile: /var/log/rancher-cni.log
+          isDebugLevel: false
+          routes:
+          - dst: 169.254.169.250/32
+```
+
+> **注意：** 随着Rancher通过升级基础服务来更新子网，以前通过API更新子网的方法将不再适用。
 
 ### DNS
 
-### 如何查看我的DNS设置是否正确？
+<a id="dns-config"></a>
 
-如果您想查看Rancher DNS设置的配置，请访问**Stacks** - > **Infrastructure**。查找`network-services`堆栈并选择`metadata`服务。在`metadata`服务中，exec进入任何指定的容器`network-services-metadata-dns-X`。您可以使用UI并在容器上选择**Execute Shell**。
+### 如何查看我的DNS是否配置正确?
 
-```
+如果你想查看Rancher　DNS配置，点击**应用** > **基础服务**。点击`network-services`应用，选择`metadata`，在`metadata`中，找到名为`network-services-metadata-dns-X`的容器，通过UI点击**执行命令行**后，可以进入该容器的命令行，然后执行如下命令。
+
+```bash
 $ cat /etc/rancher-dns/answers.json
 ```
 
 #### CentOS
 
-##### 为什么我的容器无法连接到网络？
+##### 为什么我的容器无法连接到网络?
 
-如果您在主机上运行容器（例如docker run -it ubuntu），并且容器不能与互联网或主机外的任何东西通信，那么您可能会遇到网络问题。
+如果你在主机上运行一个容器（如：`docker run -it ubuntu`）该容器不能与互联网或其他主机通信，那可能是遇到了网络问题。
 
-CentOS将默认设置/proc/sys/net/ipv4/ip_forward为0，这将禁止Docker容器所有的网络连接。Docker需要将这个值设置为1，但是如果您在CentOS上重新启动网络服务，则其值又会变为0 。
+Centos默认设置`/proc/sys/net/ipv4/ip_forward`为`0`，这从底层阻断了Docker所有网络。Docker将此值设置为`1`，但如果在CentOS上运行`service restart network`，则其将被重新设置为`0`。
 
-### 负载平衡器
 
-#### 为什么我的负载均衡器卡在`Initializing`>？
+<a id="lb-config"></a>
 
-负载平衡器自动对其启用[健康检查]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//cattle/health-checks)。如果负载平衡器卡在`initializing`状态，则很可能[主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//faqs/troubleshooting/index.md#cross-host-communication)之间的[跨主机通信不起作用]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//faqs/troubleshooting/index.md#cross-host-communication)。
+### 负载均衡
 
-#### 我如何看到我的负载均衡器的配置？
+#### 为什么我的负载均衡一直是`Initializing`状态?
 
-如果要查看负载平衡器的配置，则需要进入特定的负载均衡器容器并查找配置文件。您可以使用UI并在容器上选择**Execute Shell**。
+负载均衡器自动对其启用健康检查。 如果负载均衡器处于初始化状态，则很可能主机之间无法进行跨主机通信。
 
-```
+#### 我如何查看负载均衡的配置?
+
+如果要查看负载均衡器的配置，你需要用进入负载均衡器容器内部查找配置文件，你可以在页面选择负载均衡容器的**执行命令行**
+
+```bash
 $ cat /etc/haproxy/haproxy.cfg
 ```
 
-该文件将提供负载平衡器的所有配置详细信息。
+该文件将提供负载均衡器的所有配置详细信息。
 
-#### 在哪里可以找到HAProxy的日志？
+#### 我在哪能找到HAproxy的日志?
 
-HAProxy的日志可以在负载平衡器容器内找到。`docker logs`的负载均衡器容器将仅提供与负载平衡器相关的服务的详细信息，但不提供实际的HAProxy日志记录。
+HAProxy的日志可以在负载均衡器容器内找到。 负载均衡器容器的`docker logs`只提供与负载均衡器相关的服务的详细信息，但不提供实际的HAProxy日志记录。
 
 ```
 $ cat /var/log/haproxy
-
 ```
 
-### HA
+### 高可用
 
-#### Rancher Compose Executor 和Go-Machine-Service不断重新启动。
+#### Rancher Compose Executor和Go-Machine-Service不断重启.
 
-在HA集中，如果您正在使用代理服务器，Rancher Compose Executor 和 Go-Machine-Service不断重新启动，请确保使用正确的代理协议。
+在高可用集群中，如果你正在使用代理服务器后，如果rancher-compose-executor和go-machine-service不断重启，请确保你的代理使用正确的协议。
 
 ### 认证
 
-#### 打开[访问控制]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//configuration/access-control)，不能再访问Rancher。如何重置Rancher来停用访问控制？
+<a id="manually-turn-off-github"></a>
 
-如果您的身份验证出现问题（例如您的GitHub身份验证已损坏），则可能会将其锁定在Rancher中。要重新获得对Rancher的访问权限，您需要关闭数据库中的Access Control。为此，您需要访问运行Rancher Server的计算机。
+#### 求助！我打开了访问控制但不能访问Rancher了，我该如何重置Rancher禁用访问控制？
 
+如果你的身份认证出现问题（例如你的GitHub身份认证已损坏），则可能无法访问Rancher。 要重新获得对Rancher的访问权限，你需要在数据库中关闭访问控制。 为此，你需要访问运行Rancher Server的主机。
+
+```bash
+$ docker exec -it <rancher_server_container_ID> mysql
 ```
-$ docker exec -it < rancher_server_container_ID > mysql
-```
 
-> **注：**在`<rancher_server_container_ID>`将具有Rancher 数据库容器。如果您[升级]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//upgrading)并创建了一个Rancher数据容器，则需要使用Rancher数据容器的ID而不是Rancher服务器容器。
+> **注意：** 这个 `<rancher_server_container_ID>`是具有Rancher数据库的容器。 如果你升级并创建了一个Rancher数据容器，则需要使用Rancher数据容器的ID而不是Rancher Server容器。
 
-访问cattle 数据库。
+访问Cattle数据库。
 
-```
+```bash
 mysql> use cattle;
 ```
 
 查看`setting`表。
 
-```
-mysql> select * from setting;  
+```bash
+mysql> select * from setting;
 ```
 
-更新`api.security.cnabled`到`false`并清除该`api.auth.provider.configured`值。此更改将关闭访问控制，任何人都可以使用UI / API访问Rancher服务器。
+更改`api.security.enabled`为`false`，并清除`api.auth.provider.configured`的值。此更改将关闭访问控制，任何人都可以使用UI / API访问Rancher Server。
 
-```
+```bash
 mysql> update setting set value="false" where name="api.security.enabled";
 mysql> update setting set value="" where name="api.auth.provider.configured";
 ```
 
-确认已在`setting`表中进行更改。
+确认更改在`setting`表中生效。
 
-```
-mysql> select * from setting;  
+```bash
+mysql> select * from setting;
 ```
 
-可能需要约1分钟才能在用户界面中关闭身份验证，但您可以刷新网页并访问Rancher，并关闭访问控制。
+可能需要约1分钟才能在用户界面中关闭身份认证，然后你可以通过刷新网页来登陆没有访问控制的Rancher Server。

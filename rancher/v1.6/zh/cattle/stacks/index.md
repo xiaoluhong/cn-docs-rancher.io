@@ -1,90 +1,88 @@
 ---
 title: Stacks in Cattle Environments
-layout: rancher-default-v1.6
+layout: rancher-default-v1.6-zh
 version: v1.6
 lang: zh
 ---
 
-## 堆
+## 应用
+---
 
-------
+应用包含了一组服务。你可以把多个服务放在一起组成一个应用。
 
-栈是一组服务。栈可用于将一起实现应用程序的服务组合在一起。
+### 添加应用
 
-### 添加栈
+在**应用**页，点击**添加应用**。你需要输入一个**名称**然后点击**创建**.
 
-在“ **栈”**页面中，单击“ **添加栈”**。您将需要提供一个**名称**，然后单击**创建**。
+之后会进到这个刚创建的应用页面里。你可以开始在应用里[添加服务]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-services/)，[添加负载均衡]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-load-balancers/)，[添加服务别名]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-service-alias)，或者[添加外部服务]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-external-services)。
 
-您将立即将其带入栈，并可以开始[添加服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/stacks/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/adding-services)，[添加负载平衡器](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/stacks/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/adding-load-balancers)，[添加服务别名](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/stacks/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/adding-service-alias)或[添加外部服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/stacks/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/adding-external-services)。
+> **注意：** 在启动服务之前，你需要至少向Rancher环境添加一台主机。更多添加主机的内容，请查看[文档]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/)。
 
-> **注意：**在开始任何服务之前，您需要在Rancher中启动至少一个主机。有关向Rancher添加主机的更多信息，请参阅[文档](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/stacks/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts)。
+你也可以通过导入`compose`文件来创建应用。在应用创建页面可以导入`docker-compose.yml`和`rancher-compose.yml`文件。你可以在创建应用页面里直接上传文件，也可以把文件中的内容通过复制粘贴输入到创建页面上。当你点击**创建**之后，一个由相关服务组成的应用就创建成功了。通过`docker-compose.yml`文件来创建的服务，仅会被创建但并不会被启动。你需要手动启动他们。
 
-Rancher还提供导入`compose`文件的选项。该`docker-compose.yml`和`rancher-compose.yml`文件可以直接导入到栈的创建页面。文件可以上传到Rancher或直接粘贴到文本框中。单击“ **创建** ”按钮后，栈将与相关联的服务组成。来自`docker-compose.yml`意志的服务只会创建，但不会启动。你必须单独启动他们。
+### 查看应用中的服务
 
-### 在栈中查看服务
+在应用列表页面，你可以轻松的监控该[环境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/)内所有应用的状态。
+你可以点击应用左侧的加号来展开应用，并查看应用里面的每个服务。 你也可以点击应用名称，进入应用详情页面。
 
-从栈页面，您可以轻松地监视你所有的栈[环境](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/stacks/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/environments)。从每个栈，您可以通过单击下拉菜单旁边的克拉展开栈以显示各个服务。
+应用详情页面展示了应用内的全部服务。你可以点击服务名称，进入服务详情页面。在服务详情页面，可以点击容器名称，进入容器详情页面。
 
-这将展开以显示栈内的任何服务以及作为服务一部分的所有容器。您可以单击任何单个容器或服务以转到详细页面。
+### 应用配置
 
-### 栈配置
+当应用被创建时，Rancher同事生成了`docker-compose.yml`文件和`rancher-compose.yml`文件。`docker-compose`文件可以用在Rancher之外。你可以通过原生的`docker-compose`命令来启动服务。更多文档请查看[docker-compose](https://docs.docker.com/compose/).
 
-当创建服务，牧场主同时创建`docker-compose.yml`和`rancher-compose.yml`文件的筹码。在`docker-compose`YAML文件可能牧场主的以外来启动同组使用服务的`docker-compose`命令。有关更多信息，请参阅docker [-compose](https://docs.docker.com/compose/)。
+`rancher-compose.yml`文件包含了Rancher启动服务时所需的额外信息。`docker-compose`文件内并不支持这些参数。
 
-该`rancher-compose.yml`文件用于管理Rancher用于启动服务的附加信息。docker-compose文件中不支持这些字段。
-
-使用这些文件，您还可以使用“牧场主撰写”来启动将包含在“牧场主”中的服务。有关更多信息，请参阅牧场主[撰写](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/stacks/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/rancher-compose)。
+有了这两个文件，你也用可以用[Rancher Compose命令行]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/rancher-compose/)来启动服务。
 
 #### 查看配置
 
-在栈下拉列表中，您可以选择**查看配置**或单击**文件图标**。
+在应用的下拉列表里，你可以选择**查看配置**或者点击应用详情页右上角的**文件图标**。
 
 #### 导出配置
 
-以下是导出配置文件的选项。
+下面是导出应用配置的两种方法。
 
-选项1：下载包含一个zip文件`docker-compose.yml`，并`rancher-compose.yml`选择**导出配置**栈中的下拉菜单。
+方法一：在应用的下拉菜单里点击**导出配置**按钮，可以下载一个zip包，包里包括`docker-compose.yml`和`rancher-compose.yml`文件。
 
-选项2：通过单击要复制的文件名旁边的图标将文件复制到剪贴板。您可以复制`docker-compose.yml`文件或`rancher-compose.yml`文件。
+方法二：在应用的下拉菜单里点击**查看配置**按钮，可以看到配置详情，点击`docker-compose.yml`和`rancher-compose.yml`旁边的按钮，可以将文件内容复制到剪贴板。
 
-### 图形视图
+### 查看图形
 
-您可以在另一个视图中查看栈，其中显示了所有服务/平衡器是如何相互关联的。如果它们链接在一起，则服务名称之间有连接。
+你可以用另一种方法来查看应用。点击**查看图形**按钮，你可以通过可视化图形的方式，查看服务之间的关系。存在连接的两个服务，在图中会被用线连起来。
 
-单击**图形图标**显示此视图。
+#### 修改服务
 
-#### 编辑服务
+可能你创建了不同的Rancher服务。但是在创建完成之后，所有服务的操作下拉菜单都是相同的。例如，服务与负载均衡的下拉菜单是相同的。
 
-所有的Rancher服务都是以不同的方式创建的，但在创建后，它们在下拉菜单中都有相同的选项。服务和负载平衡器的所有选项都是一样的。
+#### 容器数量
 
-#### 缩放
+对服务和负载均衡来说，你可以点击服务详情页面的**加号**快速对其进行扩容。扩容后，新的容器将会被添加到服务中。
 
-对于服务和负载平衡器，您可以通过单击**+缩放**链接快速增加服务中的容器数量。此链接位于服务中的附加容器中。
+> **注意：** 对于负载均衡，如果你对其扩容的最终数量超过了有可用开放端口的主机数量。负载均衡将会卡在**Updating-Active**状态。如果卡住了，解决方法是停掉该负载均衡，并且把容器数量修改到和可用主机数量相同。
 
-> **注意：**对于负载平衡器，如果扩展到高于具有可用公共端口的主机数量的数量，则平衡器将停留在**更新活动**状态。如果需要任何类型的更改，您将需要启动新服务。如果卡住了，解决方法是**停止**平衡器并将缩放比例更改回可用主机数量。
+你也可以通过点击服务下拉菜单的**编辑**按钮来增加或者减少服务内容器的数量。在编辑服务的弹出框内，你可以通过滑动条来修改容器数量。
 
-您还可以通过在服务的下拉菜单中选择**“编辑”**选项来增加或减少服务中的容器数量。将鼠标悬停在该服务上时，下拉菜单可见。移动**缩放**滑块以更改服务中的数字容器。
+#### 修改
 
-#### 编辑
+在这里可修改的参数是有限的，因为容器在创建之后是不可变的。这也包括重启容器，你停止和启动的都是同一个容器。你所能修改的都是Rancher存储的一些参数，而不是Docker容器本身的参数。如果你想要修改其他参数，你可以通过**升级**或者**克隆**这个服务来进行修改。
 
-编辑服务的选择有限，因为Docker容器在创建后是不可变的（不可更改的）。您可以编辑的唯一的工件是Rancher存储的不是Docker容器的一部分的东西。这包括重新启动; 如果停止并启动它，它仍然是同一个容器。您将需要删除并重新创建服务以更改其他任何内容。更改服务的简单方法是**克隆**服务。
+你可以点击服务下拉菜单中的**编辑**按钮，来查看你可以修改的参数。你可以修改服务名称，服务描述和服务中容器的数量。如果你在创建服务的时候，忘了增加相关连接。你可以在编辑页面设置连接。
 
-要查看可以更改的内容，请在服务的下拉菜单中选择**编辑**。所有服务的名称，描述和比例可以更改。如果您在设置完毕后忘记链接您的服务，您将能够通过此选项将服务链接到我们的任何服务。例如，服务，负载平衡器，服务别名和外部服务。
-
-对于服务，大多数选项不具备动态更改的功能。Docker容器在创建后是不可变的（不可变的）。要克服这个限制，你可以**克隆**服务。这将设置启动具有相同参数的服务。您可以在创建新服务或容器之前进行更改。
+对服务来说，大多数参数都不能被修改，因为容器在创建之后是不可变的。为了摆脱这个限制，你可以**克隆**一个服务。克隆会创建一个和该服务全部参数都相同的新的服务，你可以在点击创建之前修改你想要更新的参数。
 
 #### 克隆
 
-您可以克隆任何服务，这将保存所有配置。任何链接到原始服务将不被克隆。您需要编辑链接到原始服务的服务，并添加新克隆的服务，以便这些服务现在将链接到新服务。
+你可以克隆任何服务，克隆的服务包含原服务的全部配置。但是其他服务里指向到原服务的连接并不会被克隆。你需要通过修改那些服务，把指向原服务的连接指向克隆出来的服务上。
 
-例：
+示例：
 
-AppA已连接到AppB。如果您复制AppB并创建AppC，则AppA将不会链接到AppC。链接的唯一方法是编辑AppA链接到AppC。
+服务A连接到了服务B。如果克隆服务B，得到服务C。这时服务A并不会连接到服务C。让服务A建立与服务C的连接的唯一方法就是修改服务A，添加指向服务C的连接。
 
 #### 停止
 
-您可以一次停止一个栈中的单个服务或所有服务。如果要停止单独的服务，请从服务下拉菜单中选择**停止**。如果您决定停止栈中的所有服务，您可以从栈下拉菜单中选择**停止服务**。
+你可以停止某个服务，也可以一键停止应用内全部的服务。如果你想要停掉某个服务，可以点击服务下拉列表里的**停止**按钮。如果你想要停掉应用里的全部服务，可以点击应用下拉菜单里的**停止服务**按钮。
 
 #### 删除
 
-您可以删除单个服务/平衡器或删除整个栈。当您为单独的服务/平衡器选择“ **删除”**时，它将在从主机中删除之前停止容器。可能会有一点延迟，因为Rancher在从UI中删除之前清理容器。
+你可以单独删除服务也可以删除整改应用。当你选择**删除**某个服务的时候，这个服务中的容器将会先被停止，然后被从主机上删除。这可能会稍微有些延迟，因为Rancher会先清理主机上的容器，然后才会在UI上显示容器已删除。

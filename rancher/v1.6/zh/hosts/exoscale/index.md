@@ -1,48 +1,49 @@
 ---
 title: Adding Exoscale Hosts
-layout: rancher-default-v1.6
+layout: rancher-default-v1.6-zh
 version: v1.6
 lang: zh
 ---
 
 ## 添加Exoscale主机
+---
 
-------
+Rancher 支持使用 `docker machine` 来管理 [Exoscale](https://www.exoscale.ch/) 提供的主机。
 
-Rancher支持配置[Exoscale](https://www.exoscale.ch/)主机`docker machine`。
+### 获取Exoscale访问凭证
 
-### 寻找Exoscale证书
-
-为了推出Exoscale主机，您将需要由Exoscale提供的**API密钥**和**密钥**。登录您的Exoscale帐户。导航到您的*配置文件*中的*API密钥*选项卡。**
+为了能启动 Exoscale 主机，需要获取由 Exoscale 提供的 **API Key（接口密钥）** and **Secret Key（加密密钥）**。登录到 Exoscale，进入 _API Keys_ 页面，选择 _Profile_就可以获取到接口密钥和加密密钥。
 
 ### 启动Exoscale主机
 
-现在我们已经找到了我们的**API密钥**和**密钥**，我们已经准备好启动我们的Exoscale主机了。在基础**结构 - >主机**选项卡下，单击**添加主机**。选择**Exoscale**图标。提供您的Exoscale **API密钥**和**密钥**，单击**下一步：验证并选择安全组**。
+选择 **Infrastructure（基础架构） -> Hosts（主机）**，点击 **Add Host（添加主机）**，选择 **Exoscale**图标。 输入获取的 **API Key（接口密钥）** 和 **Secret Key（加密密钥）**，然后点击 **Next: Authenticate & select a Security Group（下一步：校验并选择一个安全组）**。
 
-接下来，您将选择要用于主机的安全组。安全组有两种选择。该**标准的**选项将创建或使用现有的`rancher-machine`安全组。如果Rancher创建`rancher-machine`安全组，它将打开所有必需的端口，以允许Rancher成功工作。`docker machine`将自动打开端口`2376`，这是Docker守护进程端口。
+接下来，将会选择一个被主机使用的安全组。这里有两种安全组的选择：第一种，**Standard（标准）** 选项，是支持 `rancher-machine`的安全组。如果选择该选项，Rancher服务将会打开所有Rancher代理可以被成功运行所需要的端口。而`2376`（Docker deamon的端口）也会被打开。
 
-在**自定义**选项中，您可以选择一个现有的安全组，但是您需要确保特定端口打开，以使Rancher正常工作。
+另外一种，是 **Custom（自定义）** 选项，可以选择任何一个已经存在的安全组，但必须确保Rancher代理正常执行的所有特定端口会被打开。
 
-### 牧场工作所需的端口：
+<a id="port"></a>
 
-- 从牧场服务器到TCP端口22（SSH安装和配置Docker）和TCP端口2376（访问Docker守护程序）
-- 如果您正在使用IPsec [网络驱动程序](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/exoscale/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services/networking)，从UDP端口`500`和/或UDP端口的所有其他主机`4500`
-- 如果使用VXLAN [网络驱动程序](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/exoscale/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services/networking)，则从UDP端口上的所有其他主机使用`4789`
+### Rancher代理运行需要的端口:
 
-> **注意：**如果重新使用`rancher-machine`安全组，安全组中的任何缺少的端口将不会被重新打开。如果主机无法正常启动，则需要检查Exoscale中的安全组。
+* 需要打开TCP端口 `22`来接收Rancher服务管理以及运行Docker守护进程的 `2376`端口；
+* 如果使用IPsec [networking driver（网络驱动）]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/networking/)，需要打开UDP端口 `500` 和 `4500`；
+* 如果使用VXLAN [networking driver（网络驱动）]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/networking/)，需要打开UDP端口 `4789`。
 
-选择安全选项后，单击**下一步：设置实例选项**。
+> **注意：** 当选用安全组 `rancher-machine`时，那些在安全组中匹配的端口不会被重新打开。这就意味着，当发现运行不正常时（有可能是因为主机上的端口打开不正确或者没有被打开导致的），需要检查Exoscale上面的端口的情况。
 
-最后，您只需填写主机的最终详细信息。
+选择好安全组的选项后, 点击 **Next: Set Instance Options（下一步：配置主机实例选项）**.
 
-1. 使用滑块选择要启动的主机数量。
-2. 提供一个**名称**，如果需要，**说明**主机。
-3. 选择**实例配置文件**。
-4. 选择**根大小**，这是Exoscale磁盘大小。
-5. （可选）向主机添加**标签**，以帮助组织主机并[安排服务/负载均衡器，](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/exoscale/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/scheduling)或[使用主机IP以外的IP](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/exoscale/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/external-dns-service/#using-a-specific-ip-for-external-dns)对[外部DNS记录进行编程](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/exoscale/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/external-dns-service/#using-a-specific-ip-for-external-dns)。
-6. （可选）`docker-machine create`使用[Docker引擎选项](https://docs.docker.com/machine/refercnce/create/#specifying-configuration-options-for-the-created-docker-cngine)自定义命令。
-7. 完成后，单击**创建**。
+最后阶段，只需要完善主机配置的一些细节即可：
 
-> **注意：**目前，并不是所有的选项`docker machine`都在用户界面中暴露于Exoscale。我们使用默认的Exoscale端点（ie `https://api.exoscale.ch/compute`），image（ie `ubuntu-14.04`）和可用性区（ie `ch-gva-2`）。
+1. 拖动滑条来选择需要启动的主机数目；
+2. 输入 **Name（名称）**，需要详细备注的时候就填写 **Description（描述）**；
+3. 选择 **Instance Profile（实例描述）**；
+4. 输入磁盘大小到 **Root Size（主机大小）**；
+5.  必要时，添加 **[labels（标签）]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/#labels)** 来辅助管理主机以及 [调度服务或负载均衡]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/scheduling/)，也可以 [通过DNS-IP映射来管理不在 Rancher 内启动的服务]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/external-dns-service/#为外部dns使用特定的ip)；
+6.  必要时，通过 **Advanced Options（高级选项）**，定制化 [Docker engine options（Docker引擎选项）](https://docs.docker.com/machine/reference/create/#specifying-configuration-options-for-the-created-docker-engine) 来控制 `docker-machine create` 时用到的选项指令；
+7. 一切准备就绪后, 点击 **Create（创建）**。
 
-一旦你点击了创建，Rancher将创建Exoscale实例，并在实例中启动rancher *-agcnt*容器。在几分钟之内，主机将被激活并可用于[服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/exoscale/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/adding-services)。
+> **注意：** 目前 Exoscale 的操作界面上并没有显示所有 `docker machine`的选项。Rancher默认使用的 Exoscale 的终端(`https://api.exoscale.ch/compute`)，镜像(`ubuntu-14.04`)以及可用地域(`ch-gva-2`)。
+
+点击创建以后，Rancher将会创建一个 Exoscale 的主机，接着在主机上启动一个 _rancher-agent_ 的容器。几分钟之后，就可以通过 [services（服务）]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-services/) 页面看到一个Rancher的主机被启动了。

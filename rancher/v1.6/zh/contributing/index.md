@@ -1,42 +1,40 @@
 ---
 title: Contributing to Rancher
-layout: rancher-default-v1.6
+layout: rancher-default-v1.6-zh
 version: v1.6
 lang: zh
-redirect_from:
-  - /rancher/latest/zh/contributing/
 ---
 
-## 为牧场主贡献
+## 支持 Rancher
+---
 
-------
+### 开发
 
-### 发展
+我们Githb的[代码库](https://github.com/rancher/rancher)的Wiki里有所有能帮助你参与Rancher开发的的步骤。
 
-在我们的GitHub [存储库中](https://github.com/rancher/rancher)，我们的wiki包含开始使用Rancher的所有步骤。
+从我们的第一个[cowpoke](https://github.com/rancher/rancher/wiki/Cowpoke-1:-Getting-Started-with-Rancher)项目开始！
 
-从我们的第一个[牛头](https://github.com/rancher/rancher/wiki/Cowpoke-1:-Getting-Started-with-Rancher)开始吧！
+### 代码库
 
-### 库
+我们的所有代码都在我们的Github[主页](https://github.com/rancher)。 这些代码库有很多为Rancher所用，下面是其中Rancher用到的主要的代码库的描述。
 
-所有的仓库位于我们的主要GitHub [页面中](https://github.com/rancher)。有很多仓库用于Rancher，但是我们将提供Rancher中使用的一些主要的介绍。
+[Rancher](https://github.com/rancher/rancher)： Rancher的主要代码库，它整合了很多其它的代码库.
 
-[Rancher Repo](https://github.com/rancher/rancher)：这个回购是将所有其他回卷整合在一起的主要回购。
+[Cattle](https://github.com/rancher/cattle)：Rancher所开发的主要功能代码库。
 
-[牛](https://github.com/rancher/cattle)回报：这个回购是开发牧场主的功能的地方。
+[UI](https://github.com/rancher/ui): Rancher UI代码库。
 
-[UI Repo](https://github.com/rancher/ui)：这个repo是Rancher开发的所有UI。
+[Rancher Catalog](https://github.com/rancher/rancher-catalog): 这个代码库包含了大多数[应用商店]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/catalog) [基础设施服务]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/)模板。这些模板(在`infra-templates`目录中)，在[环境(environments)]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/)中被用做[环境模版]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#什么是环境模版)的一部分。我们欢迎社区参与Rancher开发。
 
-[牧场主目录回购](https://github.com/rancher/rancher-catalog)：此回购了大部分的[基础设施服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/contributing/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services)为模板[牧场主目录](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/contributing/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/catalog)中`infra-templates`的文件夹，这是在使用[环境中](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/contributing/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts)的一部分[环境模板](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/contributing/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts/#what-is-an-cnvironmcnt-template)。我们欢迎社区对Rancher目录的贡献，以获得额外的[负载均衡器供应商](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/contributing/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/%7D%7D)。
+[Community Catalog](https://github.com/rancher/community-catalog)： 这个代码库包含了所有社区贡献的 [Rancher 应用商店]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/catalog)模板。我们欢迎社区参与Rancher应用商店模板的开发。
 
-[社区目录回收](https://github.com/rancher/community-catalog)：此回购具有所有社区提供的牧场主[目录](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/contributing/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/catalog)模板。我们欢迎社区对Rancher模板的贡献。
+[Rancher CLI](https://github.com/rancher/cli)： [Rancher 命令行]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cli/)基于此代码库。
 
-[Rancher CLI Repo](https://github.com/rancher/cli)：这个repo是[Rancher CLI](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/contributing/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cli) CLI所基于的。
+[Rancher Compose](https://github.com/rancher/rancher-compose): [Rancher Compose]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/rancher-compose/)命令行基于此代码库。 此代码库和 docker/libcompose 保持同步。
 
-[Rancher Compose Repo](https://github.com/rancher/rancher-compose)：这个repo是[Rancher Compose](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/contributing/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/rancher-compose) CLI所基于的。它与docker / libcompose同步。
+### 缺陷
 
-### 错误
+如果你发现缺陷，或遇到任何问题，请在Github上提[Issue](https://github.com/rancher/rancher/issues/new)。 虽然我们有很多Rancher相关的代码库，但我们希望你把所有的issue都提交到 [Rancher代码库](https://github.com/rancher/rancher)里，以免我们遗漏。
 
-如果您发现任何错误或有任何问题，请通过提出[问题](https://github.com/rancher/rancher/issues/new)与我们联系。虽然我们有很多与Rancher有关的存储库，但我们希望在[Rancher repo](https://github.com/rancher/rancher)中的大部分bug都可以让我们不要错过！
-
-如果您对我们的[文档](https://github.com/rancher/rancher.github.io)有任何更新，请将任何PR转到我们的[文档中，](https://github.com/rancher/rancher.github.io)或单击**编辑此页面**直接进入该页面。 
+如果你想要更新Rancher的文档，请提交PR到我们的[文档代码库](https://github.com/loganhz/loganhz.github.io)或点击**编辑此页**直接跳转到编辑页面。
+<br>

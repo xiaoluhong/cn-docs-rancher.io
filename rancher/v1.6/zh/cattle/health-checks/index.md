@@ -1,122 +1,129 @@
 ---
 title: Health Checks in Rancher
-layout: rancher-default-v1.6
+layout: rancher-default-v1.6-zh
 version: v1.6
 lang: zh
 ---
 
 ## 健康检查
+---
 
-------
+Cattle环境中，Rancher通过运行一个叫`healthcheck`的基础设施服务部署了一套健康检查系统，其原理为在每台主机上部署了`healthcheck`的容器来实现分布式的健康检查。这些容器在内部利用HAProxy来检查应用的健康状态。一旦容器或服务上启用了健康检查，每个容器将最多被三个运行在不同主机上的`healthcheck` 容器监控起来。只要有一个HAProxy实例认为其状态正常，该容器将被视为正常。如果所有HAProxy实例都认为其状态不正常，该容器将被视为状态异常。
 
-在牛环境中，Rancher通过运行`healthcheck`基础架构服务实现健康监控系统，该服务`healthcheck`在其主机上启动集装箱，以协调容器和服务的分布式健康检查。这些容器内部使用HAProxy来验证应用程序的运行状况。当在单个容器或服务上启用健康检查时，每个容器将由最多三个`healthcheck`容器在不同的主机上运行进行监控。如果至少有一个HAProxy实例报告“通过”健康检查，并且当所有HAProxy实例报告“不健康”健康检查时，该容器被认为是不健康的，则该容器被认为是健康的。
+> **注意：** 该模式下唯一的例外为你的环境中只有一台主机，这种情况下健康检查将在同一台主机上被执行。
 
-> **注意：**此模型的唯一例外是当您的环境包含单个主机时，在这种情况下，运行状况检查将由同一主机执行。
 
-Rancher处理网络分区，比基于客户端的健康检查更有效。通过使用HAProxy执行运行状况检查，Rancher使用户可以在应用程序和负载平衡器之间指定相同的运行状况检查策略。
+Rancher利用了不同网络位置的主机进行健康检查，这种方式比基于客户端的健康检查更高效。利用HAProxy来进行健康检查，Rancher使用户可以在服务和负载均衡上使用相同的健康检查策略。
 
-> **注意：**运行状况检查仅适用于正在使用受管网络的服务。如果选择任何其他网络选项，则**不会**被监视。
 
-### 组态
+> **注意：** 健康检查将只能在使用托管网络的服务上生效。如果你选择了其他的网络类型，该服务将不会被监控。
 
-使用以下选项配置运行状况检查：
+### 配置
 
-**检查类型**：有两种类型的检查 - *TCP连接打开*（仅验证端口打开）和*HTTP响应2xx / 3xx*（执行HTTP请求并确保收到良好的响应）。
+可以通过如下选项来配置健康检查：
 
-**HTTP请求**：如果检查类型为*HTTP Responds 2xx / 3xx*，则必须指定要查询的URL路径。您可以选择请求方法（`GET`，，`POST`etc）以及HTTP版本（`HTTP/1.0`，`HTTP/1.1`）。
+**检查类型**: 有两种检查方式 - _TCP连接_ (只验证端口是否打开) 以及 _HTTP响应2xx/3xx_ (进行HTTP请求并确保收到正确的回复)。
 
-**端口**：执行检查的端口。
+**HTTP 请求**: 如果检查类型是 _HTTP响应2xx/3xx_, 你必须制定一个可以接受查询的URL。 你可以选择方法 (`GET`, `POST`, etc) 以及HTTP版本 (`HTTP/1.0`, `HTTP/1.1`).
 
-**初始化超时：**我们退出初始化之前的毫秒数。
+**端口**: 需要进行检查的端口
 
-**检查间隔**：检查之间的毫秒数。
+**初始化超时:**  在退出初始化之前等待的毫秒数。
 
-**检查超时**：没有响应**超时**的检查之前的毫秒数。
+**重新初始化超时:** 在退出重新初始化之前等待的毫秒数。
 
-**健康阈值**：在（当前标记的不健康）容器之前成功检查响应的数量再次被认为是健康的。
+**检查间隔**:  在每次检查之间的时间间隔（毫秒）。
 
-**不健康的门槛**：在（当前标记健康的）容器之前的失败检查响应的数量被认为是不健康的。
+**检查超时**: 在检查未得到回复并超时之前等待的毫秒数。
 
-**当不健康时**：当容器被认为是不健康时，有3种选择。`Take no action`意味着容器将保持不健康状态。`Re-create`意味着Rancher会破坏不健康的容器并为服务创建一个新的容器。 `Re-create, only when at least X container is healthy`意味着如果有`X`多个容器健康，则不健康的容器将被破坏并重新创建。
+**健康阈值**:  在一个不健康容器被标记为健康之前需要收到的健康检查回复的次数。
 
-### 在UI中添加健康检查
+**不健康阈值**: 在健康容器被标记为不健康之前需要收到的健康检查回复的次数。
 
-对于[服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/health-checks/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/adding-services)或[负载平衡器](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/health-checks/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/adding-load-balancers)，可以通过导航到**健康检查**选项卡来添加**健康检查**。您可以检查服务的TCP连接或HTTP响应，并更改运行状况检查配置的默认值。
+**不健康门槛**: T
+当容器被认为是不健康时，有3种选择。`不进行操作`意味着容器将保持不健康状态。`重新创建`意味着Rancher会破坏不健康的容器并为服务创建一个新的容器。 `重新创建，仅当至少X个容器健康时`意味着如果有`X`多个容器健康，不健康的容器将被破坏并重新创建。
 
-### 将健康检查添加到Rancher Compose中的服务
+### 在UI中添加Health Checks
 
-使用[Rancher Compose](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/health-checks/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/rancher-compose)，可以添加健康检查`rancher-compose.yml`。
+对于[服务]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-services/)或[负载均衡]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-load-balancers/)，可以通过导航到**Health Check**选项卡来添加Health check服务。你可以检查服务的TCP连接或HTTP响应，并更改health check配置的默认值。
+
+### 通过Rancher Compose添加 Health Checks
+
+使用[Rancher Compose]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/rancher-compose/)，health checks能添加在`rancher-compose.yml`文件中。
 
 在我们的示例中，如果容器发现不健康，我们会显示三种不同策略的健康检查配置。
+```yaml
+version: '2'
+services:
+  service1:
+    scale: 1
+    health_check:
+      # Which port to perform the check against
+      port: 80
+      # For TCP, request_line needs to be '' or not shown
+      # TCP Example:
+      # request_line: ''
+      request_line: GET /healthcheck HTTP/1.0
+      # Interval is measured in milliseconds
+      interval: 2000
+      initializing_timeout: 60000
+      unhealthy_threshold: 3
+      # Strategy for what to do when unhealthy
+      # In this service, no action will occur when a container is found unhealthy
+      strategy: none
+      healthy_threshold: 2
+      # Response timeout is measured in milliseconds
+      response_timeout: 2000
+  service2:
+    scale: 1
+    health_check:
+      # Which port to perform the check against
+      port: 80
+      # Interval is measured in milliseconds
+      interval: 2000
+      initializing_timeout: 60000
+      reinitializing_timeout: 60000
+      unhealthy_threshold: 3
+      # Strategy for what to do when unhealthy
+      # In this service, Rancher will recreate any unhealthy containers
+      strategy: recreate
+      healthy_threshold: 2
+      # Response timeout is measured in milliseconds
+      response_timeout: 2000
+  service3:
+    scale: 1
+    health_check:
+      # Which port to perform the check against
+      port: 80
+      # Interval is measured in milliseconds
+      interval: 2000
+      initializing_timeout: 60000
+      unhealthy_threshold: 3
+      # Strategy for what to do when unhealthy
+      # In this service, Rancher will recreate any healthy containers only if there   is at least 1 container
+      # that is healthy
+      strategy: recreateOnQuorum
+      recreate_on_quorum_strategy_config:
+        quorum: 1
+      healthy_threshold: 2
+      # Response timeout is measured in milliseconds
+      response_timeout: 2000
+```
 
-```
-版本：' 2 '
-服务：
-   服务1：
-     刻度：1 
-    health_check：
-       ＃哪个端口来执行对检查
-      端口：80 
-      ＃对于TCP，request_line需要是''或未示出
-      ＃ TCP实例：
-      ＃ request_line： '' 
-      request_line：GET / healthcheck HTTP / 1.0 
-      ＃间隔以毫秒为单位测量
-      间隔：2000 
-      initializing_timeout：60000 
-      unhealthy_threshold：3 
-      ＃策略适合做什么，当不健康
-      ＃在该服务中，也不会发生作用时，容器被发现不健康的
-      策略：无
-      healthy_threshold：2 
-      ＃响应超时以毫秒为单位
-      RESPONSE_TIMEOUT：2000 
-  客服2：
-     规模：1 
-    health_check：
-       ＃哪个端口对
-      端口进行检查：80 
-      ＃间隔以毫秒为单位测量
-      间隔：2000 
-      initializing_timeout：60000 
-      unhealthy_threshold：3 
-      ＃在不健康的情况下做什么的策略
-      ＃在这项服务中，Rancher将重新创建任何不健康的容器
-      策略：重新创建
-      health_threshold：2 
-      ＃响应超时以毫秒为
-      单位response_timeout：2000 
-  service3：
-     scale：1 
-    health_check：
-       ＃哪个端口对
-      端口进行检查：80 
-      ＃间隔以毫秒为单位测量
-      间隔：2000 
-      initializing_timeout：60000 
-      unhealthy_threshold：3 
-      ＃在不健康的情况下做什么的策略
-      ＃在这项服务中，只有至少有1个容器
-      ＃是健康的
-      策略，Rancher才会重建任何健康的容器：recreateOnQuorum 
-      recreate_on_quorum_strategy_config：quorum：1 
-      healthy_threshold：2 
-      ＃响应超时以毫秒为单位测量
-      response_timeout：20003 ＃策略在不健康的情况下做什么＃在这项服务中，只有至少有1个容器＃是健康的策略，Rancher才会重建任何健康的容器：recreateOnQuorum recreate_on_quorum_strategy_config：quorum：1 healthy_threshold：2 ＃响应超时以毫秒为单位response_timeout：20003 ＃策略在不健康的情况下做什么＃在这项服务中，只有至少有1个容器＃是健康的策略，Rancher才会重建任何健康的容器：recreateOnQuorum recreate_on_quorum_strategy_config：quorum：1 healthy_threshold：2 ＃响应超时以毫秒为单位response_timeout：2000只有至少有1个容器＃是健康的策略， Rancher才会重建任何健康的容器：recreateOnQuorum recreate_on_quorum_strategy_config：quorum：1 healthy_threshold：2 ＃响应超时以毫秒为单位response_timeout：2000只有至少有1个容器＃是健康的策略， Rancher才会重建任何健康的容器：recreateOnQuorum recreate_on_quorum_strategy_config：
-         quorum：1 healthy_threshold：2 ＃响应超时以毫秒为单位response_timeout：20002 ＃响应超时以毫秒为单位测量response_timeout：20002 ＃响应超时以毫秒为单位测量response_timeout：2000
-```
 
 ### 故障情况
 
-| 脚本                                  | 响应                                       |
-| ----------------------------------- | ---------------------------------------- |
-| 被监测的容器停止响应健康检查。                     | 正在监视容器的所有活动的HAProxy实例将检测到故障，并将容器标记为“不健康”。如果容器是服务的一部分，则Rancher通过其服务HA功能将服务恢复到其预定义的缩放比例。 |
-| 运行健康检查的容器的主机失去了网络连接或该主机上的代理。        | 当网络连接丢失到主机时，与代理服务器的连接丢失。由于代理不可访问，主机被标记为“重新连接”。目前，所有这些都知道的是，Rancher服务器无法连接到该主机的主机代理。对Rancher的健康检查是针对容器本身而不是主机完成的; 因此，容器将无法访问其所有活动的HAProxy实例。如果容器是服务的一部分，则Rancher通过其服务HA功能将服务恢复到其预定义的缩放比例。 |
-| 运行启用了健康检查的容器的主机完全失败。                | 当主机遇到完全故障（如断电）时，与代理服务器的连接将从Rancher服务器中丢失。由于代理不可访问，主机被标记为“重新连接”。目前，所有这些都知道的是，Rancher服务器无法连接到该主机的主机代理。对Rancher的健康检查是针对容器本身而不是主机完成的; 因此，容器将被其所有活动的HAProxy实例无法访问。如果容器是服务的一部分，则Rancher通过其服务HA功能将服务恢复到其预定义的缩放比例。 |
-| 主机的代理失败，但是主机保持在线，容器正在运行，并且正在进行健康检查。 | 在这种情况下，如之前的情况，与代理服务器的连接丢失。由于代理不可访问，主机被标记为“重新连接”。目前，所有这些都知道的是，Rancher服务器无法连接到该主机的主机代理。对Rancher的健康检查是针对容器本身而不是主机完成的; 因此，容器将无法访问其所有活动的HAProxy实例。如果容器是服务的一部分，则Rancher通过其服务HA功能将服务恢复到其预定义的缩放比例。 |
+状况 | 响应
+----|----
+被监测的容器停止响应Health check。| 所有的HAProxy实例将检测到故障，并将容器标记为“不健康”。如果容器是服务的一部分，则Rancher通过其服务HA功能将服务恢复到其预定义的规模。
+运行启用来健康检查的容器的主机失去了网络连接或该主机上的代理失去了网络链接。| 当主机丢失网络连接时，与Rancher服务连接的Rancher代理也会丢失网络连接。 由于代理不可访问，主机被标记为“重新连接”。这样我们知道了Rancher Server无法连接到该主机的主机代理。对Rancher的健康检查是针对容器本身而不是主机完成的; 因此，容器将无法被所有活动的HAProxy实例访问。如果容器是服务的一部分，则Rancher通过其服务HA功能将服务恢复到其预定义的规模。
+运行启用了健康检查的容器的主机完全故障。| 当主机遇到完全故障（如断电）时，与Rancher服务连接的Rancher代理也会丢失网络连接。 由于代理不可访问，主机被标记为“重新连接”。这样我们知道了Rancher Server无法连接到该主机的主机代理。对Rancher的健康检查是针对容器本身而不是主机完成的; 因此，容器将无法被所有活动的HAProxy实例访问。如果容器是服务的一部分，则Rancher通过其服务HA功能将服务恢复到其预定义的规模。
+主机的代理失败，但主机保持在线，容器正在运行，并且正在进行健康检查。| 在这种情况下，与Rancher服务连接的Rancher代理也会丢失网络连接。 由于代理不可访问，主机被标记为“重新连接”。这样我们知道了Rancher Server无法连接到该主机的主机代理。对Rancher的健康检查是针对容器本身而不是主机完成的; 因此，容器将无法被所有活动的HAProxy实例访问。如果容器是服务的一部分，则Rancher通过其服务HA功能将服务恢复到其预定义的规模。
 
-根据健康检查的结果，容器处于绿色或红色状态。如果实施该服务的所有容器处于绿色状态，或者如果所有容器都处于红色状态，则服务处于红色（或“向下”）状态，处于绿色（或“向上”）状态。如果Rancher检测到至少一个容器处于红色状态或者将其返回到绿色状态，则服务处于黄色（或“退化”）状态。
+<br/>
+根据health check的结果容器会被标记成绿色或红色状态，
+根据健康检查的结果，会判断容器是处于绿色或红色状态。如果运行该服务的所有容器处于绿色状态，该服务就处于绿色（或“运行”）的状态。如果运行该服务所有容器都处于红色状态，则服务处于红色（或“停止”）状态。如果Rancher检测到至少一个容器是处于红色状态或正在要变为绿色状态，该服务会处于黄色（或“退化”）的状态。
 
-检测故障所用的时间是通过“间隔”值进行控制的，该值是通过撰写或UI创建健康检查时定义的。
+检测故障所用的时间是通过“间隔”值进行控制的，该值是通过compose或UI创建健康检查时定义的。
 
-> **注意：**故障恢复操作仅在容器变为*绿色*后执行。也就是说，如果服务的启动时间很长，则容器将不会立即重新启动，因为服务需要超过2000ms才能启动。健康检查首先需要在采取任何其他行动之前将容器变绿。
+> **注意：** 故障恢复操作仅在容器状态变为绿色后执行。也就是说，如果服务的启动时间很长，则容器将不会立即重新启动，因为服务需要超过2000ms才能启动。健康检查首先需要在采取任何其他行动之前将容器变绿。

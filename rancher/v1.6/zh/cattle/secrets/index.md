@@ -1,144 +1,217 @@
 ---
 title: Secrets in Rancher
-layout: rancher-default-v1.6
+layout: rancher-default-v1.6-zh
 version: v1.6
 lang: zh
 ---
 
-## 秘密 - 实验
+## 密文 - 实验性的
+---
 
-------
+Rancher支持创建密文并在容器中使用该密文（在容器中使用该密文需要部署应用商店里的Rancher Secrets服务）。Rancher通过对接加密后台来保障密文的安全。加密后台可以使用本地的AES密钥或者使用[Vault Transit](https://www.vaultproject.io/docs/secrets/transit/)
 
-Rancher已经引入了在容器中使用命名秘密的能力。Rancher通过使用本地AES（高级加密标准）密钥或[Vault Transit](https://www.vaultproject.io/docs/secrets/transit/)与加密后端进行接口，以安全地存储Rancher中的值。
+### 加密后台设置
 
-### 加密后端配置
-
-默认情况下，Rancher服务器配置为使用本地存储的AES256加密密钥来执行密码加密。这些加密值存储在Rancher服务器使用的MySQL数据库中。
+默认情况下，Rancher Server会使用本地的AES256密钥来对密文进行加密。加密的密文存储在MySQL数据库里。
 
 #### 使用Vault Transit
 
-而不是使用本地存储的密钥，Rancher可以配置为使用[Vault Transit](https://www.vaultproject.io/docs/secrets/transit/)执行加密。
+如果不想使用本地密钥加密，你可以通过配置[Vault Transit](https://www.vaultproject.io/docs/secrets/transit/)来进行密文加密。
 
-##### 使用Vault Transit安装Rancher服务器
+##### 在Rancher中配置Vault Transit
 
-在安装Rancher Server之前，需要使用Vault Transit完成几个先决条件。
+在安装Rancher Server之前，需要进行如下Vault Transit相关的配置。
 
-1. 将Vault运行后端挂载到将运行Rancher服务器的主机上
+1. 在要运行Rancher Server的主机上安装Vault transit后台。
+2. 通过Vault命令行或者API，创建一个叫`rancher`的加密密钥。
+3. 通过Vault命令行或者API，创建一个Vault访问口令，这个访问口令可以通过`rancher`加密密钥进行加密和解密。
+    * 这个访问口令必须具有一个给Rancher Server使用的安全策略，来限制Rancher Server的访问权限。下面列表中的`<KEY>`就是之前创建的`rancher`加密密钥
 
-2. 使用Vault CLI或API，创建一个名为的新加密密钥 `rancher`
+      ```
+      path "transit/random/*" {
+        capabilities = ["create", "update"]
+      }
 
-3. 使用Vault CLI或API，创建可以使用`rancher`密钥加密/解密的保管库访问令牌
+      path "transit/hmac/*" {
+        capabilities = ["create", "update"]
+      }
 
-   - 此令牌必须使用Rancher服务器的策略来使用以下Vault Transit端点。在`<KEY>`此列表中是`rancher`已创建的关键。
+      path "transit/encrypt/rancher" {
+        capabilities = ["create", "update"]
+      }
 
-     ```
-     path "transit/random/*" {
-       capabilities = ["create", "update"]
-     }
+      path "transit/decrypt/rancher" {
+        capabilities = ["create", "update"]
+      }
 
-     path "transit/hmac/*" {
-       capabilities = ["create", "update"]
-     }
+      path "transit/verify/rancher/*" {
+        capabilities = ["create", "update", "read"]
+      }
 
-     path "transit/encrypt/rancher" {
-       capabilities = ["create", "update"]
-     }
+      path "transit/keys/*" {
+        capabilities = ["deny"]
+      }
 
-     path "transit/decrypt/rancher" {
-       capabilities = ["create", "update"]
-     }
+      path "sys/*" {
+        capabilities = ["deny"]
+      }
+      ```
 
-     path "transit/verify/rancher/*" {
-       capabilities = ["create", "update", "read"]
-     }
+3. 启动Rancher Server，并加入相关环境变量来连接Vault。
 
-     path "transit/keys/*" {
-       capabilities = ["deny"]
-     }
-
-     path "sys/*" {
-       capabilities = ["deny"]
-     }
-
-     ```
-
-4. 启动Rancher服务器并将环境变量添加到命令以连接到Vault。
-
-   ```
-   $ docker run -d --restart = unless-stopped -p 8080：8080 \
-      -e VAULT_ADDR = https：// < VAULT_SERVER > -e VAULT_TOKEN = < TOKEN_FOR_VAULT_ACCCESS >牧场主/服务器
+   ```bash
+   $ docker run -d --restart=unless-stopped -p 8080:8080 \
+      -e VAULT_ADDR=https://<VAULT_SERVER> -e VAULT_TOKEN=<TOKEN_FOR_VAULT_ACCCESS> rancher/server
    ```
 
-   > **注意：**验证您是否正在运行所需的[Rancher服务器标记](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/secrets/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/installing-rancher/installing-server/#rancher-server-tags)。
+    > **注意：** 请检查运行的[Rancher Server版本]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/#rancher-server-标签)是否是你想要的。
 
-5. 一旦Rancher服务器启动，您将需要更新`service-backend`Rancher中的设置。在**管理** - > **设置** - > **高级设置下**，找到该`secrets.backend`值。默认情况下，它将`localkey`作为值。您可以将其编辑为值`vault`。
+4. 在Rancher服务启动成功之后，你需要修改Rancher中的`service-backend`设置。在**系统管理** -> **系统设置** -> **高级设置**中，找到`secrets.backend`。它的默认值是`localkey`，你可以把它修改为`vault`。
 
-> **注意：**目前，Rancher不支持在加密后端类型之间切换。
+> **注意：** 目前Rancher不支持对不同加密后台之间进行切换。
 
-### 创造秘密
+### 创建密文
 
-在环境级别创建和限定秘密，这意味着在环境中只能有一个具有相同名称的秘密。同一环境中的任何容器都可以共享相同的秘密。例如，数据库密码，即`db_password`可以在数据库容器和Wordpress容器中使用。
+你可以在每个Rancher环境里创建密文。这也意味着，密文名称在环境中是唯一的。同一个环境下的任何容器都可以通过配置来共享密文。例如，一个数据库的密码`db_password`可以被用在数据库容器里，也可以被用在Wordpress容器里。一旦这个密文被创建了，这个密文的密文值就**不能**被修改了。如果你需要修改一个现有的密文，唯一的方法就是删除这个密文，然后再创建一个新密文。新密文被创建后，使用这个密文的服务需要重新部署。这样容器才能使用新的密文值。
 
-> **注意：** Rancher CLI目前不支持为Rancher添加秘密。
+#### 通过Rancher命令行创建密文
 
-去**基础设施** - > **秘密**。提供**名称**和**秘密价值**并**保存**秘密。
+在命令行当中有两种方法来创建密文。一种是在标准输入中（stdin）输入密文值，另一种是给命令行传递含有密文的文件名称。
 
-创建秘密后，**无法**编辑或更新密码。如果您需要更改密码的现有值，唯一的方法是删除该密码。在更新了一个秘密后，使用秘密的任何服务都将需要重新启动并使用更新的秘密。
+##### 通过标准输入（stdin）创建密文
+```bash
+$ rancher secrets create name-of-secret - <<< secret-value
+```
 
-### 删除秘密
+##### 通过传递密文所在的文件名称来创建密文
+```bash
+$ echo secret-value > file-with-secret
+$ rancher secrets create name-of-secret file-with-secret
+```
 
-在UI中，秘密可以从Rancher中删除，但是它不会从使用秘密的任何容器或使用秘密运行容器的主机上删除秘密（即文件）。
+#### 通过UI创建密文
 
-### 启用容器中的秘密
+点击**基础架构** -> **密文**。点击**添加密文**。输入**名称**和**密文值**然后点击**保存**。
 
-为了消费容器中的**秘密**，**Rancher Secrets**服务将需要启动。该服务可以通过将其添加到[环境模板](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/secrets/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/environments/#what-is-an-environment-template)中进行部署，以便将其部署在所有[环境中，](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/secrets/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/environments)或者直接从[Rancher目录](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/secrets/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/catalog)启动。如果要将此服务添加到现有环境中，请导航到**Catalog** - > **Library**，然后搜索**Rancher Secrets**条目。没有启动此目录条目，您将只能创建秘密，但无法在容器中使用它们。
+### 删除密文
 
-### 向服务/容器添加秘密
+> **备注：** 目前Rancher命令行不支持删除密文。
 
-在服务/容器创建过程中，秘密可以添加到**Secrets**选项卡下的服务/容器中。
+你可以在UI里把密文从Rancher中删除，但是这并不会在已使用该密文的容器中删除该密文文件。如果一台主机上运行着使用该密文的容器，Rancher也不会在该主机上删除该密文文件。
 
-1. 选择**添加秘密**
-2. 在Rancher中创建的可用秘密列表可在下拉列表中找到。选择您要使用的秘密。
-3. （可选）为密码文件输入不同的文件名。默认情况下，它将使用文件名的秘密名称。
-4. （可选）如果需要修改默认文件模式，请单击“自**定义文件所有权和权限”**链接。用户ID，组ID和文件模式（八进制）可以更新。默认情况下，用户ID为`0`组ID `0`，文件模式为`0444`。
-5. 单击**创建**。
+### 在Rancher中启用密文
 
-当将秘密添加到容器时，将将秘密写入tmpfs卷，这可以从容器和主机访问。
+为了在容器中使用密文，你要先部署**Rancher Secrets**服务。你可以把这个服务加到[环境模版]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#什么是环境模版)中，在添加该服务之后部署的新[环境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/)里都会含有**Rancher Secrets**服务。你也可以直接通过[应用商店]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/catalog/)部署该服务。如果你想在现有的环境中部署**Rancher Secrets**服务，你可以通过**应用商店** -> **官方认证**，然后搜索**Rancher Secrets**找到**Rancher Secrets**服务。如果不部署**Rancher Secrets**服务的话，你仅仅可以创建密文，但是不能在你的容器里使用这些密文。
 
-- 容器内部：体积安装在`/run/secrets/`。
-- 在使用秘密运行容器的主机上：该卷被安装在`/var/lib/rancher/volumes/rancher-secrets/`。
+### 向服务／容器中添加密文
 
-> **注意：** Rancher CLI目前不支持在容器中使用秘密。
+当密文被添加到容器中时，密文会被写到一个tmpfs卷中。你可以在容器里和主机上访问这个卷。
 
-### Docker Hub图像
+* 在使用该密文的容器中：这个卷被挂载在`/run/secrets/`.
+* 在运行使用该密文的容器所在的主机上：这个卷被挂载在`/var/lib/rancher/volumes/rancher-secrets/`.
 
-Docker在许多官方存储库中提供了支持，以通过文件传递秘密。要利用这个，附加`_FILE`到环境变量名称和值将是`/run/secrets/NAME>`。当容器启动时，文件中的值将被分配给环境变量。
+#### 通过Rancher命令行添加密文到服务中
 
-例如，启动MySQL容器时，可以将环境变量设置为：
+> **注意：** 密文是在compose文件版本3中被引入的。由于Rancher不支持compose文件版本，所以我们在版本2中加入了密文功能。
+
+你可以在`docker-compose.yml`里，通过配置服务的`secrets`值来指定一个或者多个密文。密文文件的名称与在Rancher中加入的密文名称相同。在默认情况下，将使用用户ID`0`和组ID`0`创建该密文文件，文件权限为`0444`。在`secrets`里将`external`设置为`true`确保Rancher知道该密文已经被创建成功了。
+
+##### 基础示例`docker-compose.yml`
+```yaml
+version: '2'
+services:
+  web:
+    image: sdelements/lets-chat
+    stdin_open: true
+    secrets:
+    - name-of-secret
+    labels:
+      io.rancher.container.pull_image: always
+secrets:
+  name-of-secret:
+    external: true
+```
+
+如果你想要修改密文的默认配置，你可以用`target`来修改文件名，`uid`和`gid`来设置用户ID和组ID，`mode`来修改文件权限。
+
+##### 修改密文文件配置示例`docker-compose.yml`
+```yaml
+version: '2'
+services:
+  web:
+    image: sdelements/lets-chat
+    stdin_open: true
+    secrets:
+    - source: name-of-secret
+      target: different-target-filename
+      uid: "1"
+      gid: "1"
+      mode: 0400
+    labels:
+      io.rancher.container.pull_image: always
+secrets:
+  name-of-secret:
+    external: true
+```
+Racnher可以在创建应用的时候创建密文。你可以通过指定`file`参数，使Rancher在创建应用并启动服务之前创建密文。该密文值来自你指定的文件内容。
+
+##### 指定多个密文并且在启动服务前创建密文的示例`docker-compose.yml`
+```yaml
+version: '2'
+services:
+  web:
+    image: sdelements/lets-chat
+    stdin_open: true
+    secrets:
+    - name-of-secret
+    - another-name-of-secret
+    labels:
+      io.rancher.container.pull_image: always
+secrets:
+  name-of-secret:
+    external: true
+  another-name-of-secret:
+    file: ./another-secret
+```
+
+#### 通过Rancher UI添加密文到服务中
+
+你可以在创建服务/容器页面的密文页里，向服务/容器中添加密文。
+
+1. 点击**添加密文**
+2. 下拉列表中会列出，已经加入到Rancher中的全部可用密文。你可以选择一个你想要使用的密文。
+3. （可选操作） 默认情况下，挂载到容器内的密文文件的名称为密文名。你可以在映射名称栏，给容器中的密文文件设置一个不同的文件名。
+4. （可选操作） 如果你想要修改默认的文件所有者和文件权限。你可以点击**自定义文件所有者及权限**链接来更新配置。你可以修改用户ID，组ID和文件权限。用户ID的默认值为`0`，组ID的默认值为0，文件权限的默认值为`0444`。
+5. 点击 **创建**.
+
+### Docker Hub镜像
+
+Docker在很多自己的官方镜像中都支持通过文件来传递密文。你可以添加以`_FILE`结尾的环境变量名并且以`/run/secrets/NAME>`为值的环境变量，来达到这一效果。当在容器启动时，文件中的密文值将会被赋给去掉`_FILE`的环境变量里。
+
+例如，当你部署一个MySQL容器的时候，你可以配置如下环境变量。
 
 ```
 -e MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db_password
-
 ```
 
-该`MYSQL_ROOT_PASSWORD`环境变量将使用值从文件。
+`MYSQL_ROOT_PASSWORD`环境变量的值，就是你所指定这个文件的内容。这个文件就是我们在Rancher中添加的密文。这样你就可以很方便的从环境变量中获取在Rancher中配置的密文，而不用自己去读取密文文件。但并不是所有镜像都支持这个功能。
 
-### 已知的漏洞
+### 已知的安全隐患
 
-#### 妥协的牧场服务器容器
+#### 被入侵的Rancher Server容器
 
-存储在Rancher中的秘密包含与CI系统相同的信任水平，如Travis CI和Drone。由于加密密钥直接存储在Rancher服务器容器中，所以Rancher服务器的任何妥协都应该被视为秘密数据的妥协。Rancher将在以后的版本中努力减轻这种情况。
+存储在Rancher中的密文和存储在CI系统（如Travis CI和Drone）中的密文安全程度是一样。由于加密密钥直接存储在Rancher Server容器中，所以如果Rancher Server容器被入侵，全部的密文都能被黑客获取到。Rancher将在以后的版本中努力降低这种情况的安全隐患。
 
-> **注意：**如果您正在使用保险库进行加密，请创建一个策略，限制Rancher服务器使用的令牌的访问。
+> **注意：** 如果你使用Vault进行加密，你需要创建一个策略来限制Rancher Server所用的token的访问权限。
 
-#### 被妥协的主机
+#### 被入侵的主机
 
-如果主机受到威胁，则可以访问主机上所有容器的秘密。攻击者无法列出或请求放置在主机上的其他秘密。
+如果一台主机被入侵了，这台主机上所运行的容器中使用到的全部密文，都可以被读取。 但是黑客获取不到其他主机上的额外密文。
 
 #### 容器访问
 
-如果用户有权访问能够执行到容器中，则可以通过容器中存储的卷来访问容器的秘密。容器可以通过以下方法访问：
+如果一个用户可以exec进入到容器中，该用户可以通过容器中挂载的卷查看到密文值。可以通过如下方式访问容器：
 
-- UI访问通过“Exec Shell”
-- 牧场CLI
-- 搬运工人
+  * UI点击"执行命令行"
+  * Rancher命令行工具
+  * Docker原生命令

@@ -1,25 +1,30 @@
 ---
-title: Using Rancher with SELinux enabled
-layout: rancher-default-v1.6
+title: Using Rancher with SELinux Enabled
+layout: rancher-default-v1.6-zh
 version: v1.6
 lang: zh
 ---
 
-## 使用Rancher启用SELinux - RHEL / CcntOS
+## 在SELinux模式下使用Rancher - RHEL/CentOS
+---
 
-------
+_从1.6+版本后支持_
 
-*适用于Rancher 1.6+*
+为了使Rancher在RHEL/CentOS的SELinux模式下正常工作，你需要在安装有RPM包`container-selinux-2.14`（或更高的版本）的主机上运行Rancher Server容器。同时，全部的agent[主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/)也要安装这个包。如果你安装了较低版本的`container-selinux`包，你需要构建额外的SELinux模块，从而使Rancher正常工作。
 
-如果您正在RHEL / CcntOS上运行Rancher，并希望启用SELinux，则需要安装附加的SELinux模块。
+你可以通过这个命令来查看这个包的版本：`rpm -q container-selinux`。
 
-本文档中的步骤是必须的解决方法，直到在RHEL和CcntOS中加载了这些模块。一旦在RHEL和CcntOS中加载了这些模块，则不再执行这些步骤。
+```
+# Check container-selinux version
+$ rpm -q container-selinux
+container-selinux-2.19-2.1.el7.noarch
+```
 
-这些步骤必须发生在运行Rancher服务器容器以及任何[主机的](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/installing-rancher/selinux/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts)实例上。
+## 构建额外的SELinux模块
 
-### 为构建模块安装依赖包
+### 安装包并构建SELinux模块
 
-为了构建附加的SELinux模块，您需要安装`selinux-policy-devel`软件包。
+为了安装另外的SELinux模块，你需要安装 `selinux-policy-devel` 这个包。
 
 ```bash
 $ yum install selinux-policy-devel
@@ -27,12 +32,12 @@ $ yum install selinux-policy-devel
 
 ### 构建模块
 
-创建一个名为`virtpatch.te`具有以下内容的文件。
+创建一个名叫 `virtpatch.te` 的文件并写入以下内容
 
 ```
 policy_module(virtpatch, 1.0)
 
-gcn_require(`
+gen_require(`
   type svirt_lxc_net_t;
 ')
 
@@ -45,14 +50,14 @@ allow svirt_lxc_net_t self:netlink_xfrm_socket create_netlink_socket_perms;
 $ make -f /usr/share/selinux/devel/Makefile
 ```
 
-运行`make`命令后，如果构建成功，则应创建一个名为`virtpatch.pp`的文件。`virtpatch.pp`是编译的SELinux模块。
+运行 `make` 命令后，当构建成功后，一个名叫 `virtpatch.pp` 的文件将会被创建。`virtpatch.pp` 是编译后的SELinux模块
 
 ### 加载模块
 
-SELinux模块构建完成后，加载模块。
+在SELinux模块被构建后，使用以下命令加载。
 
 ```
-#Load the module
+# Load the module
 $ semodule -i virtpatch.pp
 # Verify the module is loaded
 $ semodule -l

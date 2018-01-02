@@ -23,6 +23,7 @@
                  <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/basic-ssl-config/#example-nginx-configuration">Example NGINX Configuration</a></li>
                  <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/basic-ssl-config/#example-apache-configuration">Example Apache Configuration</a></li>
                  <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/basic-ssl-config/#example-haproxy-configuration">Example HAProxy Configuration</a></li>
+                 <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/basic-ssl-config/#example-f5-big-ip-configuration">Example F5 BIG-IP Configuration</a></li>
                  <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/basic-ssl-config/#elb">Using an ELB in AWS with SSL</a></li>
                  <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/basic-ssl-config/#using-self-signed-certs-beta">Using Self Signed Certs</a></li>
                </ul>
@@ -32,6 +33,7 @@
                <ul>
                  <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/no-internet-access/#using-a-private-registry">Using a Private Registry</a></li>
                  <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/no-internet-access/#using-an-http-proxy">Using an HTTP Proxy</a></li>
+                 <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/no-internet-access/#catalogs">Catalogs</a></li>
                </ul>
           </li>
         </ul>
@@ -63,6 +65,7 @@
                 </ul>
           </li>
           <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/#site-access">Rancher Site Access</a></li>
+          <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/#restricting-concurrent-sessions">Restricting Concurrent Sessions</a></li>
           <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/accounts/">Accounts</a></li>
           <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/settings/#host-registration">Host Registration</a></li>
           <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/settings/#catalog">Enabling Catalogs</a></li>
@@ -74,7 +77,7 @@
           <ul>
             <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/">Managing Environments</a></li>
             <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#what-is-an-environment-template">Environment Templates</a></li>
-            <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#membership-roles">Roles in an Environments</a></li>
+            <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#membership-roles">Roles in an Environment</a></li>
           </ul>
     </li>
     <li>
@@ -109,6 +112,7 @@
         <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/registries/#insecure-registries">Insecure Registries</a></li>
         <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/registries/#self-signed-certificates">Self Signed Certificates</a></li>
         <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/registries/#using-amazons-ecr-registry">Using Amazon's ECR</a></li>
+        <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/registries/#using-google-container-registry">Using Google Container Registry</a></li>
         <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/registries/#changing-the-default-registry">Changing the Default Registry</a></li>
         <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/registries/#limiting-which-registries-can-be-used">Limiting Registries</a></li>
       </ul>
@@ -127,6 +131,7 @@
                   <a href="#">Persistent Storage Service<i class="pull-right fa fa-angle-down"></i></a>
                   <ul>
                       <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/storage-service/">Persistent Storage Service</a></li>
+                      <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/storage-service/rancher-nfs/">Rancher NFS</a></li>
                       <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/storage-service/rancher-ebs/">Rancher EBS</a></li>
                   </ul>
               </li>
@@ -148,6 +153,7 @@
           <ul>
                 <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/stacks/">Stacks</a></li>
                 <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-services/">Services</a></li>
+                <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/volumes/">Volumes</a></li>
                 <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-load-balancers/">Load Balancers</a></li>
                 <li>
                     <a href="#">Load Balancer Options in the UI<i class="pull-right fa fa-angle-down"></i></a>
@@ -211,6 +217,7 @@
               <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/resiliency-planes/">Resiliency Planes</a></li>
               <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/providers/">Cloud Providers</a></li>
               <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/private-registry/">Private Registry</a></li>
+              <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/rbac/">RBAC</a></li>
               <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/disaster-recovery/">Disaster Recovery</a></li>
               <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/backups/">Backups</a></li>
               <li><a href="{{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/storage/">Persistent Storage</a></li>
@@ -272,7 +279,7 @@
         </ul>
     </li>
     <li>
-        <a href="#">Docs Archive<i class="pull-right fa fa-angle-down"></i></a>
+        <a href="#" class="btn-docs">Docs Archive<i class="pull-right fa fa-angle-down"></i></a>
         <ul>
             <li><a href="{{site.baseurl}}/rancher/v1.5/{{page.lang}}/">Rancher v1.5</a></li>
             <li><a href="{{site.baseurl}}/rancher/v1.4/{{page.lang}}/">Rancher v1.4</a></li>

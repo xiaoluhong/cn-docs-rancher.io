@@ -1,37 +1,38 @@
 ---
 title: Adding Packet Hosts
-layout: rancher-default-v1.6
+layout: rancher-default-v1.6-zh
 version: v1.6
 lang: zh
 ---
 
-## 添加分组主机
+## 添加Packet主机
+---
 
-------
+Rancher 通过使用 `docker machine` 来管理 [Packet](https://www.packet.net/) 提供的主机。
 
-Rancher支持配置[数据包](https://www.packet.net/)主机`docker machine`。
+### 获取Packet访问凭证
 
-### 查找分组凭证
+为了能启动 Packet 主机，需要获取由 Rackspace 提供的 **API Key（接口密钥）**。首先，登录 Packet，然后：
 
-为了启动数据包主机，您需要一个**API密钥**。登录到您的数据包帐户。
+1. 切换到 [api-key（接口密钥）](https://app.packet.net/portal#/api-keys)页面，创建一个新接口密钥；
 
-1. 导航到[api-key页面](https://app.packet.net/portal#/api-keys)。如果您尚未创建一个api密钥，则需要添加一个密钥。
-2. 在新的api密钥屏幕中，您将介绍一个描述（例如牧场主），然后单击**生成**。
-3. 新创建的**令牌**将可见，供您在Rancher中复制和使用。
+2. 在创建新接口密钥的界面上，可以给新接口密钥增加一个描述，然后点击 **Generate（创建）**；
 
-### 启动数据包主机
+3. 接下来可以看到新创建的 **Token（令牌）**，复制出来并妥善保管。
 
-现在我们已经发现了我们的**令牌**，我们已经准备好推出我们的Packet主机了。在基础**结构 - >主机**选项卡下，单击**添加主机**。选择**分组**图标。
+### 启动Packet主机
 
-1. 使用滑块选择要启动的主机数量。
-2. 提供一个**名称**，如果需要，**说明**主机。
-3. 提供您从Packet帐户创建的**API密钥**。
-4. 提供**项目**要启动主机。此项目位于您的数据包帐户中。
-5. 选择**图像**。`docker machine`Rancher还支持Packet的任何支持。
-6. 选择图像的**大小**。
-7. 选择**地区**要启动英寸
-8. （可选）向主机添加**标签**，以帮助组织主机并[安排服务/负载均衡器，](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/packet/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/scheduling)或[使用主机IP以外的IP](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/packet/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/external-dns-service/#using-a-specific-ip-for-external-dns)对[外部DNS记录进行编程](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/packet/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/external-dns-service/#using-a-specific-ip-for-external-dns)。
-9. （可选）`docker-machine create`使用[Docker引擎选项](https://docs.docker.com/machine/refercnce/create/#specifying-configuration-options-for-the-created-docker-cngine)自定义命令。
-10. 完成后，单击**创建**。
+选择 **Infrastructure -> Hosts（基础架构 -> 主机）**，点击 **Add Host（添加主机）**，选择 **Packet**图标。
 
-一旦您点击了创建，Rancher将创建数据包并启动“大屠杀者*代理”*容器。在一两分钟内，主机将处于活动状态并可用于[服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/packet/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/adding-services)。
+1. 拖动滑条来选择需要启动的主机数目；
+2. 输入 **Name（名称）**，需要详细备注的时候就填写 **Description（描述）**；
+3. 输入刚才获取的 **API Key（接口密钥）**；
+4. 输入希望启动的 **Project（项目）**，必须是 Packet 账户中支持的；
+5. Rancher 对 `docker machine` 的支持和 Packet 是一样的，所以选择需要启动的 **Image（镜像）** 即可；
+6. 输入 **Size（大小）**；
+7. 选择希望主机启动时所在的 **Region（地域）**
+8. 必要时，添加 **[labels（标签）]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/#labels)** 来辅助管理主机以及 [调度服务或负载均衡]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/scheduling/)，也可以 [通过DNS-IP映射来管理不在 Rancher 内启动的服务]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/external-dns-service/#为外部dns使用特定的ip)；
+9. 必要时，通过 **Advanced Options（高级选项）**，定制化 [Docker engine options（Docker引擎选项）](https://docs.docker.com/machine/reference/create/#specifying-configuration-options-for-the-created-docker-engine) 来控制 `docker-machine create` 时用到的选项指令；
+10. 一切准备就绪后, 点击 **Create（创建）**。
+
+点击创建后，Rancher 将创建 Packet 的主机，接着在主机上启动一个 _rancher-agent_ 的容器。几分钟之后，就可以通过 [services（服务）]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-services/) 页面看到一个 Rancher 的主机被启动了。

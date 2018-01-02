@@ -1,31 +1,30 @@
 ---
 title: Creating Private Catalogs
-layout: rancher-default-v1.6
+layout: rancher-default-v1.6-zh
 version: v1.6
 lang: zh
 ---
 
-#### 创建私人目录
+## 创建私有应用商店
+---
 
-------
-
-Rancher目录服务需要以特定格式构建私有目录，以使目录服务能够将其转换为Rancher。
+私有应用商店要遵循应用商店服务指定的格式才可以正常的在Rancher中显示出来。
 
 ### 模板文件夹
 
-根据为环境选择的容器编排类型，目录模板显示在Rancher中。
+应用商店将会根据环境中的调度引擎来显示不同的应用商店模板。
 
-#### 基于编排类型的模板
+#### 基于不同调度引擎的模板
 
-* _Cattle_ orchestration: cntries in the UI are from the `templates` folder
-* _[Swarm]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/swarm/)_ orchestration: cntries in the UI are from the `swarm-templates` folder
-* _[Mesos]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/mesos/)_ orchestration: cntries in the UI are from the `mesos-templates` folder
+* _Cattle_ 调度引擎: 界面中的应用模板来自`templates`文件夹
+* _[Swarm]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/swarm/)_ 调度引擎: 界面中的应用模板来自`swarm-templates`文件夹
+* _[Mesos]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/mesos/)_ 调度引擎: 界面中的应用模板来自`mesos-templates`文件夹
 
 ### 基础设施服务模板
 
-可在[环境模板](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/catalog/private-catalog/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts/#what-is-an-cnvironmcnt-template)中启用的[基础架构服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/catalog/private-catalog/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services)来自Rancher中启用的任何目录的文件夹。`infra-templates`
+Rancher的[基础设施服务]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/)可以从[环境模板]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#什么是环境模版)中启用, 这些模板来自于`infra-templates`文件夹。
 
-这些服务也可从“ **目录** ”选项卡中获得，即使可能无法使用所选的编排类型，您也可以查看所有基础架构服务。建议在环境模板创建期间选择基础架构服务，而不是直接从目录中启动它们。
+这些服务从**应用商店**菜单中也可以看到, 你可以看到全部的基础设施服务包括那些和当前的编排调度引擎不兼容的服务. 我们建议从环境模板中启用基础设施服务，而不是直接从应用商店中启动。
 
 ### 目录结构
 
@@ -42,66 +41,74 @@ Rancher目录服务需要以特定格式构建私有目录，以使目录服务�
   |   |-- config.yml
 ...
 ```
-在主目录中，您将需要一个`templates`文件夹。该`templates`文件夹将包含您所创建的每个目录项的文件夹。我们建议每个目录条目都有一个简单的模板名称作为文件夹名称。
+<br>
 
-在目录条目文件夹（例如`cloudflare`）中，将为您的目录条目创建的每个版本都有文件夹。第一个版本应该是`0`，并且每个后续版本将是增量值。例如，版本2将在`1`文件夹中。通过提供新的版本文件夹编号，它提供了一种从先前版本的模板升级堆栈的方法。或者，您可以更新`0`文件夹中的模板，只需重新部署该条目。
+你需要创建一个`templates`文件夹作为根目录。`templates`文件夹将包含所有你想创建的应用的文件夹。我们建议为应用的文件夹起一个简单明了的名称。
 
-> **注意：**每个目录条目将需要一个单词，所以请使用`-`而不是空格用于更长的目录名称。您可以使用该`name`部分的空格`config.yml`。
+在应用模板的文件夹中 (例如 `cloudflare`), 将包含该应用模板的各个版本所对应的文件夹。第一个版本为`0`，后续每个版本加1。比如，第二个版本应该在 `1` 文件夹中。每增加一个新版本的文件夹，你就可以使用这个新版本的应用模版来升级你的应用了。另外，你也可直接更新`0`文件夹中的内容并重新部署应用。
 
-### Rancher目录文件在Rancher目录中显示
+> **注意：** 应用文件夹名称需要为一个单词，文件名中不能包含空格。针对名字比较长的应用请使用`-` 连接符。在`config.yml`中的 `name`你可以使用空格。
 
-在目录条目文件夹中，如何在Rancher目录中显示目录条目的详细信息位于两个文件中。
+### 在Rancher应用商店中展示出的Rancher Catalog文件
 
-- 第一个文件`config.yml`包含您的条目的详细信息。
+在应用商店模板的文件夹中，如何展示应用商店模板详细内容取决于两个文件。
+
+* 第一个文件为 `config.yml`，包含了应用模板的详细信息。
 
 ```yaml
-name: # Name of the Catalog cntry
+name: # 应用商店模板名称
 description: |
-  # Description of the Catalog cntry
-version: # Version of the Catalog to be used
-category: # Category to be used for searching catalog cntries
-maintainer: # The maintainer of the catalog cntry
-liccnse: # The liccnse
-projectURL: # A URL related to the catalog cntry
+  # 应用商店模板描述
+version: # 应用商店模板对应的版本
+category: # 用于模板搜索时的目录
+maintainer: # 该模板的维护者
+license: # 许可类型
+projectURL: # 和模板相关的URL
 ```
-- 第二个文件是目录条目的图标图像。该文件必须带有前缀`catalogIcon-`。
+<br>
 
-对于每一个目录条目，将有至少三个项目：`config.yml`，`catalogIcon-cntry.svg`，和`0`文件夹，其中包含目录条目的第一个版本。
+* 另外一个文件为该模板的logo。该文件的前缀必须为 `catalogIcon-`。
 
-### 牧场主目录模板
+对于每一个应用模板，将至少有以下三个部分组成： `config.yml`, `catalogIcon-entry.svg`, 以及 `0` 文件夹 - 包含该模板的第一个版本配置。
 
-该`docker-compose.yml`和`rancher-compose.yml`是**必需的**文件，以便能够使用牧场主启动服务[牧场主撰写](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/catalog/private-catalog/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/adding-services/#adding-services-with-rancher-compose)。这些文件所在的文件夹中的版本号（即内`0`，`1`等）。
+### Rancher 应用商店模板
 
-本`docker-compose.yml`应该是还可以使用启动文件`docker-compose up`。服务遵循docker-compose格式。
+ `docker-compose.yml`以及`rancher-compose.yml`为在Rancher中使用[Rancher Compose]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-services/#使用-rancher-compose-添加服务)启动服务**必须**提供的两个文件. 该文件将被保存在版本文件夹中。 (如： `0`, `1`, 等等)。
 
-在`rancher-compose.yml`将包含更多的信息，以帮助您自定义目录条目。在该`catalog`部分中，为了使您的目录条目正确解释，将需要一些字段。
+ `docker-compose.yml`为一个可以使用 `docker-compose up`来启动的文件。 该服务遵循docker-compose格式。
 
-`README.md`可以创建一个可选项，它提供了有关如何使用目录服务的冗长描述或注释。
+ `rancher-compose.yml`将包含帮助你自定义应用模板的其他信息。在`catalog`部分中，为了应用模板可以被正常使用，有一些选项是必填的。
 
-**rancher-compose.yml**
+你也可以创建一个可选的 `README.md` , 可以为模板提供一些较长的描述以及如何使用他们。
+
+**`rancher-compose.yml`**
 
 ```yaml
 version: '2'
 catalog:
-  name: # Name of the versioned template of the Catalog cntry
-  version: # Version of the versioned template of the Catalog cntry
-  description: # Description of the versioned template of the Catalog cntry
+  name: # Name of the versioned template of the Catalog Entry
+  version: # Version of the versioned template of the Catalog Entry
+  description: # Description of the versioned template of the Catalog Entry
   minimum_rancher_version: # The minimum version of Rancher that supports the template, v1.0.1 and 1.0.1 are acceptable inputs
   maximum_rancher_version: # The maximum version of Rancher that supports the template, v1.0.1 and 1.0.1 are acceptable inputs
   upgrade_from: # The previous versions that this template can be upgraded from
   questions: #Used to request user input for configuration options
 ```
-因为`upgrade_from`，可以使用三种类型的值。
+<br>
 
-1. 仅允许从1版本升级： `1.0.0`
-2. 如果能够比某个特定版本选择更高或更低：`>=1.0.0.`，`<=2.0.0`
-3. 能够定义[一系列版本](https://github.com/blang/semver#ranges)：`>1.0.0 <2.0.0 || >3.0.0`
+对于 `upgrade_from`, 有三种值可以使用。
 
-### 问题在 `rancher-compose.yml`
+1. 只允许从某一个版本升级： `"1.0.0"`
+2. 可以从高于或低于某一个版本升级： `">=1.0.0"`, `"<=2.0.0"`
+3. 定义一个[区间升级](https://github.com/blang/semver#ranges): `">1.0.0 <2.0.0 || >3.0.0"`
 
-该`questions`部分`catalog`用于允许用户更改服务的配置选项。该`answers`会内的填充`docker-compose.yml`是推出服务之前。
+> **注意：** 如同例子中的配置，请确保你配置的版本号或版本范围带上双引号。
 
-每个配置选项是该`questions`部分的列表项`rancher-compose.yml`。
+### `rancher-compose.yml`中的问题部分
+
+ `应用商店`中`questions` 部分允许用户更改一个服务的一些配置选项。 其`答案` 将在被服务启动之前被预配置在 `docker-compose.yml` 中.
+
+每一个配置选项都在`rancher-compose.yml`的 `questions` 部分配置.
 
 ```yaml
 version: '2'
@@ -114,18 +121,20 @@ catalog:
       required: # (Optional) Whether or not an answer is required. By default, it's considered `false`.
       type: # How the questions are formatted and types of response expected
 ```
-* #### 类型
+<br>
 
-  该`type`部分控制问题在UI中的格式以及预期的响应类型。
+#### 类型
 
-  符合条件的格式有：
+ `type` 控制了问题如何在UI中展现以及需要什么样的答案。
 
-  - `string` 用户界面中将显示一个文本框来捕获答案，答案将被格式化为一个字符串。
-  - `int`用户界面中将显示一个文本框以捕获答案，答案将被格式化为一个数字。UI将在启动模板之前验证其是否为有效的数字。
-  - `boolean`用户界面中将显示一个单选按钮来捕获答案，答案将被格式化为`true`或`false`。如果选择单选按钮，答案将被格式化为`true`。
-  - `password` 用户界面中将显示一个文本框来捕获答案，答案将被格式化为一个字符串。
-  - `service` 将显示环境中所有服务的下拉列表。
-  - `cnum`用户界面中将显示一个下拉菜单，下拉菜单中将显示该`options`部分。
+合法的格式有:
+
+* `string` UI中将显示文本框来获取答案，获取到的答案将被设置为字符串型格式。
+* `int` UI中将显示文本框来获取答案，获取到的答案将被设置为整型格式。 UI会在服务启动前对输入进行校验。
+* `boolean` UI中将通过单选按钮获取答案，获取到的答案将被格式化为`true` 或者 `false`。 如果用户选择了单选按钮，答案将被格式化为 `true`。
+* `password` UI中将显示文本框来获取答案，获取到的答案将被设置为字符串型格式。
+* `service` UI中将展示一个下拉框，所有该环境的服务都会显示出来。
+* `enum` UI中将展示一个下拉框，`options`中的配置将会被展示出来。
 
 ```yaml
 version: '2'
@@ -134,13 +143,13 @@ catalog:
     - variable:
       label:
       description: |
-      type: cnum   
-      options: # List of options if using type of `cnum`
+      type: enum
+      options: # List of options if using type of `enum`
         - Option 1
         - Option 2
 ```
 
-* `multiline` 多行文本框将显示在UI中。
+* `multiline` 多行文本框会被显示在UI中。
 
 ```yaml
 version: '2'
@@ -157,7 +166,7 @@ catalog:
         line.
 ```
 
-* `certificate` 在环境中下载所有可用的证书。
+* `certificate` 该环境的所有可用证书都会显示出来。
 
 ```yaml
 version: '2'
@@ -169,6 +178,6 @@ catalog:
       type: certificate
 ```
 
-### 基于Yeoman的目录生成器
+### 基于Yeoman的应用目录生成器
 
-有一个基于[Yeoman ](http://yeoman.io/)[的开源项目](https://github.com/slashgear/gcnerator-rancher-catalog)，可以用于创建空目录条目的模板。
+这里有一个基于[Yeoman](http://yeoman.io/)的[开源项目](https://github.com/slashgear/generator-rancher-catalog), 可以被用于创建一个空的应用商店目录。

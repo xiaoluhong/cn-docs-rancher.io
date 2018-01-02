@@ -1,256 +1,254 @@
 ---
 title: Upgrading using Rancher Compose
-layout: rancher-default-v1.6
+layout: rancher-default-v1.6-zh
 version: v1.6
 lang: zh
 ---
 
 ## 升级服务
+---
 
-------
+在部署[服务]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-services/)之后, 你可能想要通过修改服务来升级应用。例如，镜像已经被更新了，你想要部署服务的新版本。由于Docker容器是不可变的，为了修改服务，你需要销毁旧的容器并部署新的容器。Rancher提供了两种升级服务的方法。推荐的方式是[服务内升级](#服务内升级)，这种方式会停掉旧的容器并且在这个服务内启动新的容器。 Rancher[UI](#upgrading-services-in-the-ui)仅支持服务内升级。你也可以通过[Rancher Compose命令行](#通过rancher-compose命令行进行服务升级)进行服务内升级。 另一种升级方式为[替换式升级](#替换式升级)。这种升级方式会删除旧的服务并创建一个新的服务，只有通过[Rancher Compose命令行](#通过rancher-compose命令行进行服务升级)才能进行替换式升级。
 
-启动[服务后](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/upgrading/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/adding-services)，您可能已经决定要更改服务以更新应用程序。例如，图像可能已更新，并且您要启动服务的更新版本。由于Docker容器是不可变的，为了更改您的服务，您将需要销毁旧容器并启动新的容器。Rancher提供了两种升级方法。推荐的[在役升级](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/upgrading/index.md#in-service-upgrade)允许您停止旧容器，并以相同的服务名称启动新的容器。在线升级是[UI](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/upgrading/index.md#upgrading-services-in-the-ui)中唯一支持的类型，而[Rancher Compose](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/upgrading/index.md#upgrading-services-with-rancher-compose)也支持升级。在[滚动升级](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/upgrading/index.md#rolling-upgrade)只能通过牧场主撰写的支持，
+> **注意：** 如果你是想对你的服务进行扩容，你可以修改服务页面的数量参数，或者也可以用过Rancher Compose命令行来进行服务扩容。 `rancher-compose scale <服务名>=<新的容器数量>`.
 
-> **注意：**如果您希望增加服务规模，您可以在UI中编辑服务规模或使用`rancher-compose scale <serviceName>=<newNumber>`。
+### 服务内升级
 
-### 在线升级
+#### 通过UI进行升级
 
-#### 在UI中升级服务
+任何服务都可以通过UI来进行升级。和[部署服务]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-services/)类似，你之前选择的全部Docker参数都会被保留，你可以修改这些参数的值。额外还有一些升级专用的选项：
 
-任何服务都可以通过UI进行升级。与[启动服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/upgrading/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/adding-services)类似，服务将具有之前选择的所有Docker选项，您将能够将其更新为任何新值。还有几个升级选项：
+* **批量大小**：服务中的容器升级会被分成几批，批量大小代表每次你想要停掉的旧容器数量和启动的新容器数量。例如一共有10个容器要升级，当批量大小为2时，每次会升级2个容器，停掉2个旧的，启动2个新的，分5批完成升级。
+* **批量间隔**：每次批量升级间隔的时间，例如10个容器，每次升级5个，批量时间为5秒。在完成5个容器升级后，在等待5秒后，会升级剩下的5个容器。
+* **启动行为**：默认情况下，旧的容器会先停止，然后再启动新的容器。你可以选择先启动新的容器，再停止旧的容器。
 
-- **批量大小**：要从旧服务中停止并从新服务一次启动的容器数。
-- **批次间隔**：从旧服务停止集装箱和启动新服务中的集装箱之间的时间。
-- **启动行为**：默认情况下，旧容器将在开始启动新容器之前停止。您可以选择允许在旧容器停止之前启动新容器。
+在配置好了新的服务参数和升级专用参数以后，点击**升级**。
 
-选择升级选项并定义新服务后，选择**升级**。
+当全部旧的容器被停掉，新的容器启动成功之后，服务将会变成 _Upgraded_ 状态。在这个阶段，你应该去测试你的新服务来确保服务可以正常工作。然后，可以通过点击**升级完成**来完成升级。如果你的服务出现了异常，你可以点击**回滚**来回退到之前的服务。
 
-一旦所有的旧集装箱已经停止并且新的集装箱已经起作用，服务将处于*升级*状态。在这个阶段，您应该测试新服务，以确保在选择**完成升级**之前正常工作。如果您的新服务不是您预期的，您可以**回滚**到原始服务。
+#### 通过Rancher Compose命令行进行服务升级
 
-#### 使用Rancher Compose升级服务
+通过Rancher Compose命令行进行服务内升级时，现有服务会按照`docker-compose.yml`中的内容进行升级，服务中旧的容器会被删除。升级相关的参数需要传递给`rancher-compose up`命令。如果命令加上`--upgrade`参数，`docker-compose.yml`内定义的服务如果发生了改变，这个服务会被按照文件中的配置进行升级。和在UI上进行升级操作一样，服务内升级分为两个步骤，需要用户确认来完成升级或者执行回滚。
 
-使用Rancher Compose，如果您选择进行在职升级，则现有服务中的容器将升级到提供`docker-compose.yml`的服务，并删除服务中的原始容器。为了执行此操作，`rancher-compose up`命令中传递升级选项。通过添加该`--upgrade`选项，将 `docker-compose.yml`将堆栈中具有相同名称的任何服务升级到新的服务定义。就像UI一样，在线升级是一个两步的过程，因为我们要求用户确认升级是可以的。
+##### 第一步： 进行升级
 
-##### 步骤1：执行升级
+升级的时候，你可以通过`docker-compose.yml`文件升级整个应用栈或者升级应用内指定的服务。
 
-对于升级，您可以升级整个堆栈或特定的服务 `docker-compose.yml`
-
-```
-＃升级堆栈中的所有服务（即docker-compose.yml）
-$ rancher-compose up  - 升级
-＃升级特定服务（即service1和service2）
+```bash
+# 升级应用栈内的全部有变化的服务
+$ rancher-compose up --upgrade
+# 升级应用栈内指定的服务 (例如仅升级service1和service2)
 $ rancher-compose up --upgrade service1 service2
-＃强制升级，即使服务的docker-compose.yml没有更改 
-$ rancher -compose up --force-upgrade
+# 强制触发服务升级，即使在docker-comopse.yml文件中未被改变的服务，也将被升级。
+$ rancher-compose up --force-upgrade
 ```
-
 **升级选项**
 
-| 选项                                    | 描述                         |
-| ------------------------------------- | -------------------------- |
-| `--pull`， `-p`                        | 在进行升级之前，请先对所有已有图像的主机进行图像拉扯 |
-| `-d`                                  | 不要阻止和登录                    |
-| `--upgrade`，`-u`，`--recreate`         | 如果服务已更改，请升级                |
-| `--force-upgrade`， `--force-recreate` | 升级不管服务是否改变                 |
-| `--confirm-upgrade`， `-c`             | 确认升级成功并删除旧容器               |
-| `--rollback`， `-r`                    | 回滚到以前部署的版本                 |
-| `--batch-size` “2”                    | 一次升级的容器数                   |
-| `--interval` “1000”                   | 更新间隔（以毫秒为单位）               |
+选项 | 描述
+---|---
+`--pull`, `-p`			|	升级前，在每台运行该容器的主机上执行docker pull操作，尝试获取新镜像
+`-d`			|		在后台运行升级
+`--upgrade`, `-u`, `--recreate`		| 仅升级在docker-compose.yml中配置有变化的服务
+`--force-upgrade`, `--force-recreate` |	不论服务的配置是否有变化，全部进行升级
+`--confirm-upgrade`, `-c` |		升级完成后自动确认升级成功，删除旧的容器
+`--rollback`, `-r`		|	回滚到之前的版本
+`--batch-size` "2"	|		每批升级的容器个数
+`--interval` "1000"	|		每批升级的时间间隔
 
-**拉**
+<br>
+**拉取镜像**
 
-升级过程中，您还可以`docker pull`在部署映像之前执行。由于主机通常会使您的映像已经被缓存，所以您可能需要添加`--pull`选项来拉取主机上最新的映像。
+在升级时，你可能需要在部署容器之前执行`docker pull`，因为主机上可能已经有了该镜像的缓存。你可以通过`--pull`参数，在部署容器之前拉取最新的镜像。
 
-```
-＃在升级过程中，强制拉动主机以获取最新图像 
-$ rancher-compise up --upgrade --pull
+```bash
+# 在升级时，强制每台主机在部署容器之前，执行docker pull更新镜像
+$ rancher-compose up --upgrade --pull
 ```
 
 **批量大小**
 
-默认情况下，新服务的容器在升级过程中一次启动。您可以通过传入`--batch-size`和更改数字来更改要升级的容器数量。这个数字是在升级过程中在新服务中启动的容器数量。
+在默认的情况下，每批升级服务的2个容器。你可以通过`--batch-size`参数来设置每批所更新的镜像数量。
 
-```
-＃ service2的容器将以3 
-＃的批次启动，直到达到 
-service2的规模达到 $ rancher-compise up --upgrade --batch-size 3
-```
-
-**间隔**
-
-默认情况下，在升级过程中，新服务上的容器已启动，旧服务上的容器被删除之后，等待2秒。您可以通过传入间隔`--interval`和间隔的毫秒数来覆盖此间隔。
-
-```
-＃设置时间间隔为30秒，这是之间的时间
-＃当新服务的集装箱已经开始和
-＃当老服务的容器取出 
-$牧场主，撰写升级服务1服务2 --interval “ 30000 ”
+```bash
+# 升级服务时每次会启动3个新的容器
+# 直到新的容器达到设置的数量
+$ rancher-compose up --upgrade --batch-size 3
 ```
 
-**停止旧集装箱之前开始新的集装箱**
+**批量间隔**
 
-默认情况下，在线升级会停止现有容器，然后启动新的容器。要在停止旧容器之前启动新容器，必须在其中提供其他内容`rancher-compose.yml`。
+在默认的情况下，每次新的容器启动和旧的容器停止之间有2秒的时间间隔。你可以通过`--interval`来覆盖这个时间间隔，参数后面跟着的时间间隔是以毫秒为单位的。
 
-```
-版本：' 2 '
-服务：
-   myservice：
-     upgrade_strategy：
-       start_first：true
+```bash
+# 将服务的升级间隔设置为30秒。
+# service1和service2的新容器启动和他们的旧容器停止之间为30s
+$ rancher-compose up --upgrade service1 service2 --interval "30000"
 ```
 
-```
-＃用上面的yaml升级myservice将首先启动新服务 
-$ rancher-compise up --upgrade myservice
-```
+**在停止旧的容器前启动新的容器**
 
-##### 步骤2：确认升级
+在默认的情况下，服务内升级会先停掉旧的容器，再启动新的容器。如果想要先启动新的容器，再停止旧的容器，你需要在`rancher-compose.yml`文件中写入如下内容。
 
-验证升级通过验证后，您需要确认升级完成。需要确认，因为它允许用户在必要时回滚到旧版本。**确认升级后，不能再回滚到旧版本。**
-
-```
-＃确认升级完成并成功 
-$ rancher -compose up  - 升级--confirm-upgrade
+```yaml
+version: '2'
+services:
+  myservice:
+    upgrade_strategy:
+      start_first: true
 ```
 
-**滚回来**
+<br>
 
-执行升级后，如果升级后的服务有问题，Rancher会提供回滚到旧服务的功能。只有当您**尚未**确认升级时，才能完成此操作。
-
+```bash
+# 通过上面的rancher-compose.yml配置，会先启动myservice服务中的新容器，然后再停掉旧容器。
+$ rancher-compose up --upgrade myservice
 ```
-＃回滚到以前的版本 
+
+##### 第二步：确认升级
+
+在你验证该服务升级成了并且可以正常工作了之后，你需要在Rancher里确认升级成功。这种设计是因为有时候你可能想要回滚你的服务。**当你点击完成升级后，就不能再进行回滚操作了**
+
+```bash
+# 下面的命令可以确认升级成功，不需要在UI上点击完成升级。
+$ rancher-compose up --upgrade --confirm-upgrade
+```
+
+**回滚**
+
+在升级过程完成之后，你的服务可能发生了问题不能正常工作。Rancher支持回滚功能，可以把服务回滚到升级之前的状态。回滚操作只能在**点击完成升级之前**进行。
+
+```bash
+# 回滚到之前的版本
 $ rancher-compose up --upgrade --rollback
 ```
 
-### 滚动升级
+### 替换式升级
 
-滚动升级是创建新服务来替换现有的旧服务。而不是删除容器并且新容器在同一服务中启动，因此将创建一个全新的服务。这种类型的升级只支持Rancher Compose。执行滚动升级到新服务的命令很简单：
+替换式升级会通过创建一个新的服务来替换旧的服务，而不是在同一个服务内停止旧的容器并启动新的容器。只有Rancher Compose命令行才支持这种升级方式，UI上不可以。替换式升级操作非常简单：
 
-```
+```bash
 $ rancher-compose upgrade service1 service2
 ```
+`service2`是你想要在Rancher里启动的新服务的名字。`service1`是你想要在Rancher里停止并替换的服务。当`service2`被部署之后，`service1`里面的容器会被删除，但是服务本身并不会从Rancher里删除，只是容器的数量会变为0。
 
-`service2`是您要在Rancher中启动的新服务的名称。`service1`是您想要在Rancher中停止的服务的名称。由于`service2`部署，在集装箱`service1`从牧场主被删除。该服务不会从Rancher中删除，但服务的规模将被提高到0。
+这两个服务名都需要被定义在`docker-compose.yml`里面。`service1`只需要把服务名在yml文件中定义即可，Rancher Compose会用这个名字来找到相应的服务。`service2`则需要在yml文件中定义全部需要的配置，Rancher Compose命令行会根据文件中的配置来部署`service2`。
 
-在里面`docker-compose.yml`，这两个服务名称都需要包括在内。因为`service1`，只有Rancher Compose才能在Rancher中找到服务所需的服务名称。因为`service2`，服务将需要填充所有的服务细节，以使Rancher Compose启动服务。
+#### 示例 `docker-compose.yml`
 
-#### 例 `docker-compose.yml`
-
-```
-版本：“ 2 ”
-服务：
-   客服1：
-   ＃没有什么需要真正放在文件作为服务已运行
-  服务2：
-     图片：WordPress的
-    链接：
-     ＃定义任何出站链接到堆栈中其它服务 
-    - DB：MySQL的
+```yaml
+version: '2'
+services:
+  service1:
+  # 这里不需要额外的参数，因为service1已经在运行中了。
+  service2:
+    image: wordpress
+    links:
+    - db:mysql
 ```
 
-默认情况下，链接到`service1`（即入站链接）的任何负载平衡器或服务将自动更新为新的链接`service2`。如果您不希望创建这些链接，您可以[设置一个选项，使其不被创建](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/upgrading/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/upgrading/#updating-inbound-links)。
+默认情况下，全部的指向`service1`的负载均衡或者是服务连接都会被自动更新并指向`service2`。如果你不想创建这些连接，你可以通过设置来[禁止连接创建]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/upgrading/#更新连接)。
 
-> **注意：**`rancher-compose.yml`升级服务时不需要使用文件。默认情况下，新服务的规模基于旧服务的规模。您可以通过传递`--scale`选项来覆盖此比例。
+> **注意：** 升级服务时并不需要`rancher-compose.yml`文件。 在默认情况下，新服务中的容器数量和旧服务中的容器数量相同。你可以通过传递`--scale`参数来设置容器的数量。
 
-#### 升级过程中的缩放
+#### 升级过程中的容器数量
 
-新服务和旧服务的容器总数超过新服务的最终规模之前，容器不会从旧服务中删除。
+直到新的服务中的容器数量和旧的服务中的容器数量达到你设定的数量时，旧服务中的容器才会被删除。
 
-#### 例：
+#### 示例:
 
+```bash
+$ rancher-compose upgrade service1 service2 --scale 5
 ```
-$ rancher-compose upgrade service1 service2  -  scale 5
-```
 
-`service1`有2个集装箱的规模，正在升级`service2`，最终将有5个集装箱。
+`service1`中有两个容器，你想要把它升级为`service2`，`service2`中想要启动5个容器。
 
-| `service1` | `service2` | 笔记                                       |
-| ---------- | ---------- | ---------------------------------------- |
-| 2          | 0          | `service1` 正在运行2个容器。                     |
-| 2          | 2          | `service2`一次启动2个容器（默认[批量大小](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/upgrading/index.md#batch-size)）。 |
-| 2          | 4          | `service2` 启动另外2个容器。                     |
-| 1          | 4          | 在上一步之后，新旧集装箱的总和（6）大于最终规模（5），`service1`停止并移除其中一个集装箱，以维持最终的5个等级。 |
-| 1          | 五          | `service2` 仅开始1个集装箱达到5的最终规模。             |
-| 0          | 五          | `service1` 删除最后运行的容器。                    |
+`service1` | `service2` | 备注
+---|---|---
+2 | 0 |  `service1`在运行中，并且有两个容器。
+2 | 2 | `service2`每批启动两个容器(默认[批量数量](#批量大小))。
+2 | 4 | `service2`第二批时，再启动两个容器。
+1 | 4 | 在上一步，新旧容器的数量总和为6个，已经超过目标数量的5个。这时会停掉`service1`里的一个容器，使新旧容器数量为5个。
+1 | 5 | `service2`再启动一个容器，达到目标的5个容器。
+0 | 5 | `service1`删除最后一个容器。
 
-#### `Upgrade`命令选项
+#### `Upgrade`命令的参数
 
-使用该`upgrade`命令，可以传入几个选项来自定义升级。
+`upgrade`命令，可以接受几个参数来自定义升级行为。
 
-| 选项                  | 描述                         |
-| ------------------- | -------------------------- |
-| `--batch-size` “2”  | 一次升级的容器数                   |
-| `--scale` “-1”      | 运行容器的最终数量                  |
-| `--interval` “2000” | 更新间隔（以毫秒为单位）               |
-| `--update-links`    | 更新目标服务上的入站链接               |
-| `--wait`， `-w`      | 等待升级完成                     |
-| `--pull`， `-p`      | 在进行升级之前，请先对所有已有图像的主机进行图像拉扯 |
-| `--cleanup`， `-c`   | 升级后删除原始服务定义，意味着等待          |
+参数 | 描述
+---|---
+`--batch-size` "2" |	每批升级的容器个数
+`--scale` "-1"	|		最终要运行的容器数量
+`--interval` "2000" |		每批升级的时间间隔
+`--update-links` |	更新指定服务的连接
+`--wait`, `-w`	|		等待升级完成
+`--pull`, `-p`	|		升级前，在每台运行该容器的主机上执行docker pull操作，尝试获取新镜像
+`--cleanup`, `-c` |		在升级完毕后，删除旧的服务
 
 ##### 批量大小
 
-默认情况下，新服务的容器在升级过程中一次启动。您可以通过传入`--batch-size`和更改数字来更改要升级的容器数量。这个数字是在升级过程中在新服务中启动的容器数量。
+在默认情况下，升级的时候每次启动2个新服务的容器。你可以通过`--batch-size`参数来设置每批启动的容器个数。
 
-```
-＃ service2的容器将以3 
-＃的批次启动，直到达到service2 的规模 
+```bash
+# 升级的过程中，每批将会启动3个service2的容器，直到service2的容器数量达到设定的值。
 $ rancher-compose upgrade service1 service2 --batch-size 3
 ```
 
-##### 最终量表
+##### 最终数量
 
-默认情况下，新服务的规模基于旧服务的规模。您可以通过传入`--scale`和更改数字来更改新服务的规模。该数字定义了您在新服务中运行的运行容器的最终比例。
-
-```
-＃将服务规模2设置为8容器 
-$ rancher -compose upgrade service1 service2 --scale 8
-```
-
-> **注意：**旧服务的容器将不会根据批量大小删除。容器在特定批次中启动后，旧服务的容器在旧服务和新服务中的总和超过新服务的最终比例时将被停止并删除。
-
-##### 间隔
-
-默认情况下，在升级过程中，新服务上的容器已启动，旧服务上的容器被删除之后，等待2秒。您可以通过传入间隔`--interval`和间隔的毫秒数来覆盖此间隔。
-
-```
-＃设置时间间隔为30秒，这是之间的时间
-＃当新服务的集装箱已经开始和
-＃当老服务的容器取出 
-$牧场主，撰写升级服务1服务2 --interval “ 30000 ”
-```
-
-##### 更新入站链接
-
-默认情况下，链接**到**旧服务的任何服务也链接到新服务。如果您不希望任何这些服务与新服务相关联，您可以进入，`--update-links="false"`以便不会有新服务的链接。
-
-```
-＃在新服务的设置中不要设置链接到旧服务 
-$ rancher-compose upgrade service1 service2 --update-links = “ false ”
-```
-
-##### 等待升级完成
-
-默认情况下，Rancher Compose将在升级已经传递给Rancher后退出，但升级过程可能尚未完成。通过传递`--wait`或`-w`到`upgrade`命令，牧场主撰写不会退出，直到之后的新服务已经完全启动，旧的服务已经停止。
-
-```
-＃等待升级完成 
-$ rancher -compose upgrade service1 service2 --wait
-```
-
-##### 拉一个新的图像
-
-默认情况下，如果主机上已存在图像，则Rancher Compose将不会拉出图像。通过传递`--pull`或`-p`到`upgrade`命令，牧场主撰写将再次拉动图像即使图像已经在主机上。
-
-```
-＃即使图像已经存在，也可以拉一个新图像 
-$ rancher-compose upgrade service1 service2 -pull
-```
-
-##### 清理原始服务
-
-默认情况下，升级完成后，原始服务将保留在“牧师”中，缩放比例为0。如果您确定您不需要回滚或保存原始服务定义，则可以使用该命令传入`--cleanup`或`-c`选项`upgrade`。此选项意味着`--wait`由Rancher Compose等待升级完成，然后再从Rancher中删除该服务。
+在默认情况下，新服务的容器数量和旧服务之前运行的容器数量相同。你可以通过传递`--scale`参数，来设置新服务所运行容器的数量。
 
 ```bash
-# Cleanup service1 from Rancher after upgrade is complete
+#设置service2升级后的容器数量为8个
+$ rancher-compose upgrade service1 service2 --scale 8
+```
+
+<br>
+
+> **注意：** 旧服务中的容器并不根据批量大小的数量来删除。当新旧服务中的容器数量和，达到设置的最终数量时，旧服务中的容器将会被停止并删除。
+
+##### 批量间隔
+
+在默认的情况下，每次新的容器启动和旧的容器停止之间有2秒的时间间隔。你可以通过`--interval`来覆盖这个时间间隔，参数后面跟着的时间间隔是以毫秒为单位的。
+
+```bash
+# 将服务的升级间隔设置为30秒。
+# service1和service2的新容器启动和他们的旧容器停止之间为30s
+$ rancher-compose upgrade service1 service2 --interval "30000"
+```
+
+##### 更新连接
+
+在默认情况下，全部**指向**旧服务的连接会被设置到新服务上。如果你不想让那些服务连接到新的服务的话，你可以通过`--update-links="false"`参数来禁止这些连接的创建。
+
+```bash
+# 不把指向service1中的连接设置到service2上
+$ rancher-compose upgrade service1 service2 --update-links="false"
+```
+
+##### 等待升级完毕
+
+在默认情况下，Rancher Compose命令行在向Rancher发出升级命令后就会立刻退出。退出的时候升级可能还没执行完毕。通过传递`--wait`或者`-w`到`upgrade`命令，Rancher Compose命令行将在旧的容器被停止且新容器启动后才退出。
+
+```bash
+# 等待升级完成
+$ rancher-compose upgrade service1 service2 --wait
+```
+
+##### 拉取新镜像
+
+在升级时，你可能想在部署容器之前执行`docker pull`，因为主机上可能已经有了该镜像的缓存。你可以通过`--pull`或者`-p`参数，在部署容器之前拉取最新的镜像。
+
+```bash
+# 在启动容器时，先执行docker pull获取最新镜像
+$ rancher-compose upgrade service1 service2 --pull
+```
+
+##### 清除旧的服务
+
+在默认情况下，升级完成后旧的服务不会被删除，只是旧服务中容器的数量为0。如果你觉得并不需要回滚，也不需要保留旧的服务配置。你可以通过传递`--cleanup`或者`-c`参数到`upgrade`命令。这个参数会同时应用`--wait`参数，因为Rancher Compose命令行需要等待升级完成，然后才能删掉旧的服务。
+
+```bash
+# 升级完成后删除service1
 $ rancher-compose upgrade service1 service2 --cleanup
 ```

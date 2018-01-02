@@ -1,52 +1,49 @@
 ---
 title: Installing Rancher Server with No Internet Access
-layout: rancher-default-v1.6
+layout: rancher-default-v1.6-zh
 version: v1.6
 lang: zh
-redirect_from:
-  - /rancher/installing-rancher/installing-server/no-internet-access/
 ---
 
-## 启动没有Internet访问的Rancher服务器
+## 内网启动Rancher
+---
 
-------
+不可对外访问的网络环境（内网）也是可以启动 Rancher 服务的。在这种拓扑下，可以通过内网提供的IP或者域名来访问Rancher的操作界面（UI界面）。另外，也可以用HTTP代理或者私有镜像库来配置 Rancher。
 
-Rancher服务器能够在没有互联网的情况下运行，但访问UI的Web浏览器将需要访问专用网络。Rancher可以使用私有仓库或HTTP代理进行配置。
+需要注意的是，在内网中启动一个 Rancher 服务会导致一些特性无效，比如：
 
-当启动没有互联网访问的Rancher服务器时，将有几个功能将无法正常工作。
+* 使用操作界面来启动云公有云提供商（例如AWS，DigitalOcean，阿里云，vSphere等）提供的主机。只能添加[自定义主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/custom/) 来初始化Rancher；
+* Github 授权认证。
 
-- 使用云提供商的UI启动主机 - 由于Rancher正在调用Docker Machine在云提供商中创建主机，因此此功能将无法正常工作。您只能将[自定义主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/custom)添加到您的Rancher。
-- Github认证
+### 前提条件
 
-### 要求
+为了支持这种拓扑，有些 [前提条件]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/#安装需求) 是必须要满足的。
 
-查看Rancher服务器[要求]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//installing-rancher/installing-server/#requiremcnts)。
+### Rancher Server标签
 
-### Rancher服务器标签
+Rancher Server当前版本中有2个不同的标签。对于每一个主要的release标签，我们都会提供对应版本的文档。
 
-Rancher服务器有2个不同的标签。对于每个主要版本标签，我们将提供特定版本的文档。
+* `rancher/server:latest` 此标签是我们的最新一次开发的构建版本。这些构建已经被我们的CI框架自动验证测试。但这些release并不代表可以在生产环境部署。
+* `rancher/server:stable` 此标签是我们最新一个稳定的release构建。这个标签代表我们推荐在生产环境中使用的版本。
 
-- `rancher/server:latest`标签将是我们最新的开发版本。这些构建将通过我们的CI自动化框架进行验证。这些版本不适用于部署在生产中。
-- `rancher/server:stable`标签将是我们最新的稳定发布版本。此标签是我们推荐用于生产的版本。
+请不要使用任何带有 `rc{n}` 前缀的release。这些构建都是Rancher团队的测试构建。
 
-请不要使用任何带有`rc{n}`后缀的版本。这些`rc`构建意味着Rancher团队测试构建。
+### 使用私有镜像仓库
 
-### 使用私有仓库
+假设内网已经存在私有镜像仓库，或类似的支持分布式 Docker 镜像管理的服务。如果还没有，可以浏览 Docker 官网提供的 [私有镜像仓库](https://docs.docker.com/registry/) 文档来搭建，再此不再累述.
 
-假设您有自己的私有仓库或其他方式将Docker镜像分发到您的计算机。如果您需要帮助创建一个私有仓库，请参阅[Docker](https://docs.docker.com/registry/)的私有仓库[文档](https://docs.docker.com/registry/)。
+#### 将镜像上传到镜像仓库仓库
 
-#### 将镜像推送到私有仓库
+在安装或升级Rancher服务之前，**必须保证**对应版本号的所有镜像（例如： `rancher/server`，`rancher/agent`，以及任何 [基础服务]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/) 涉及的镜像) 都必须上传到私有仓库或者类似的服务中。如果这些镜像不存在或者版本信息不对，Rancher服务将无法正常完成安装或升级。
 
-这是**非常重要的**，所有的镜像（例如`rancher/server`，`rancher/agcnt`和任何[基础设施服务]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//rancher-services)）正试图安装/升级Rancher主Server之前分发。如果这些版本在您的私有仓库中不可用，则Rancher Server将变得不稳定。
+对于每次发布的 Rancher 服务（`rancher/server`）和对应的 Rancher 代理（`rancher/agent`）的镜像版本信息，都在发布记录中摘记。而针对其他基础服务用到的镜像版本信息，就需要查看 [官方模板](https://github.com/rancher/rancher-catalog) 的`infra-templates`目录和 [社区模板](https://github.com/rancher/community-catalog) 来获取所关联的镜像。如果用到 [应用商店]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/catalog/)，还需要关注具体应用使用的docker-compose.yml来获取镜像版本信息。
 
-对于Rancher服务器的每个版本，相应的Rancher代理和Rancher代理实例版本将在发行说明中可用。为了找到您的基础架构服务的镜像，您需要参考`infra-templates`我们的[Rancher目录](https://github.com/rancher/rancher-catalog)和[社区目录](https://github.com/rancher/community-catalog)中的文件夹，以查看您要包括哪些基础架构服务以及这些[目录](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/installing-rancher/installing-server/no-internet-access/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/catalog)中的相关镜像。
+##### 使用命令行将镜像上传到镜像仓库仓库
 
-##### 将镜像推送到私有仓库的命令
+在这个例子中，假设某台机器可以同时访问私有镜像仓库和 DockerHub。首先从 DockerHub 中拉取 `rancher/server` 和 `rancher/agent` 的镜像，然后对拉取下来的镜像做标签私仓化处理，最后再推送到私有镜像仓库。一种推荐的做法是，私有镜像仓库的镜像的版本信息对照于 DockerHub 的版本信息。
 
-这些例子都为`rancher/server`和`rancher/agcnt`使用具有同时访问DockerHub和您的私有仓库机镜像。我们建议您将私有注册表中的镜像版本标记为DockerHub中存在的相同版本。
-
-```
-rancher/server
+```bash
+# rancher/server
 $ docker pull rancher/server:v1.6.0
 $ docker tag rancher/server:v1.6.0 localhost:5000/<NAME_OF_LOCAL_RANCHER_SERVER_IMAGE>:v1.6.0
 $ docker push localhost:5000/<NAME_OF_LOCAL_RANCHER_SERVER_IMAGE>:v1.6.0
@@ -57,80 +54,84 @@ $ docker tag rancher/agent:v1.1.3 localhost:5000/<NAME_OF_LOCAL_RANCHER_AGENT_IM
 $ docker push localhost:5000/<NAME_OF_LOCAL_RANCHER_AGENT_IMAGE>:v1.1.3
 ```
 
-> **注意：**对于任何基础架构服务镜像，您必须遵循相同的步骤。
+<br>
 
-#### 启动具有私有仓库的Rancher服务器
+> **注意：** 对于任何基础服务镜像, 可以按照以下的步骤来获取。
 
-在您的机器上，启动Rancher服务器以使用特定的Rancher代理镜像。我们建议使用特定的版本标签而不是`latest`标签，以确保您正在使用正确的版本。
+#### 通过私有镜像仓库启动Rancher服务
 
-例：
+在主机上启动Rancher Server并且使用指定的Rancher Agent镜像。我们建议使用特定的版本号来代替`latest`，这样可以保证你使用了正确的版本。
 
+例如:
+
+```bash
+$ sudo docker run -d --restart=unless-stopped -p 8080:8080 \
+    -e CATTLE_BOOTSTRAP_REQUIRED_IMAGE=<Private_Registry_Domain>:5000/<NAME_OF_LOCAL_RANCHER_AGENT_IMAGE>:v1.1.3 \
+    <Private_Registry_Domain>:5000/<NAME_OF_LOCAL_RANCHER_SERVER_IMAGE>:v1.6.0
 ```
-$ sudo docker run -d --restart = unless-stopped -p 8080：8080 \
-    -e CATTLE_BOOTSTRAP_REQUIRED_IMAGE = < Private_Registry_Domain >：5000 / < NAME_OF_LOCAL_RANCHER_AGcnT_IMAGE >：v1.1.3 \
-     < Private_Registry_Domain >：5000 / < NAME_OF_LOCAL_RANCHER_SERVER_IMAGE >：v1.6.0
-```
 
-#### Rancher用户界面
+#### Rancher操作界面
 
-UI和API将在暴露的`8080`端口上可用。您可以访问以下URL访问用户界面：`http://<SERVER_IP>:8080`。
+默认情况下，操作界面访问（含接口API）是通过`8080`端口暴露的，可以用以下这个地址访问：`http://<SERVER_IP>:8080`。
 
 #### 添加主机
 
-访问UI后，单击**添加主机**按钮。这将立即带您进入**主机注册**页面。单击**保存**。
+在操作界面，点击 **添加主机**后，如果是第一次添加主机会进入到**主机注册地址**配置界面。点击一下 **保存**后即可添加主机。
 
-云服务提供商将不会工作，因为Rancher使用Docker Machine通过云提供商来配置主机。单击**自定义**图标添加主机。
+由于不能使用公有云提供商的主机服务，所以请点击 **自定义**图标来增加主机。
 
-UI中的命令将被配置为使用专用注册表镜像进行Rancher代理。
+操作界面上生成的主机注册命令将会使用私有镜像仓库中的Rancher Agent镜像。
 
-##### 示例添加自定义主机命令
+##### 一个由操作界面生成的主机注册命令例子
 
+```bash
+$ sudo docker run -d --privileged -v /var/run/docker.sock:/var/run/docker.sock <Private_Registry_Domain>:5000/<NAME_OF_LOCAL_RANCHER_AGENT_IMAGE>:v1.1.3 http://<SERVER_IP>:8080/v1/scripts/<security_credentials>
 ```
-$ sudo docker run -d --privileged -v /var/run/docker.sock:/var/run/docker.sock < Private_Registry_Domain >：5000 / < NAME_OF_LOCAL_RANCHER_AGcnT_IMAGE >：v1.1.3 http：// < SERVER_IP >：8080 / v1 / scripts / < security_credcntials >
-```
 
-#### 配置基础架构的默认注册表
+#### 为基础设施服务配置默认仓库
 
-在Rancher中，所有的[基础设施服务]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//rancher-services)都是从DockerHub开始的。将默认注册表从DockerHub更改为不同的私有注册表位于API设置中。
+默认在 Rancher 中, 所有 [基础服务]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/) 都默认从 DockerHub上拉取镜像。可以通过 **API settings（接口设置）**改变默认的的仓库，比如改成私有的镜像仓库。
 
-- **添加私有仓库：**在**基础设施** - > **注册表**部分中，添加包含基础架构服务镜像的私有注册表。
-- **更新默认注册表：**在**管理** - > **设置** - > **高级设置下**，点击**我明白我可以通过更改高级设置来打破事情**。找到**registry.default**设置，然后单击编辑图标。添加注册表值，然后单击**保存**。一旦`registry.default`设置更新，基础架构服务将从私有仓库开始，而不是DockerHub。
-- **创建新环境：**更新默认注册表后，您将需要重新创建您的环境，以便基础架构服务将使用更新的默认注册表。默认注册表更改之前的任何现有环境都将使其基础架构服务仍指向DockerHub。
+* **添加一个私有镜像仓库：** 在 **基础架构** 中选择 **镜像库**，添加可以为基础设施服务提供镜像的仓库服务。
 
-> **注意：**现有环境中的任何基础架构堆栈仍将使用原始的默认注册表（例如DockerHub）。这些堆栈将需要被删除并重新启动才能开始使用更新的默认注册表。堆栈可以从**Catalog** - > **Library**部署。
+* **更新默认的仓库：** 在 **系统管理** -> **系统设置** -> **高级设置**里，点击 **我确认已经知道修改高级设置可能导致问题**。找到 **registry.default** 的设置项并点击修改按钮，修改为私有镜像仓库的地址，点击 **保存**。一旦 `registry.default` 的值被更新了，基础设施服务将从这个地址上获取镜像。
+
+* **创建一个新环境：** 当默认的镜像仓库地址被改变后，需要重新创建环境以便于基础设施服务可以使用这个新的镜像仓库地址。原来旧的环境中，基础设施服务仍然指向DockerHub。
+
+> **注意：** 原来旧的环境中的基础设施服务，仍然使用原来默认的镜像仓库地址（例如，在出厂设置中就是 DockerHub，那就一直都是 DockerHub）。只有把应用删除，然后重新部署才能使用新的镜像仓库地址。可以通过 **应用商店** 中的 **官方认证**进行部署。
 
 ### 使用HTTP代理
 
-提醒，在此设置中，访问UI的Web浏览器将只需要访问专用网络。
+提醒，在启动了Rancher服务以后，浏览器只要能访问内网就可以访问Rancher UI了。
 
-#### 配置Docker以使用HTTP代理
+#### 通过HTTP代理来配置Docker
 
-为了设置一个HTTP代理，Docker守护进程将需要修改以指向Rancher服务器和Rancher主机的代理。在启动Rancher服务器或Rancher代理之前，编辑该`/etc/default/docker`文件以指向您的代理并重新启动Docker。
+可以通过修改Rancher Server和Rancher Agent所在的Docker daemon的配置文件`/etc/default/docker`，使其指向对应的HTTP代理地址，重启Docker daemon之后，即可启用HTTP代理。
 
-```
-$ sudo vi / etc / default / docker
-```
-
-在文件中，编辑`#export http_proxy="http://127.0.0.1:3128/"`它以指向您的代理。保存更改，然后重新启动docker。每个操作系统上重新启动Docker是不同的。
-
-> **注：**如果您使用systemd运行泊坞，请按照码头工人[说明](https://docs.docker.com/articles/systemd/#http-proxy)了如何配置HTTP代理。
-
-#### 启动Rancher服务器
-
-使用代理时，Rancher服务器不需要使用任何环境变量启动。因此，启动Rancher服务器的命令将与常规安装相同。
-
-```
-sudo docker运行-d --restart = unless-stopped -p 8080：8080 rancher / server
+```bash
+$ sudo vi /etc/default/docker
 ```
 
-#### Rancher用户界面
+打开配置文件后，修改或增加 `export http_proxy="http://${YOUR_PESONAL_REGISTYR_ADDRESS}/"`。然后保存它并重启Docker deamon。不同的操作系统重启Docker deamon（也就是重启 Docker ）的方法是不一样的，请自行了解，不再累述。
 
-UI和API将在暴露的`8080`端口上可用。您可以访问以下URL访问用户界面：`http://<SERVER_IP>:8080`。
+> **注意：** 如果Docker是通过systemd来运行的，那么可以参考[这篇文章](https://docs.docker.com/articles/systemd/#http-proxy)来了解更多。
+
+#### 启动Rancher Server
+
+使用HTTP代理的时候，Rancher Server不需要使用任何环境变量即可启动。所以，启动操作就和没有使用代理服务是一样的，指令如下：
+
+```bash
+sudo docker run -d --restart=unless-stopped -p 8080:8080 rancher/server
+```
+
+#### Rancher操作界面
+
+默认情况下，操作界面访问（含接口API）是通过`8080`端口暴露的，可以用以下这个地址访问：`http://<SERVER_IP>:8080`。
 
 #### 添加主机
 
-访问UI后，您可以单击**添加主机**按钮。这将立即带您进入**主机注册**页面。单击**保存**。
+在操作界面，点击 **添加主机**后，如果是第一次添加主机会进入到**主机注册地址**配置界面。点击一下 **保存**后即可添加主机。
 
-云端供应商将无法正常工作，因为Rancher用于`docker-machine`通过云提供商来配置主机。单击**自定义**图标添加主机。
+由于不能使用公有云提供商的主机服务，所以请点击 **自定义**图标来增加主机。
 
-来自UI的命令可以在任何将Docker配置为使用HTTP代理的计算机上使用。
+操作界面上生成的主机注册命令可以用在任何配置了HTTP代理的Docker的主机上。

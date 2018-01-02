@@ -1,37 +1,38 @@
 ---
 title: Adding DigitalOcean Hosts
-layout: rancher-default-v1.6
+layout: rancher-default-v1.6-zh
 version: v1.6
 lang: zh
 ---
 
 ## 添加DigitalOcean主机
+---
 
-------
+Rancher 通过使用 `docker machine` 来管理 [DigitalOcean](https://www.digitalocean.com/) 提供的主机。
 
-Rancher支持使用[DigitalOcean](https://www.digitalocean.com/)主机`docker machine`。
+### 获取DigitalOcean访问凭证
 
-### 寻找DigitalOcean证书
+为了能启动 DigitalOcean 主机, 需要获取由 DigitalOcean 提供的 **Personal Access Token（私有访问令牌）** 。 首先，登录 DigitalOcean，然后：
 
-为了推出DigitalOcean主机，您需要DigitalOcean提供的**个人访问令牌**。登录到您的DigitalOcean帐户。
+1. 切换到 [Apps & API（应用及接口）](https://cloud.digitalocean.com/settings/applications)页面；
 
-1. 转到[Apps和API页面](https://cloud.digitalocean.com/settings/applications)。
-2. 在**个人访问令牌中**，单击**生成新令牌**按钮。命名您的令牌（例如牧场主），然后单击**生成令牌**。
-3. 从用户界面复制您的**访问令牌**，并将其保存在安全的地方。这是您唯一可以看到访问令牌的时间。下次您进入页面时，令牌将不再显示，您将无法检索。
+2. 选中 **Personal Access Tokens（私有访问令牌汇总）**菜单，点击 **Generate New Token（创建新令牌）**。给新令牌起一个名称，然后点击 **Generate Token（创建令牌）**；
 
-### 推出DigitalOcean主机
+3. 从界面上把 **Access Token（访问令牌）** 复制出来并妥善保管。注意，这是唯一一次可以完整的看到 access token。重新访问这个页面，将无法再看到完整的信息。
 
-现在我们已经保存了**访问令牌**，我们已经准备好启动我们的DigitalOcean主机了。在基础**结构 - >主机**选项卡下，单击**添加主机**。选择**DigitalOcean**图标。
+### 启动DigitalOcean主机
 
-1. 使用滑块选择要启动的主机数量。
-2. 提供一个**名称**，如果需要，**说明**主机。
-3. 提供您为DigitalOcean帐户创建的**访问令牌**。
-4. 选择要启动的**图像**。无论`docker machine`对DigitalOcean的支持也是由Rancher支持的。
-5. 选择图像的**大小**。
-6. 选择**地区**要在推出。我们已经提供了可以使用元数据推出了可用的区域。某些区域可能不包括在内，因为API不支持它。
-7. （可选）如果要启用任何高级选项（即备份，IPv6，专用网络），请选择要包括的选项。
-8. （可选）向主机添加**标签**，以帮助组织主机并[安排服务/负载均衡器，](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/digitalocean/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/scheduling)或[使用主机IP以外的IP](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/digitalocean/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/external-dns-service/#using-a-specific-ip-for-external-dns)对[外部DNS记录进行编程](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/digitalocean/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/external-dns-service/#using-a-specific-ip-for-external-dns)。
-9. （可选）在**高级选项中**，`docker-machine create`使用[Docker引擎选项](https://docs.docker.com/machine/refercnce/create/#specifying-configuration-options-for-the-created-docker-cngine)自定义命令。
-10. 完成后，单击**创建**。
+接下来来启动 DigitalOcean 主机。在 Rancher 的操作界面中，选择 **Infrastructure（基础架构） -> Hosts（主机）**，点击 **Add Host（添加主机）**，选择 **DigitalOcean**图标。
 
-一旦您点击了创建，Rancher将创建DigitalOcean小滴，并在液滴中启动*牧场主代理*容器。在几分钟之内，主机将被激活并可用于[服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/digitalocean/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/adding-services)。
+1. 拖动滑条来选择需要启动的主机数目；
+2. 输入 **Name（名称）**，需要详细备注的时候就填写 **Description（描述）**；
+3. 输入刚才获取的 **Access Token（访问令牌）**；
+4. Rancher 对 `docker machine` 的支持和 DigitalOcean 是一样的，所以选择需要启动的 **Image（镜像）** 即可；
+5. 输入 **Size（大小）**；
+6. 选择希望主机启动时所在的 **Region（地域）**，Rancher 是通过调用 DigitalOcean 的metadata来获取合适的地域列表，因此无法支持不在这个列表内的地域；
+7. 接下来是可选的。必要时，可以选择启用例如backups(备份)，IPv6，private networking(私有网络)等高级选项操作；
+8. 必要时，添加 **[labels（标签）]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/#labels)** 来辅助管理主机以及 [调度服务或负载均衡]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/scheduling/)，也可以 [通过DNS-IP映射来管理不在 Rancher 内启动的服务]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/external-dns-service/#为外部dns使用特定的ip)；
+9. 必要时，通过 **Advanced Options（高级选项）**，定制化 [Docker engine options（Docker引擎选项）](https://docs.docker.com/machine/reference/create/#specifying-configuration-options-for-the-created-docker-engine) 来控制 `docker-machine create` 时用到的选项指令；
+10. 一切准备就绪后, 点击 **Create（创建）**。
+
+点击创建后，Rancher 将创建 DigitalOcean 的 droplet（主机），接着在 droplet 上启动一个 _rancher-agent_ 的容器。几分钟之后，就可以通过 [services（服务）]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-services/) 页面看到一个Rancher的主机被启动了。

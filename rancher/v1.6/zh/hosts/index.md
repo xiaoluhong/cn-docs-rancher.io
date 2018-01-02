@@ -1,180 +1,180 @@
 ---
 title: Hosts in Rancher
-layout: rancher-default-v1.6
+layout: rancher-default-v1.6-zh
 version: v1.6
 lang: zh
 ---
 
-## 主机入门
+## 入门指南
+---
 
-------
+在Rancher中，主机是调度资源的基本单位（直观的理解就是所发生的操作最终都会落到某台主机上），它可以是虚拟的或者物理的Linux服务器。Rancher管理的主机需要满足以下的条件：
 
-主机是Rancher中最基本的资源单元，并且表示为虚拟或物理的任何Linux服务器，具有以下最低要求：
 
-- 任何流行的Linux发行[版]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/index.md#supported-docker-versions)都具有受支持的Docker版本。RancherOS，Ubuntu，RHEL / CcntOS 7进行了更严格的测试。
-  - 对于RHEL / CcntOS，[Docker](https://docs.docker.com/cngine/refercnce/commandline/dockerd/#/storage-driver-options)不推荐使用默认存储驱动程序，即使用环回的devicemapper 。请参考Docker文档，了解如何更改。
-  - 对于RHEL / CcntOS，如果要启用SELinux，则需要[安装其他SELinux模块]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//installing-rancher/selinux)。
-  - 对于RHEL / CcntOS，请使用内核版本`3.10.0-514.2.2.el7.x86_64`或更高版本。使用7.3版或更高版本时包括。
-- 1GB RAM
-- 推荐CPU / AES-NI
-- 能够通过预先配置的端口通过http或https与Rancher服务器进行通信。默认值为8080。
-- 能够在同一环境下路由到任何其他主机，以利用Rancher对Docker容器的跨主机网络。
+* 任何可以运行[支持的Docker版本](#docker版本适用对比)的 Linux 发行版本，例如：[RancherOS](http://docs.rancher.com/os/)，Ubuntu，RHEL/CentOS 7。不过针对RHEL/CentOS系列，有些需要注意的地方：
+    * Docker 并不推荐使用 RHEL/CentOS 默认的存储驱动（devicemapper），可以参考[这篇文档](https://docs.docker.com/engine/reference/commandline/dockerd/#/storage-driver-options)来修改。
+    * 如果启用 SELinux，[需要安装额外的模块]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/selinux/)。
+    * 内核版本要求是 `3.10.0-514.2.2.el7.x86_64` 及以上，建议使用 RHEL/CentOS 7.3 或者更高的发行版本。
+* 1GB的内存。
+* 推荐 w/AES-NI 架构的 CPU。
+* 主机可以通过HTTP或HTTPS来访问Rancher Server服务，默认端口是8080。
+* 主机与主机之间是可以相互访问的，从而确保容器之间的跨主机通信。
 
-Rancher还支持Docker Machine，并允许您通过任何支持的驱动程序添加主机。
+另外，Rancher也可以管理由Docker Machine驱动的主机，只要这些主机满足上面的条件即可。
 
-从基础 **设施** - > **主机**选项卡，单击**添加主机**。
+在Rancher的操作界面上，选择 **基础架构**->**主机**，点击 **添加主机**按钮，然后再做些工作，就可以让 Rancher 管理到这台新主机了。
 
-### 支持的Docker版本
+### Docker版本适用对比
 
-| 版                   | 支持的？  | Kubernetes支持？ | 安装脚本                                     |
-| ------------------- | ----- | ------------- | ---------------------------------------- |
-| `1.9.x` 早些时候        | 没有    |               |                                          |
-| `1.10.0` - `1.10.2` | 没有    |               |                                          |
-| `1.10.3` （和更高）      | **是** | **是**         | `curl [https://releases.rancher.com/install-docker/1.10.sh](https://releases.rancher.com/install-docker/1.10.sh) |
-| `1.11.x`            | 没有    |               | `curl [https://releases.rancher.com/install-docker/1.11.sh](https://releases.rancher.com/install-docker/1.11.sh) |
-| `1.12.0` - `1.12.2` | 没有    |               |                                          |
-| `1.12.3` （和更高）      | **是** | **是**         | `curl [https://releases.rancher.com/install-docker/1.12.sh](https://releases.rancher.com/install-docker/1.12.sh) |
-| `1.13.x`            | **是** | 没有            | `curl [https://releases.rancher.com/install-docker/1.13.sh](https://releases.rancher.com/install-docker/1.13.sh) |
-| `17.03.x-ee`        | **是** | 没有            | N / A                                    |
-| `17.03.x-ce`        | **是** | 没有            | `curl [https://releases.rancher.com/install-docker/17.03.sh](https://releases.rancher.com/install-docker/17.03.sh) |
-| `17.04.x-ce`        | 没有    |               | `curl [https://releases.rancher.com/install-docker/17.04.sh](https://releases.rancher.com/install-docker/17.04.sh) |
-| `17.05.x-ce`        | 没有    | 没有            |                                          |
+版本               | Rancher适用？ | K8S适用？ | 安装脚本 |
+----------------------|------------|---------------------|-----------------
+`1.9.x` 和更低的版本   | No         |                     |
+`1.10.0` - `1.10.2`   | No         |                     |
+`1.10.3` (和更高的版本) | No{::nomarkdown}<p>(Yes v1.6.5以及更低版本中)</p>{:/} | No            | `curl https://releases.rancher.com/install-docker/1.10.sh | sh`
+`1.11.x`              | No         |                     | `curl https://releases.rancher.com/install-docker/1.11.sh | sh`
+`1.12.0` - `1.12.2`   | No         |                     |
+`1.12.3` (和更高的版本) | **Yes**    | **Yes**             | `curl https://releases.rancher.com/install-docker/1.12.sh | sh`
+`1.13.x`              | **Yes**    | No                  | `curl https://releases.rancher.com/install-docker/1.13.sh | sh`
+`17.03.x-ce`          | **Yes**    | No                  | `curl https://releases.rancher.com/install-docker/17.03.sh | sh`
+`17.03.x-ee`          | **Yes**    | No                  | n/a
+`17.04.x-ce`          | No         |                     | `curl https://releases.rancher.com/install-docker/17.04.sh | sh`
+`17.05.x-ce`          | No         | No                  | `curl https://releases.rancher.com/install-docker/17.05.sh | sh`
+`17.06.x-ce`          | **Yes**{::nomarkdown}<p>(v1.6.3以及更高版本)</p>{:/}    | No                  | `curl https://releases.rancher.com/install-docker/17.06.sh | sh`
+`17.06.x-ee`          | **Yes**{::nomarkdown}<p>(v1.6.3以及更高版本)</p>{:/}    | No                  | n/a
 
-### 安装特定Docker版本
+> **注意：** 我们不会支持Docker的edge版本，但是我们会支持Docker的稳定版本。
 
-该标准`curl https://get.docker.com | sh`始终安装当时可用的最新Docker版本，并且可能不受您安装的Rancher版本的支持。相反，我们建议您使用上述脚本来安装特定版本。这些是标准脚本的稍微修改版本，并将安装引导到特定的Docker引擎版本。也可以使用精确的补丁版本`1.<x>.<y>.sh`，例如`1.12.6.sh`。
+### 安装特定版本的Docker
 
-> **注意：**如果要从UI启动主机，可以选择要在主机上安装的Docker版本。在**高级选项**部分，有一个**Docker安装URL**。
+一般会使用 `curl https://get.docker.com | sh` 脚本来安装最新版的 Docker 。但是，最新版的 Dokcer 有可能不适用于正准备安装或已经在使用中的 Rancher 版本。因此，一种推荐的做法是：安装特定版本的 Docker。按照上方的对比表，选择 Rancher 适用的安装脚本执行即可。
 
-### 主机如何工作？
+> **注意：** 如果从操作界面上添加云主机，可以通过 **高级选项** 里面的 **Docker Install URL**来选择需要安装的 Docker 版本。
 
-当主机上启动Rancher代理程序容器时，主机将连接到Rancher服务器。注册令牌（它是**添加主机** - > **自定义**屏幕中的长URL）由Rancher代理程序第一次用于连接到服务器。连接后，它会在Rancher服务器中生成代理帐户和API密钥对。然后，密钥对用于所有后续通信，使用与其他类型的帐户相同的认证和授权逻辑，如环境API密钥。
+### 主机是如何工作的？
 
-设计是因为它在外部运行并且潜在的敌对（服务器）硬件，因此该代理是不受信任的。代理帐户只能访问API中需要的资源，对事件的回复被检查事件是否实际发送到该代理程序等。代理程序验证主机的方向不是相反的方向，所以您还可以设置TLS，证书将被验证。
+Rancher Agent容器在主机上启动成功之后，这台主机就连接到了Rancher Server上。在**添加主机**->**Custom（自定义）**界面中的很长的URL就是主机注册口令。这个注册口令在主机第一次连接Rancher Server的时候会被用到。在注册的过程中，Rancher Server会生成一个Agent账号和一个API密钥。之后Agent与Server直接的全部通信都要使用这个密钥，它们之间的认证逻辑和其他的API密钥认证逻辑是一样的。
 
-注册令牌是每个[环境](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts)。它在服务器上生成，存储在数据库中，并作为使用API密钥对进行代理注册的一部分发送到主机。连接是主机和AES加密之间的点对点，这是大多数现代CPU加速的。
+从设计的角度而言，Rancher Agent是运行在独立于Rancher Server的主机上，所以Rancher Agent本身是不可信的。采用接口访问密钥的机制，可以确保Rancher Agent只访问被授权的接口，而Rancher Server只响应可信的请求。但是目前是单向认证，只认证从Rancher Agent到Rancher Server的请求，并没有认证从Rancher Server到Rancher Agent的响应。因此，用户可以根据需要，使用TLS和证书来做校验。
+
+每个[环境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/)的注册口令，都是由Rancher Server生成并保存到数据库，然后和API密钥一起下发给Rancher Agent使用。Rancher Agent和Rancher Server之间是采用AES对称加密的点对点通讯。
+
+<a id="addhost"></a>
 
 ### 添加主机
 
-您首次添加主机时，可能需要设置[主机注册URL](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/configuration/settings/#host-registration)。此设置确定您的主机将连接到Rancher API的DNS名称或IP地址以及端口。默认情况下，我们选择了管理服务器的IP和端口`8080`。如果您选择更改地址，请确保指定应用于连接到Rancher API的端口。随时可以更新[主机注册](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/configuration/settings/#host-registration)。设置主机注册后，单击**保存**。
+第一次添加主机时，Rancher Server会要求配置[主机注册地址]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/settings/##主机注册)。这个地址可以是域名或者IP地址（如果80端口不可访问，还需要加上可访问的端口号，默认 `8080`），能够访问Rancher接口即可。任何时候都可以改变 [主机注册地址]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/settings/#主机注册)，相关操作可以查看 **系统管理** 下的 **系统设置**。设置好主机注册地址后，点击 **保存**.
 
-我们支持直接从云提供商添加主机或添加已经配置的主机。对于云提供商，我们提供使用`docker-machine`和支持任何支持的图像`docker-machine`。
+Rancher支持添加云提供商（例如AWS，DigitalOcean，阿里云，vSphere等）所提供的主机或者本地（例如VirtualBox，VMWare等）设置好的主机。对于云提供商，Rancher可以通过`docker-machine`来添加的，所以本质上实现了 Docker Machine 驱动的厂商的云主机，都可以被添加。
 
-选择要添加的主机类型：
+接下来，选择:
 
-- [添加自定义主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts/custom)
-- [添加Amazon EC2主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts/amazon)
-- [添加Azure主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts/azure)
-- [添加DigitalOcean主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts/digitalocean)
-- [添加Exoscale主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts/exoscale)
-- [添加分组主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts/packet)
-- [添加Rackspace主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts/rackspace)
-- [从其他云提供商添加主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts/other)
+* [添加自定义主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/custom/)
+* [添加 AWS EC2 主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/amazon/)
+* [添加 Azure 主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/azure/)
+* [添加 DigitalOcean 主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/digitalocean/)
+* [添加 Exoscale 主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/exoscale/)
+* [添加 Packet 主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/packet/)
+* [添加 Rackspace 主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/rackspace/)
+* [添加其他云提供商的主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/other/)
 
-当主机被添加到Rancher时，在主机上启动一个牧场主代理容器。Rancher会自动提取正确的图像版本标签`rancher/agcnt`并运行所需的版本。代理版本被特别标记给每个Rancher服务器版本。
+当主机被添加到Rancher时，这台主机会运行一个合适版本的`rancher/agent`容器。
+
+<a id="labels"></a>
 
 ### 主机标签
 
-使用每个主机，您可以添加标签来帮助您组织主机。标签在启动牧师/代理容器时作为环境变量添加。UI中的主机标签将是一个键/值对，密钥必须是唯一的标识符。如果您添加了两个不同值的键，我们将把最后输入的值用作键/值对。
+在Rancher中，可以通过添加标签的方式来管理某台主机，做法就是在 `rancher/agnet` 容器启动的时候，以环境变量的方法把标签加进去。在操作界面上可以看到，标签其实是一些键不可以重复的键值对。值得注意的是，如果有两个相同的键但是值不一样，那么最后添加的值将会被Rancher使用。
 
-通过向主机添加标签，您可以在[计划服务/负载平衡器](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/scheduling)上使用这些标签，并创建允许您的[服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/adding-services)运行的主机的白名单或黑名单。
+给主机增加标签后，你可以根据需求来[调度服务／负载均衡]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/scheduling/)。如果不希望某个服务运行在某台主机上或者要求某个服务必须运行在某台主机上，可以在[添加服务]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-services/)时通过主机标签来进行配置。
 
-如果您打算使用[外部DNS服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/external-dns-service)，并且需要[使用主机IP以外的IP来对DNS记录进行编程](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/external-dns-service/#using-a-specific-ip-for-external-dns)，则需要`io.rancher.host.external_dns_ip=<IP_TO_BE_USED_FOR_EXTERNAL_DNS>`在主机上包含该标签。主机标签可以在注册主机或主机添加到Rancher后添加，但在外部DNS服务启动之前应将其添加到主机。当为外部DNS服务编程规则时，将使用此标签的值。
+在你需要使用[外部DNS服务（类似 Bind9 这类）]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/external-dns-service/)或者[通过程序来控制DNS记录]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/external-dns-service/#为外部dns使用特定的ip)的时候，如果所需的IP不是主机IP的话，那就要在运行 `rancher/agent` 时增加标签 `io.rancher.host.external_dns_ip=<IP_TO_BE_USED_FOR_EXTERNAL_DNS>`。切记，当要某个容器服务要使用外部DNS服务时，一定要增加这个标签。
 
-当使用UI添加不同的云提供商的主机时，将使用在UI中添加的主机标签为您自动启动rancher / agcnt命令。
+通过UI添加云提供商的主机时，你可以在UI上添加主机标签，`rancher/agent` 会保证这些标签都会自动添加到主机上。
 
-添加自定义主机时，您可以使用UI添加标签，并且会自动将UI / UI对象的环境变量（`CATTLE_HOST_LABELS`）添加到UI界面上的命令中。
+如果通过UI添加自定义主机，当增加标签时，UI上的运行注册脚本会增加对应的环境变量：`CATTLE_HOST_LABELS`。比如，增加一个标签：foo=bar，会出现下面的效果：
 
-##### 例
+```bash
+$  sudo docker run -e CATTLE_HOST_LABELS='foo=bar' -d --privileged \
+    -v /var/run/docker.sock:/var/run/docker.sock rancher/agent:v0.8.2 \
+    http://<rancher-server-ip>:8080/v1/projects/1a5/scripts/<registrationToken>
 
-```
-＃添加一个主机标签牧场主/ agcnt命令 
-$须藤泊坞运行-e CATTLE_HOST_LABELS = “富=酒吧” -d --privileged \
-    -v /var/run/docker.sock:/var/run/docker.sock牧场主/agcnt:v0.8.2 \
-    http：// < rancher-server-ip >：8080 / v1 / projects / 1a5 / scripts / < registrationTokcn > 
-
-＃添加多个主机标签需要使用`＆` 
-$ sudo的搬运工运行-e CATTLE_HOST_LABELS = '富=酒吧和你好=世界' -d --privileged \
-    -v /var/run/docker.sock:/var/run/docker.sock牧场主/剂：v0.8.2 \
-    HTTP：// < rancher-server-ip >：8080 / v1 / projects / 1a5 / scripts / < registrationTokcn >
+# 当再增加一个标签：hello=world
+$  sudo docker run -e CATTLE_HOST_LABELS='foo=bar&hello=world' -d --privileged \
+    -v /var/run/docker.sock:/var/run/docker.sock rancher/agent:v0.8.2 \
+    http://<rancher-server-ip>:8080/v1/projects/1a5/scripts/<registrationToken>
 ```
 
-> **注：**该`rancher/agcnt`版本相关的牧场主服务器版本。您将需要检查自定义命令以获取要使用的版本的相应标签。
+<br>
 
-#### 自动应用主机标签
+> **注意：** `rancher/agent` 的版本与 `rancher/server` 的版本是相关的，执行添加自定义主机的时候，需要注意注册脚本的 `rancher/agent` 是否正确。正常情况下，通过操作界面获取的脚本内的版本信息都是正确的，用户不需要做额外修改。
 
-Rancher自动创建与主机的linux内核版本和Docker cngine版本相关的主机标签。
+#### 自动添加的标签
 
-| 键                                      | 值                        | 描述                  |
-| -------------------------------------- | ------------------------ | ------------------- |
-| `io.rancher.host.linux_kernel_version` | 主机上的Linux内核版本（例如，`3.19`） | 在主机上运行的Linux内核的版本   |
-| `io.rancher.host.docker_version`       | 主机上的Docker版本（例如`1.10`）   | Docker cngine版本在主机上 |
-| `io.rancher.host.provider`             | 云提供商信息                   | 云提供商名称（目前仅适用于AWS）   |
-| `io.rancher.host.region`               | 云提供商区域                   | 云供应商区域（目前仅适用于AWS）   |
-| `io.rancher.host.zone`                 | 云提供商区域                   | 云提供商区域（目前仅适用于AWS）   |
+Rancher 会自动创建一些和Linux内核版本信息以及Docker引擎版本信息相关的标签。
 
-### 计划程序IP
+键 | 值 | 描述
+----|----|----
+`io.rancher.host.linux_kernel_version` | Linux内核版本 (e.g, `3.19`) |  主机当前运行的内核版本
+`io.rancher.host.docker_version` | Docker引擎版本 (e.g. `1.10`) | 主机运行的 Docker 版本
+`io.rancher.host.provider` | 云提供商信息 | 目前仅适用于某些云提供商
+`io.rancher.host.region` | 云提供商地域 | 目前仅适用于云提供商
+`io.rancher.host.zone` | 云提供商区域 | 目前仅适用于云提供商
 
-为了[能够在多个IP上发布端口](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/scheduling/#scheduling-against-multiple-ips-of-a-host)，需要对主机进行配置，以使Rancher知道可以安排哪些IP。为主机添加调度程序IP的方法取决于主机是否已经在Rancher（即Rancher代理已经启动）与新主机（即Rancher代理尚未启动）之间。
+### 主机调度地址
 
-#### 将调度程序IP添加到现有主机
+为了使Rancher可以在[有多个IP的主机上暴露端口]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/scheduling/#多ip主机调度)，需要给这些主机进行配置，从而使Rancher知道哪些IP可以使用。配置调度IP的方法取决于这台主机是已经存在的主机（运行了 `rancher/agent` 容器的服务器）还是还没有添加的主机（还没有运行 `rancher/agent` 容器的服务器）。
 
-对于环境中的任何现有主机，可以通过添加特定的主机标签（`io.rancher.scheduler.ips`向主机添加其他IP）以进行计划，在UI中，单击**主机**的**“编辑主机** ”，然后添加一个**计划程序IP**，如果要更新通过API主机详细信息，您将添加主机标签`io.rancher.scheduler.ips`，并以逗号分隔列表（即`1.2.3.4, 2.3.4.5`）列出IP 。
+#### 给已有主机添加调度地址
+在环境中已存在的主机，可以通过增加`io.rancher.scheduler.ips`标签来设置调度IP。通过操作界面，点击这台主机的**编辑**按钮，然后增加 **调度IP**。如果是通过接口的方式，只需要给主机添加标签 `io.rancher.scheduler.ips` 和值（多个地址，可以通过逗号分隔）即可。
 
-> **注意：**如果在添加调度程序IP之前，在主机上发布了任何端口用于服务的端口，则这些端口将被发布`0.0.0.0`，这意味着它们将在所有IP上使用，包括在服务启动后添加的调度程序IP。
+> **注意：** 在没有添加调度地址前，如果某些容器已经暴露了端口，那么这些容器的端口暴露在`0.0.0.0`上。那就意味着，已有的容器已经占用了全部的IP地址，后来添加的调度地址也被占用了。
 
-#### 为新主机添加计划程序IP
+#### 给新主机添加调度地址
 
-对于尚未添加到Rancher的任何[自定义主机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts/custom)，`CATTLE_SCHEDULER_IPS`可以将一个环境变量（ie ）添加到Rancher代理命令中，以列出主机上的可用IP。
+对于新添加的[自定义主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/custom/) 需要像下面的例子，给注册脚本增加一个环境变量 `CATTLE_SCHEDULER_IPS` ：
 
+```bash
+$  sudo docker run -e CATTLE_SCHEDULER_IPS='1.2.3.4,<IP2>,..<IPN>' -d --privileged \
+    -v /var/run/docker.sock:/var/run/docker.sock rancher/agent:v0.8.2 \
+    http://<rancher-server-ip>:8080/v1/projects/1a5/scripts/<registrationToken>
 ```
-$ sudo docker run -e CATTLE_SCHEDULER_IPS = ' 1.2.3.4，<IP2>，.. <IPN> '- d --privileged \ 
-    -v /var/run/docker.sock:/var/run/docker.sock rancher /代理：v0.8.2 \ 
-    http：// < rancher -server-ip >：8080 / v1 / projects / 1a5 / scripts / < registrationTokcn >
-```
 
-### 主机在HTTP代理之后
+### 在代理后的主机
 
-如果您在HTTP代理之后，为了将主机添加到Rancher服务器，您将需要编辑主机的Docker守护程序以指向代理。我们[添加自定义主机页面](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts/custom/#hosts-behind-a-proxy)中列出了详细的说明。
+如果当前的环境是在代理之后，要给Rancher添加主机，需要修改这台主机的Docker deamon指向代理。相关的细节可以浏览[本文]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/custom/#添加代理服务器之后的主机)，在此不在累述。
 
-### 从Cloud Providers访问主机
+<a id="machine-config"></a>
 
-如果您选择通过Rancher选择启动主机，则Rancher正在云服务提供商中进行Docker Machine呼叫。我们提供在一个易于下载的文件启动机器时生成的所有证书。在主机的下拉菜单中单击**机器配置**。它将下载一个具有所有证书的tar.gz文件。
+### 访问云提供商的主机
 
-要SSH进入您的主机，请转到您的终端/命令提示符。使用`id_rsa`证书导航到所有证书和ssh的文件夹。
-
-```
-$ ssh -i id_rsa root @ < IP_OF_HOST >
-```
+当用Rancher添加云提供商的主机时，实质上是采用Docker Machine执行的工作。
 
 ### 克隆主机
 
-由于在云提供商上启动主机需要使用访问密钥，因此您可能希望轻松创建另一个主机，而无需再次输入所有凭据。Rancher提供克隆这些凭据以启动新主机的功能。从主机的下拉菜单中选择**克隆**。它将显示一个**添加主机**页面，其中包含克隆的主机的凭据。
+在云提供商上启动主机需要使用访问密钥，Rancher提供了克隆的方法，来轻松地创建另一个主机，而无需再次输入所有认证配置。在操作界面上，从 **基础架构** 进入 **主机** 页面，点击某台主机的下拉菜单，选择 **克隆**，然后就会进入之前的认证配置都已经填写的 **添加主机** 页面。
 
-### 编辑主机
+### 修改主机
 
-主机可以做什么的选项位于主机的下拉列表中。从基础**结构** - > **主机**页面，当您将鼠标悬停在**主机**上时，将出现下拉图标。如果您单击主机名以查看主机的更多详细信息，则下拉图标位于页面的右上角。它位于主机状态旁边。
+在操作界面上，从 **基础架构** 进入 **主机** 页面，点击需要修改的主机的下拉菜单，选择 **编辑**，就可以修改这台主机的名称，描述以及标签。
 
-如果选择**编辑**，可以更新主机上的名称，说明或标签。
+### 启停主机
 
-### 停用/激活主机
+停止一台主机后，操作界面上会显示 _Inactive_ 状态。在这种状态下，不会再有容器服务被部署到这台主机。而处于 _Active_ 状态下的主机，容器服务会被正常的部署、停止、重启或销毁。
 
-停用主机将使主机处于*非活动*状态。在这种状态下，不能部署新的容器。主机上的任何活动容器将继续处于活动状态，您仍然可以对这些容器执行操作（启动/停止/重启）。主机仍将连接到Rancher服务器。从主机的下拉菜单中选择**停用**。
+如果需要停止一台主机，从 **基础架构** 进入 **主机** 页面，点击需要停止的这台主机的下拉菜单，选择 **停用** 即可。
 
-当主机处于*非活动*状态时，您可以通过从主机的下拉菜单中单击**激活**将主机恢复为*活动*状态。****
+如果需要把一台停止的主机重新激活，从 **基础架构** 进入 **主机** 页面，点击已经停止的这台主机的下拉菜单，选择 **激活** 即可。
 
-> **注意：**如果主机在Rancher中处于关闭状态（即处于`reconnecting`或`inactive`状态），则需要执行运行[状况检查](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/health-checks)，以使Rancher将服务上的容器启动到不同的主机。
+> **注意：** 在Rancher中如果主机宕机了（比如处于 `reconnecting` 或 `inactive` 的状态），需要给服务配置[健康检查]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/health-checks/) 以便于Rancher把这台宕掉的主机上的容器服务迁移到其他主机上执行。
 
-### 删除主机
+### 在Rancher内删除主机
 
-为了从服务器中删除主机，您需要从下拉菜单中进行几个步骤。
+在 Rancher 内删除主机的操作需要进行几个步骤：从 **基础架构** 进入 **主机** 页面，点击需要删除的主机的下拉菜单，选择 **停用**。当主机完成停止以后，将会显示 _Inactive_ 状态。然后点击下拉菜单，选择 **删除**，Rancher 会执行对这台主机的删除操作。当显示 _Removed_ 状态时，就表示这台主机已经被删除了。但是，仍然可以在操作界面上看到这台主机，只有当点击下拉菜单，选择 **清理**后，这台主机才会从操作界面上消失。
 
-选择**停用**。主机完成停用后，主机将显示*非活动*状态。选择**删除**。服务器将从Rancher服务器实例开始主机的删除过程。完成删除后将显示的第一个状态将被*删除*。它将继续完成删除过程，并进入*清除*状态，然后立即从UI消失。
+如果这台主机是由 Rancher 调用 `docker-machiine` 基于云提供商的驱动创建，按照上述的删除操作执行后，被删除的主机也会在云提供商的管理界面中消失。但是，如果是采用 [添加自定义主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/custom/) 的方式所添加的云提供商主机，被删除的主机还会在云提供商的管理界面中被查看到。而且这台主机内的容器服务（例如 `rancher/agent`）还是保留着的。可以认为通过自定义添加的云提供商的主机被删除后，只是从Rancher的调度中解离出去，但是它原来的生命周期Rancher不会干涉。
 
-如果主机是使用Rancher在云提供商上创建的，则主机将从云提供商中删除。如果通过使用[自定义命令](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts/custom)添加了主机，主机将保留在云提供商上。
+> **注意：** 对自定义主机，包括Rancher Agent在内的全部容器都会保留在该主机上。同时，Rancher网络驱动创建的`docker0`上的IP也将会保留。
 
-> **注意：**对于自定义主机，包括Rancher代理在内的所有容器将继续保留在主机上。
+### 在Rancher外删除主机
 
-### 删除Rancher外的主机
-
-如果您的主机在Rancher之外被删除，那么Rancher服务器将继续显示主机，直到它被删除。最终，这些主机将显示在*重新连接*状态，并且无法重新连接。您将能够**删除**这些主机以从UI中删除它们。
+在Rancher外删除主机，也就是意味着不是按照Rancher操作界面或者API来删除主机。最简单的例子就是，在Rancher集群内，有一台云提供商提供的主机。通过云提供商的管理界面删除了这台主机，这个删除行为Rancher是无法感知的。Rancher会一直尝试重新连接这台已经删除的主机，并显示 _Reconnecting_ 的状态，之后主机会显示 _Disconnected_ 状态。 因此，为了同步回删除的状态，还需要从 **基础架构** 进入 **主机** 页面，点击已经删除的主机的下拉菜单，选择 **删除**。 你也可以配置一个延迟用于自动删除失联主机。这个配置叫做`host.remove.delay.seconds`，你可以在`系统` -> `设置` -> `高级选项`中找到这个配置。

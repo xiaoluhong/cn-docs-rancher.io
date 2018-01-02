@@ -1,121 +1,132 @@
 ---
 title: Access Control in Rancher
-layout: rancher-default-v1.6
+layout: rancher-default-v1.6-zh
 version: v1.6
 lang: zh
-redirect_from:
-  - /rancher/latest/zh/configuration/access-control/
 ---
 
 ## 访问控制
-
-------
+---
 
 ### 什么是访问控制？
 
-访问控制是Rancher如何限制对Rancher实例具有访问权限的用户。默认情况下，未配置访问控制。这意味着任何拥有Rancher实例IP地址的人都可以使用它并访问API。您的Rancher实例向公众开放！强力建议您在启动Rancher后立即配置Access Control。启用访问控制后，您可以与您分享您的Rancher实例。在访问实例之前，将需要它们进行身份验证。只有那些具有实例的有效API密钥的API才能访问该API。
+访问控制是用来控制哪些用户可以访问你的Rancher服务。在默认情况下，Rancher没有启用访问控制。这意味着知道你的Rancher服务IP的人都可以访问你的Rancher服务和API。你的Rancher服务是对外开放的！我们强烈建议你在启动Rancher后立即配置访问控制，这样你可以按照需要分享你的Rancher服务。用户在访问你的Rancher服务之前，需要进行身份认证。同时，只有拥有合法的API密钥才能使用Rancher API。
 
-与Rancher进行认证的第一个帐户将成为该帐户的**管理员**。有关详细信息，请参阅[管理员的权限](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/configuration/access-control/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/configuration/access-control/#admin)。
+Rancher认证的第一个账户将成为 **管理员** 账户。 想要获取有关详细信息，请参阅 [管理员权限]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/#管理员)。
 
 ### 启用访问控制
 
-在**管理员**选项卡中，单击**访问控制**。
+在 **系统管理** 选项卡中, 点击**访问控制**。
 
-验证您的Rancher实例后，Access Control将被视为启用。启用访问控制后，您将能够管理不同的[环境](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/configuration/access-control/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts)，并与不同的人分享。
+在你配置了Rancher的访问控制后，访问控制将被启用。访问控制使你能够管理不同的[环境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/)并把它们分享给不同的个人或团队。
 
-当启用访问控制时，API被锁定，并且要求作为用户进行身份验证，或者使用[API密钥](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/configuration/access-control/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/api/api-keys)进行访问。
+当访问控制启用后，Rancher API将被锁定。这时需要用户进行身份认证， 或者使用[API 密钥]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/api/v2-beta/api-keys/)来访问它。
 
 #### 活动目录
 
-选择**Active Directory**图标。如果要使用TLS使用Active Directory，请确保已[使用适当的证书启动Rancher服务器](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/configuration/access-control/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/installing-rancher/installing-server/#ldap)。通过单击**验证**填写部分并验证Rancher 。启用Active Directory后，您将自动以已验证的用户名身份登录。您也将作为牧场主的管理员登录。
+选择**活动目录**图标。 如果你想要通过TLS来使用活动目录，请确保你已经[使用了相应的证书来启动Rancher Server]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/installing-rancher/installing-server/#ldap)。填写相关信息后，通过点击**身份认证**进行认证校验。 当活动目录认证成功后，你将自动以已认证的用户名身份登录。并且把你的账号设置为了管理员权限。
 
-##### 用户搜索库与组搜索库
+##### 用户搜索基址与用户组搜索基址
 
-配置Active Directory配置时，您将需要为用户输入搜索库。此搜索库允许Rancher搜索设置在您的Active Directory中的用户。如果您的用户和组位于搜索库中，则**只需**填写用户的搜索库，但如果您的组位于不同的搜索库，则可以将其他搜索库放在该`Group Search Base`字段中。此字段专用于搜索组，不是必需的。
+在配置活动目录时，你将需要输入用户的搜索基址。 此搜索基址允许Rancher搜索在活动目录中已设置的用户。如果你的用户和用户组位于相同的搜索基址中，那么你**仅仅**需要填写用户的搜索基址，但是如果你的用户组在不同的搜索基址，你可以把该搜索基址填写在`用户组搜索基址`字段下。 此字段专用于用户组搜索，该项是可选的。
 
 #### Azure AD
 
-选择**Azure AD**图标。通过点击**使用Azure**进行**身份验证，**填写部分并验证Rancher 。启用Active Directory后，您将自动以已验证的用户名身份登录。您也将作为牧场主的管理员登录。
+选择**Azure AD**图标。 填写相应信息并单击**Azure认证**进行认证校验。 当认证成功后，你将自动以已认证的用户名身份登录。并且把你的账号设置为了管理员权限。
 
-#### GitHub上
+#### GitHub
 
-选择**GitHub**图标，并按照UI中的说明将Rancher注册为GitHub应用程序。点击**使用GitHub进行身份验证后**，访问控制将被启用，您将自动使用GitHub登录凭据和Rancher管理员登录到Rancher。
+选择**GitHub**图标，并按照用户界面中的说明将Rancher注册为GitHub应用程序。 点击**使用GitHub进行身份认证**后，当认证成功后，你将自动以已认证的Github账号登录。并且把你的账号设置为了管理员权限。
 
-#### 本地认证
+#### 本地身份认证
 
-本地身份验证允许您创建自己的一组存储在Rancher数据库中的帐户。
+本地身份认证允许你创建自己的一组账户，这些账户存储在Rancher数据库中。
 
-选择**本地**图标。通过提供**登录用户名**，**全名**和**密码**创建管理员用户。单击**启用本地验证**以**启用本地身份验证**。通过单击此按钮，管理员将被创建并保存在数据库中。您刚刚创建的管理员帐户自动登录到Rancher实例。
+选择**本地**图标。 通过提供**登录用户名**，**全名**和**密码**来创建管理员用户。 点击**启用本地认证**来启用本地身份认证。 通过单击此按钮，管理员用户将被创建并保存在数据库中。这时你将自动用刚刚创建的管理员帐户登录到Rancher服务。
 
-#### OpcnLDAP的
+#### OpenLDAP
 
-选择**OpcnLDAP**图标。如果要使用TLS使用OpcnLDAP，请确保已[使用适当证书启动Rancher服务器](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/configuration/access-control/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/installing-rancher/installing-server/#ldap)。通过单击**验证**填写部分并验证Rancher 。当启用OpcnLDAP时，您将自动以已验证的用户名身份登录。您也将作为牧场主的管理员登录。
+填写对应信息后，通过点击**身份认证**进行认证校验。当OpenLDAP认证成功后，你将自动以已认证的用户名身份登录。并且把你的账号设置为了管理员权限。
 
-##### 用户搜索库与组搜索库
+##### 用户搜索基址与用户组搜索基址
 
-配置Active Directory配置时，您将需要为用户输入搜索库。此搜索库允许Rancher搜索设置在您的Active Directory中的用户。如果您的用户和组位于搜索库中，则**只需**填写用户的搜索库，但如果您的组位于不同的搜索库，则可以将其他搜索库放在该`Group Search Base`字段中。此字段专用于搜索组，不是必需的。
+在配置活动目录时，你将需要输入用户的搜索基址。 此搜索基址允许Rancher搜索在活动目录中已设置的用户。如果你的用户和用户组位于相同的搜索基址中，那么你**仅仅**需要填写用户的搜索基址，但是如果你的用户组在不同的搜索基址，你可以把该搜索基址填写在`用户组搜索基址`字段下。 此字段专用于用户组搜索，该项是可选的。
 
-#### Shibboleth的
+#### Shibboleth
 
-选择**Shibboleth**图标。填写Shibboleth帐户的配置，**保存**访问控制正在工作的信息和**测试**。
+选择**Shibboleth**图标。 填写Shibboleth帐户的配置信息，点击**保存**保存信息，然后点击**测试**来测试访问控制是否正常工作。
 
-使用Shibboleth，有一些已知的问题，您应该注意，如果您正在配置来验证它。
+在使用Shibboleth时，你应该注意一些已知的问题。
 
-- 没有搜索或查找支持。在用户添加时，必须输入正确的用户ID才能访问。
-- 将用户添加到[环境](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/configuration/access-control/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts)时，不支持组ID，除非启用访问控制的管理员是该组的成员。
+* 不支持搜索或查找功能。 在添加用户时，请确保输入的用户ID是准确的，这样才能保证用户被添加成功。
+* 当添加用户到一个[环境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/)时, 不支持组ID，除非管理员是该组的成员之一。
 
-### 网站访问
+### 站点访问
 
-根据您的身份验证类型，Rancher提供不同级别的站点访问。
+根据你的身份认证类型，Rancher提供不同级别的站点访问。
 
-#### Active Directory / GitHub / Shibboleth
+#### 活动目录/GitHub/Shibboleth
 
-如果您已通过AD或GitHub进行身份验证，则将有3个选项可用。
+如果你已通过AD或GitHub进行身份认证，则将有3个选项可用。
 
-- **允许任何有效的用户** - GitHub或Active Directory中的任何用户都可以访问您的Rancher实例。这**不**推荐用于GitHub，因为它将是GitHub中的任何用户！
-- **允许环境成员以及授权用户和组织** - 任何环境成员或所有者的用户也可以访问Rancher实例以及添加到*授权用户和组织*列表中的任何用户。
-- **限制仅对授权用户和组织的访问权限** - 只有添加到*授权用户和组织的用户*才能访问Rancher实例。即使用户已添加到环境中，他们将无法访问，除非他们**也**加入到*授权用户和组织*部分。
+* **允许任何合法用户** - GitHub或活动目录中的任何用户都可以访问你的Rancher服务。 **不推荐**将此设置用于GitHub，因为它将使GitHub中的任何用户都可以访问Rancher服务。
+* **允许环境成员和已授权用户和组织** - 一个环境的成员用户或拥有者用户和添加到`已授权用户和用户组`的用户一样，都有权限访问Rancher服务。
+* **限制访问只有已授权用户和用户组可以访问** - 只有添加到`已授权用户和用户组`的用户才能访问Rancher服务。 即使用户已被添加到环境中，如果没有被添加到`已授权用户和用户组`，他们将仍然无法访问Rancher服务。
 
-任何具有Rancher实例[权限的用户](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/configuration/access-control/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/configuration/accounts/#users)都将获得[用户](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/configuration/access-control/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/configuration/accounts/#users)权限。他们将无法查看“ **管理** ”标签。您将明确需要将其帐户更改为[管理员帐户](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/configuration/access-control/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/configuration/accounts/#admin)。
+任何具有Rancher服务访问权限的人都将被授予 [用户]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/accounts/#users)权限。他们将无法查看**系统管理**页面。 如果想要他们查看，你将需要明确地将其帐户更改为[管理员帐户]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/accounts/#管理员)。
 
-为了使用户能够查看不同的[环境](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/configuration/access-control/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts)，它们需要由环境[所有者](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/configuration/access-control/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts/#owners)添加到环境中。
+为了让用户查看不同的[环境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/), 他们将需要被环境的[所有者]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#所有者)添加到环境中。
 
-#### Azure AD / OpcnLDAP
 
-对于Azure AD和OpcnLDAP，作为安装程序成员的任何用户都可以访问Rancher站点。
+#### Azure AD/OpenLDAP
 
-#### 本地认证
+对于Azure AD和OpenLDAP，你的设置中的任何用户都可以访问Rancher站点。
 
-启用本地身份验证后，管理员可以通过访问**管理员** > **帐户**选项卡来创建其他管理员/用户。单击**添加帐户**并填写您要添加的帐户的详细信息。您可以选择其帐户类型作为**管理员**或**用户**。管理员可以查看“ **管理** ”标签，而Rancher实例的用户将无法看到该选项卡。
+#### 本地身份认证
 
-创建帐户后，可以将admin / user添加到任何[环境中](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/configuration/access-control/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts)。
+启用本地身份认证后，管理员可以通过访问**系统管理**> **账号设置**选项卡来创建其他管理员/用户。 点击**添加账号**并填写你要添加的帐户的详细信息。 你可以选择其帐户类型为**管理员**或**用户**。 管理员可以查看**系统管理**页面，普通用户无法看到该页面。
 
-### 帐户类型
+一旦帐户被创建后，该账户可以被添加到任何[环境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/)中。
 
-帐户类型确定帐户是否可以访问管理员选项卡。对于Rancher中的每个环境，都有一个[会员角色](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/configuration/access-control/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts/#membership-roles)，为特定的环境提供不同的访问级别。
+### 账户类型
+
+帐户类型决定帐户是否可以访问系统管理页面。对于Rancher中的每个环境，可以设置不同级别的[成员角色]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#成员角色)来对特定环境进行访问。
 
 #### 管理员
 
-认证牧场主的第一个用户成为牧场主的管理员。只有管理员才有权查看**管理员**标签。
+认证Rancher的第一个用户成为Rancher的管理员。 只有管理员才有权限查看**系统管理**页面
 
-管理环境时，管理员可以查看Rancher中的所有[环境](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/configuration/access-control/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts)，即使管理员未作为环境成员添加。在管理员环境下拉菜单中，成员只会看到他们在成员资格列表中的环境。
+在管理环境时，管理员可以查看Rancher中的所有[环境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/)， 即使管理员没有被加入到该环境的成员中。 在非管理员的环境下拉菜单中，用户只能看到他们所在的环境。
 
-管理员可以将其他用户添加为牧场主管理员。在用户登录Rancher后，他们可以在**Admin** > **Accounts**页面上更改用户的角色。在**管理** > **帐户**标签中，点击帐户名称旁边的**修改**，然后 将帐户类型更改为*管理员*。单击**保存**。
+管理员可以将其他用户添加为Rancher管理员。 在用户登录Rancher后，他们可以在 **系统管理** > **账号设置**页面上更改用户角色。 在**系统管理**> **账号设置帐户**标签中，点击帐户名称旁边的**编辑**，并将帐户类型更改为管理员。 点击**保存**。
 
 #### 用户
 
-除了认证Rancher的用户，任何其他用户都将自动添加用户权限。他们将无法看到“ **管理** ”标签。
+除了用来启用Rancher认证的用户外，任何其他用户都将自动拥有用户权限。 他们将无法看到**系统管理**页面
 
-他们只能查看他们所属的环境。
+他们只能看到他们所在的环境。
 
 ### 禁用访问控制
 
-如果您决定不再需要访问控制，请单击**禁用访问控制**按钮。这将使您的Rancher实例向公众开放，任何人都可以访问您的API。这是**不**推荐的。
+如果你决定不再需要访问控制，请单击**禁用访问控制**按钮。 这将使你的Rancher服务向公众开放，任何人都可以访问你的API。 这是**不推荐**的。
 
 ### 配置会话超时
 
-默认情况下，会话令牌在创建后16小时到期。如果您的需求太长，可以更新会话令牌的到期时间。
+默认情况下，会话在其创建后16小时到期。 如果你觉得时间太长，可以更新会话到期时间。
 
-1. 在**管理** - > **设置** - > **高级设置下**，点击**我明白我可以通过更改高级设置来打破事情**。
-2. 找到**api.auth.jwt.tokcn.expiry**设置，然后单击编辑图标。
-3. 更新超时会话值，然后单击**保存**。值以毫秒为单位。
+1. 点击**系统管理** -> **系统设置** -> **高级设置**, 点击 **我确认已经知道修改高级设置可能导致问题**。
+2. 找到 **api.auth.jwt.token.expiry**设置，然后点击修改按钮。
+3. 更新超时会话值后，然后单击**保存**按钮。 值以毫秒为单位。
+
+### 限制并发登陆
+
+_从v1.6.3版开始支持_
+
+在默认情况下，用户可以同时在线。你可以通过API来禁用同时在线的功能。
+`api.auth.restrict.concurrent.sessions`.
+
+1. 找到**系统管理** -> **系统设置** -> **高级选项**, 点击 **我确认已经知道修改高级设置可能导致问题**.
+2. 找到**api.auth.restrict.concurrent.sessions**设置，然后点击修改按钮。
+3. 将值设置为`true`，然后点击**保存**。
+
+一旦该设置生效，在用户下次登陆的时候，之前的登陆口令将会被删除。这样，之前登陆的用户将会被登出。

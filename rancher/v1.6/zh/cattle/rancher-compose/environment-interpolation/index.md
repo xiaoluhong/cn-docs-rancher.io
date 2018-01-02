@@ -1,23 +1,23 @@
 ---
 title: Environment Interpolation in Rancher Compose
-layout: rancher-default-v1.6
+layout: rancher-default-v1.6-zh
 version: v1.6
 lang: zh
 ---
 
 ## 环境插值
+---
 
-------
+在使用 Rancher Compose 时，`docker-compose.yml` 和 `rancher-compose.yml` 文件中可以使用运行 Rancher Compose 的机器中的环境变量。
+这个特性只在 Rancher Compose 命令中有效，在 Rancher UI 中是没有这个特性的。
 
-使用牧场主撰写，从运行牧场主撰写本机环境变量中的使用`docker-compose.yml`和`rancher-compose.yml`文件。这仅在Rancher Compose命令中支持，而不是在Rancher UI中。
+### 怎么使用
 
-### 如何使用它
+在 `docker-compose.yml` 和 `rancher-compose.yml` 文件中，你可以引用你机器中的环境变量。如果没有该环境变量，它的值会被替换为空字符串，请注意的是 Rancher Compose 不会自动去除 `:` 两侧的空字符来适配相近的镜像。例如 `<imagename>:` 是一个非法的镜像名称，不能部署出容器。它需要用户自己来保证环境变量在该机器上是存在并有效的。
 
-使用`docker-compose.yml`和`rancher-compose.yml`文件，您可以引用机器上的环境变量。如果机器上没有环境变量，它将用空白字符串替换变量。Rancher Compose将提供关于哪些环境变量未设置的警告。如果使用图像标签的环境变量，请注意，Rancher Compose不会剥离`:`图像以获取最新的图像。由于图像名称，即`<imagename>:`无效的图像名称，将不会部署容器。确保所有环境变量在机器上存在和有效，由用户决定。
+#### 例子
 
-#### 例
-
-在我们的机器上运行Rancher Compose，我们有一个环境变量`IMAGE_TAG=14.04`。
+在我们运行 Rancher Compose 的机器上有一个这样的环境变量，`IMAGE_TAG=14.04` 。
 
 ```bash
 # Image tag is set as environment variable
@@ -27,7 +27,7 @@ IMAGE_TAG=14.04
 $ rancher-compose up
 ```
 
-**Example `docker-compose.yml`**
+**样例文件 `docker-compose.yml`**
 
 ```yaml
 version: '2'
@@ -38,11 +38,13 @@ services:
     stdin_open: true
 ```
 
-在牧场主，一个`ubuntu`服务将部署一个`ubuntu:14.04`形象。
+<br>
+
+在 Rancher 里，一个 `ubuntu` 服务会使用镜像 `ubuntu:14.04` 部署。
 
 ### 环境插值格式
 
-Rancher Compose支持与Docker Compose相同的格式。
+Rancher Compose 支持和 Docker Compose 一样的格式。
 
 ```yaml
 version: '2'

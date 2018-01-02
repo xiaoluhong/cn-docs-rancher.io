@@ -1,35 +1,34 @@
 ---
 title: Adding External Service
-layout: rancher-default-v1.6
+layout: rancher-default-v1.6-zh
 version: v1.6
 lang: zh
 ---
 
 ## 添加外部服务
+---
 
-------
+你可能会有一些部署在Rancher之外的服务想要整合进Rancher。你可以通过添加一个外部服务的功能将它添加到Rancher集群中。
 
-您可能会在Rancher外部托管您想要与Rancher集成的服务。您可以通过添加外部服务将这些服务添加到Rancher。
+### 在UI上添加外部服务
 
-### 在UI中添加外部服务
+在你的应用上，你可以通过 **添加服务** 旁边的下拉菜单按钮添加外部服务。选择 **外部服务**。 或者你在应用层级的页面查看你的应用，同样存在相同的 **添加服务** 下拉菜单。
 
-在堆栈内，您可以通过单击**添加服务**按钮旁边的下拉图标来**添加**外部服务。选择**外部服务**。或者，如果您在堆栈级别查看堆栈，则对于每个特定堆栈，可以看到相同的“ **添加服务”**下拉列表。
+你将需要提供一个外部服务的 **名称**，如果需要的话，提供这个服务的 **描述**。
 
-您将需要提供一个**名称**，如果需要的**话**，说明服务。
+添加你想要的目标。你可以选择外部的IP或者域名。最后点击 **添加**。
 
-添加所需的目标。您可以选择外部IP或主机名（即CNAME）。最后点击**创建**。
+外部服务的IP和域名会在服务中呈现。和Rancher的服务一样，你需要去启动一个外部服务。
 
-外部服务IP和主机名将显示在服务中。就像我们的服务一样，您将需要启动外部服务。
+#### 添加/删除外部服务目标
 
-#### 添加/删除目标
+在任何时候你都可以编辑你外部服务中的服务目标。在外部服务的下拉菜单中点击 **编辑**，你可以添加或者移除目标。
 
-随时可以编辑外部服务中的目标。点击外部服务的下拉菜单中的**编辑**。您可以添加更多目标或删除现有目标。
+### 使用Rancher Compose添加外部服务
 
-### 添加外部服务与Rancher Compose
+在外部服务中，你可以设置外部IP地址 **或者** 域名。`rancher/external-service` 并不是一个真实的镜像，但在 `docker-compose.yml` 中是必要的。Rancher不会为外部服务创建容器。
 
-使用外部服务，您可以设置外部IP **或**域名。这`rancher/external-service`不是一个实际的图像，但是是必需的`docker-compose.yml`。没有为外部服务创建容器。
-
-#### Example `docker-compose.yml`
+#### `docker-compose.yml`例子
 
 ```yaml
 version: '2'
@@ -40,7 +39,7 @@ services:
     image: redis
 ```
 
-#### Example `rancher-compose.yml` using external IPs
+#### `rancher-compose.yml` 使用外部IP的例子
 
 ```yaml
 version: '2'
@@ -58,7 +57,7 @@ services:
     - 2.2.2.2
 ```
 
-#### Example `rancher-compose.yml` using hostname
+#### `rancher-compose.yml` 使用域名的例子
 
 ```yaml
 version: '2'

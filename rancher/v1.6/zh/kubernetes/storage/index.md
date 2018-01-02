@@ -1,35 +1,34 @@
 ---
-title: Kubernetes Persistcnt Storage Support in Rancher
-layout: rancher-default-v1.6
+title: Kubernetes Persistent Storage Support in Rancher
+layout: rancher-default-v1.6-zh
 version: v1.6
 lang: zh
 ---
 
-## 持久存储在 Kubernetes
-
+## Kubernetes中的持久化存储
 ---
 
-Rancher可以通过本地Kubernetes资源启动具有持久存储的服务。在Kubernetes，[持久性存储](https://kubernetes.io/docs/user-guide/persistcnt-volumes/)通过Kubernetes API资源管理，`PersistcntVolume`和`PersistcntVolumeClaim`。Kubernetes的存储组件支持各种后端（例如NFS，EBS等），它们具有与pod的单独的生命周期。根据您有兴趣使用的持久性卷的类型，您可能需要[配置您的Kubernetes环境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//kubernetes/providers)。
+Rancher能够通过Kubernetes原生资源对象创建拥有持久化存储的服务。在Kubernetes中, [持久化存储](https://kubernetes.io/docs/user-guide/persistent-volumes/)通过API资源对象管理, 其中包括`PersistentVolume`和`PersistentVolumeClaim`。Kubernetes中的存储组件支持多种后端存储(例如：NFS、EBS等), 存储具有独立于pod的生命周期。根据你希望使用的持久化卷的类型，你可能需要[设置Kubernetes环境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/providers/).
 
-我们概述了如何在Rancher 中使用[NFS]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//kubernetes/storage/index.md#persistcnt-volumes---nfs)和[EBS]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//kubernetes/storage/index.md#persistcnt-volumes---ebs)与Kubernetes的一些示例。
+以下是如何在Rancher的Kubernetes环境中使用[NFS](#persistent-volumes---nfs)和[EBS](#persistent-volumes---ebs)的示例。
 
-### 持久卷 - NFS
+### Persistent Volumes - NFS
 
-对于Kubernetes使用NFS卷时，文件系统（即NFS）将安装在pod中。文件系统允许来自使用相同持久卷声明的不同pod的多次写入。可以在每个pod中具有相同数据的pod之间共享卷。
+在Kubernetes中使用NFS卷时，文件系统(也就是NFS)将被挂载在pod中。NFS允许多个pod同时进行写操作，这些pod使用相同的persistent volume claim。通过使用NFS卷，相同的数据可以在多个pod之间共享。
 
-#### NFS配置
+#### NFS设置
 
-您将需要运行正在运行的共享导出的NFS服务器。在我们的示例中，我们假定该`/nfs`目录是导出的。
+你需要有一台正常运行的NFS服务器并设置了共享目录。在下面的示例中，我们假定`/nfs`被设置为共享目录。
 
-#### 创建持久卷（PV）和持久卷声明（PVC）
+#### 创建Persistent Volumes (PV)和Persistent Volume Claims (PVC)
 
-在你Kubernetes模板时，`kind`会`PersistcntVolume`和你应该使用的`nfs`资源。服务器将使用`<IP_OF_NFS_SERVER>`和导出的目录（即`/nfs`在我们的yaml中）。
+在Kubernetes模板中，`kind`需要被设置为`PersistentVolume`并使用`nfs`资源。 服务器将使用`<IP_OF_NFS_SERVER>`中设置的地址以及path所指定的路径作为共享目录(在我们的示例yaml文件中也就是`/nfs`目录)。
 
-Example  `pv-nfs.yml`
+示例`pv-nfs.yml`文件
 
 ```yaml
 apiVersion: v1
-kind: PersistcntVolume
+kind: PersistentVolume
 metadata:
   name: nfs
 spec:
@@ -43,18 +42,19 @@ spec:
     path: "/nfs"
 ```
 
-使用`kubectl`，让我们将持久的卷发送到Kubernetes。请记住，你可以[配置`kubectl`你的本地计算机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//kubernetes/#kubectl)，也可以根据使用的shell在UI **Kubernetes** - > **kubectl**。
+通过`kubectl`客户端, 我们可以使用下面的命令在Kubernetes中创建persistent volume。记住, 你可以通过[为本地主机配置`kubectl`]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/#kubectl)在本机使用kubectl客户端或者通过UI界面中的**Kubernetes** -> **kubectl** 命令行界面使用kubectl客户端。
 
 ```bash
 $ kubectl create -f pv-nfs.yml
 ```
 
-创建持久卷之后，您可以创建持久卷声明，声明刚刚创建的持久卷。
+创建persistent volume之后, 你可以创建persistent volume claim，用于请求创建的persistent volume资源。
 
-Example `pvc-nfs.yml`
+示例`pvc-nfs.yml`文件
 
 ```yaml
 apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
   name: nfs
 spec:
@@ -65,13 +65,13 @@ spec:
       storage: 1Mi
 ```
 
-使用`kubectl`，让我们将持久的卷发送到Kubernetes。请记住，你可以[配置`kubectl`你的本地计算机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//kubernetes/#kubectl)，也可以根据使用的shell在UI **Kubernetes** - > **kubectl**。
+通过`kubectl`客户端, 我们可以使用以下命令在Kubernetes中创建persistent volume claim。记住，你可以通过[为本地主机配置`kubectl`]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/#kubectl)在本机使用kubectl客户端或者通过UI界面中的**Kubernetes** -> **kubectl** 命令行界面使用kubectl客户端。
 
 ```bash
 $ kubectl create -f pvc-nfs.yml
 ```
 
-创建永久卷和持久卷声明后，您可以确认持久卷被绑定。
+在创建了persistent volume和persistent volume claim之后, 你可以通过以下命令确认persistent volume已绑定。
 
 ```bash
 $ kubectl get pv,pvc
@@ -83,11 +83,11 @@ NAME      STATUS    VOLUME    CAPACITY   ACCESSMODES   AGE
 pvc/nfs   Bound     nfs       1Mi        RWX           5s
 ```
 
-#### 创建一个Pod来使用持久卷声明
+#### 创建一个Pod使用Persistent Volume Claim
 
-现在已创建持久卷声明，我们可以开始创建将使用持久卷声明的pod，而pod将具有相同的数据。
+现在persistent volume claim已经被创建, 我们可以创建使用这个persistent volume claim的pods。这些pods将会访问相同的数据。
 
-Example `rc-nfs.yml`
+示例`rc-nfs.yml`文件
 
 ```yaml
 apiVersion: v1
@@ -114,11 +114,11 @@ spec:
               mountPath: "/usr/share/nginx/html"
       volumes:
       - name: nfs
-        persistcntVolumeClaim:
+        persistentVolumeClaim:
           claimName: nfs
 ```
 
-使用`kubectl`，让我们创建我们的复制控制器和两个pod到Kubernetes。两个pod都将使用`nfs`持久卷，使用`nfs`持久卷声明。它将映射在容器内部路径`/usr/share/nginx/html`。请记住，你可以[配置`kubectl`你的本地计算机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/#kubectl)，也可以根据使用的shell在UI **Kubernetes** - > **kubectl**。
+通过`kubectl`客户端, 我们可以使用以下命令在Kubernetes中创建replication controller和两个pods。记住，你可以通过[为本地主机配置`kubectl`]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/#kubectl)在本机使用kubectl客户端或者通过UI界面中的**Kubernetes** -> **kubectl** 命令行界面使用kubectl客户端。
 
 
 ```bash
@@ -132,13 +132,13 @@ rc-nfs-test-42785   1/1       Running   0          10s
 rc-nfs-test-rt3ld   1/1       Running   0          10s
 ```
 
-我们来检查两个pod是否能够访问持久卷并访问NFS服务器中的任何更改。我们将文件添加到`/nfs`NFS服务器上的文件夹中。
+我们可以测试两个pods都可以访问同一个persistent volume以及NFS服务端产生的修改。示例如下，我们可以在NFS服务器端的`/nfs`目录下创建一个文件。
 
 ```bash
 $ echo "NFS Works!" > /nfs/index.html
 ```
 
-将文件添加到NFS服务器后，我们可以检查该文件是否位于两个pod上。
+在NFS服务器端创建文件后，我们可以在两个pods中查看这个文件。
 
 ```
 $ kubectl exec rc-nfs-test-42785 cat /usr/share/nginx/html/index.html
@@ -147,24 +147,24 @@ $ kubectl exec rc-nfs-test-rt3ld cat /usr/share/nginx/html/index.html
 NFS Works!
 ```
 
-### 持续卷 - EBS
+### Persistent Volumes - EBS
 
-为了在Kubernetes中使用EBS作为持久卷，您需要配置几个特定选项的Kubernetes。
+要在Kubernetes中使用EBS作为persistent volume，你需要对Kubernetes进行一些设置。
 
-1. 使用[云提供程序选项]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//kubernetes/providers/#aws)将Kubernetes环境配置[为AWS]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//kubernetes/providers/#aws)。
-2. 任何[主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//hosts)应在AWS EC2中启动，并具有正确的IAM策略。
+1. 参考[AWS cloud provider选项]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/providers/#aws)文档中的步骤设置Kubernetes环境.
+2. 所有[主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/)必须是AWS EC2实例并且拥有正确的IAM策略。
 
-将Kubernetes的EBS卷用作持久卷可以分为两部分：[静态配置]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/storage/index.md#static-provisioning)和使用存储类的[动态配置]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//kubernetes/storage/index.md#dynamic-provisioning)。
+在Kubernetes中使用EBS数据卷的操作可以分为两种: [静态初始化](#静态初始化), 和通过storage classes[动态初始化](#动态创建)。
 
-#### 静态配置
+#### 静态初始化
 
-在将Kubernetes中使用它作为持久卷**之前**，需要在与Rancher代理相同的区域和可用性区域中创建EBS卷。为了开始使用持久卷，您将首先需要创建持久卷资源。
+在Kubernetes环境中使用persistent volume之前，需要预先在Rancher主机所在的AWS区域和可用区中创建EBS卷。为了使用persistent volume, 你需要先创建persistent volume资源对象。
 
-Example `pv-ebs.yml`
+示例`pv-ebs.yml`文件
 
 ```yaml
 apiVersion: v1
-kind: PersistcntVolume
+kind: PersistentVolume
 metadata:
   name: ebs
 spec:
@@ -172,25 +172,25 @@ spec:
     storage: 1Gi
   accessModes:
     - ReadWriteOnce
-  persistcntVolumeReclaimPolicy: Recycle
+  persistentVolumeReclaimPolicy: Recycle
   awsElasticBlockStore:
     fsType: ext4
     # The EBS volume ID
     volumeID: <VOLUME_ID_IN_EBS>
 ```
 
-使用`kubectl`，让我们将持久的卷发送到Kubernetes。需要用EBS卷ID来代替`<VOLUME_ID_IN_EBS>`。请记住，你可以[配置`kubectl`你的本地计算机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//kubernetes/#kubectl)，也可以根据使用的shell在UI **Kubernetes** - > **kubectl**。
+通过`kubectl`客户端, 我们可以使用以下命令在Kubernetes中创建persistent volume。 文件中的`<VOLUME_ID_IN_EBS>`需要被替换为相应的EBS volume id。 记住，你可以通过[为本地主机配置`kubectl`]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/#kubectl)在本机使用kubectl客户端或者通过UI界面中的**Kubernetes** -> **kubectl** 命令行界面使用kubectl客户端。
 
 ```bash
 $ kubectl create -f pv-ebs.yml
 ```
 
-创建持久卷之后，您可以创建持久卷声明，该声明声明刚刚创建的持久卷。
+创建persistent volume之后, 你可以创建persistent volume claim，用于请求创建的persistent volume资源。
 
 Example `pvc-ebs.yml`
 
 ```yaml
-kind: PersistcntVolumeClaim
+kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: pvs-ebs
@@ -205,18 +205,17 @@ spec:
       release: "stable"
 ```
 
-
-创建永久卷和持久卷声明后，您可以确认持久卷被绑定。
+在创建了persistent volume和persistent volume claim之后, 你可以通过以下命令确认persistent volume已绑定。
 
 ```bash
 $ kubectl get pv,pvc
 ```
 
-#### 创建一个Pod来使用持久卷声明
+#### 创建一个Pod使用Persistent Volume Claim
 
-在进行持久的卷声明之后，您只需要制作一个使用它的pod。
+创建persistent volume claim之后, 你只需要创建一个pod来使用它。
 
-Example `pod-ebs.yml`
+示例`pod-ebs.yml`文件
 
 ```yaml
 apiVersion: v1
@@ -224,18 +223,18 @@ metadata:
   name: mypod
 spec:
   containers:
-    - name: myfrontcnd
+    - name: myfrontend
       image: nginx
       volumeMounts:
       - mountPath: "/var/www/html"
         name: ebs
   volumes:
     - name: ebs
-      persistcntVolumeClaim:
+      persistentVolumeClaim:
         claimName: pvc-ebs
 ```
 
-在AWS体积应该转向从`available`到`in-use`吊舱后使用它。
+在pod使用了相应的卷之后，AWS中卷的状态应当从`可用`变为`使用中`。
 
 
 ```bash
@@ -250,12 +249,12 @@ NAME          STATUS    VOLUME    CAPACITY   ACCESSMODES   AGE
 pvc/pvc-ebs  Bound     pv1       1Gi        RWO           3m
 ```
 
-#### 动态配置
+#### 动态创建
 
-EBS中的另一种方法是使用[动态配置](http://blog.kubernetes.io/2016/10/dynamic-provisioning-and-storage-in-kubernetes.html)，它只使用[StorageClass](https://kubernetes.io/docs/user-guide/persistcnt-volumes/#class-1)自动创建并将卷附加到pod。在我们的示例中，存储类将指定AWS作为其存储提供商，并使用类型`gp2`和可用性区域`us-west-2a`。
+在Kubernetes中使用EBS的另外一种方法是[动态创建](http://blog.kubernetes.io/2016/10/dynamic-provisioning-and-storage-in-kubernetes.html), 这种方式使用[StorageClass](https://kubernetes.io/docs/user-guide/persistent-volumes/#class-1)自动创建并挂载数据卷到pods中。在我们的示例中, storage class将指定AWS作为storage provider并使用`gp2`类型以及`us-west-2a`可用区。
 
 
-Example `storage-class.yml`
+示例`storage-class.yml`文件
 
 ```yaml
 kind: StorageClass
@@ -268,13 +267,13 @@ parameters:
   zone: us-west-2a
 ```
 
-#### 使用存储类创建Pods
+#### 创建Pod使用Storage Classes
 
-您可以开始在任何pod中使用存储类，或声称Kubernetes自动创建新卷并将其附加到pod。
+你可以在任何pod中使用storage class从而使Kubernetes自动创建新的卷并挂载到pod中。
 
 ```json
 {
-  "kind": "PersistcntVolumeClaim",
+  "kind": "PersistentVolumeClaim",
   "apiVersion": "v1",
   "metadata": {
     "name": "claim2",
@@ -295,7 +294,7 @@ parameters:
 }
 ```
 
-在将此声明与pod资源配合使用后，您应该可以看到一个新的pv被创建并且自动被绑定到该声明上：
+通过在pod中使用这种请求方式，你将看到一个新的pv被创建并自动和pvc绑定:
 
 ```bash
 $ kubectl get pv,pvc,pods

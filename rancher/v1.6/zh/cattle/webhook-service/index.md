@@ -1,144 +1,148 @@
 ---
 title: Webhooks in Rancher
-layout: rancher-default-v1.6
+layout: rancher-default-v1.6-zh
 version: v1.6
 lang: zh
 ---
 
 ##  Webhooks
-
 ---
 
-在Rancher中，您可以创建接收器钩子，它提供了一个可用于触发Rancher内部操作的URL。例如，接收机钩可以与外部监视系统集成以增加或减少服务的容器。在**API** - > **Webhooks中**，您可以查看和创建新的接收器钩子。
+在 Rancher 中，你可以创建接收器钩子。 这些钩子提供了一个可以在Rancher 中触发事件的 URL。比如，接收器钩子可以和监控系统整合来增加或减少服务的容器数量。 在 **API** -> **Webhooks** 页面， 你可以查看或创建一个接收钩子。
 
-### 添加接收器钩
+### 添加接收器钩子
 
-要创建接收器钩子，请导航到**API** - > **Webhooks**。点击**添加接收器**。
+要创建一个接收器钩子，导航到，**API** -> **Webhooks**，点击 **添加接收器**
 
-- 为接收者提供一个**名称**，这将允许您轻松识别它。
-- 选择您要创建的接收者**种类**。
-- 根据接收机的类型确定接收机的动作。
+* 填写接收器 **名称** 以方便识别。
+* 选择你要创建的接收器 **类型**。
+* 基于接收器的类型确定接收器事件。
 
-单击**创建**。创建后，URL将在新添加的接收器钩子旁边提供。
+点击 **创建**。创建成功后，就可以在新创建接收器钩子旁边看到相应的URL。
 
-### 使用接收器钩
+### 使用接收器钩子
 
-要使用触发器网址，您需要对`POST`特定的URL进行操作。`POST`网址不需要身份验证或身体。
+要使用触发 URL，你需要先发一个 `POST` 请求到这个 URL。
+向这个 URL `POST` 请求不需要在验证头和 body 信息。
 
-### 接收器钩的种类
+### 接收器钩子的类型
 
-- [缩小服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/webhook-service/index.md#scaling-a-service)
-- [缩放主机数量](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/webhook-service/index.md#scaling-hosts)
-- [基于DockerHub标记更新升级服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/webhook-service/index.md#upgrading-a-service-based-on-docker-hub-webhooks)
+* [服务扩缩容](#服务扩缩容)
+* [主机数量增减](#主机弹性伸缩)
+* [基于 DockerHub 标签的更新来更新一个服务](#基于-docker-hub-webhooks-升级服务)
 
-#### 缩放服务
+<a id="scaling-service-example"></a>
 
-要扩展服务，您必须配置您的webhook：
+#### 服务扩缩容
 
-- 扩展/缩小服务（即在服务中添加或删除容器）
-- 从环境中的服务列表中选择
-- 一次放大/缩小多少个容器
-- 服务的容器的最小/最大数量
+要扩缩容一个服务，你必须先配置你的 webhook：
 
-##### 使用接收机钩子自动缩放服务的示例
+* 扩大／缩小一个服务(即，添加或移除一个服务中的容器)
+* 在环境中选择服务
+* 一次投放／移除多少容器
+* 服务的最大／最小容器数量
 
-通过使用接收器挂钩来扩展服务，您可以通过与外部服务集成来实现自动缩放。在我们的示例中，我们将使用Prometheus来监控服务和Alertmanager到`POST`URL。
+<a id="autoscaling-example"></a>
 
-##### 安装普罗米修斯
+##### 一个用接收器钩子来自动扩缩服容务的示例
+使用接收器钩子来扩缩容服务，你可以通过整合外界服务来实现自动扩缩容。
+在这个示例中，我们使用 Prometheus (普罗米修斯) 来监控服务，通过报警管理程序来发送 `POST` 请求到触发 URL.
 
-普罗米修斯通过[牧场目录提供](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/webhook-service/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/catalog)，可以在**目录**下找到。选择**Prometheus**并启动目录条目。在普罗米修斯堆栈中，找到被调用的服务`prometheus`，它在端口上暴露出来`9000`。执行到容器并去`/etc/prom-conf`。prometheus配置文件`prometheus.yml`将出现在那里。为了添加警报，为警报创建单独的文件，并提供该文件的路径`prometheus.yml`。例如，如果您创建的警报文件被调用`rules.conf`，则将其添加到`prometheus.yml`最后添加以下两行：
+##### 安装 Prometheus
+
+[Rancher 应用商店]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/catalog/) 提供了 Prometheus 监控服务，在 **应用商店** 中可以找到这个服务。选中**Prometheus** 然后启动应用商店入口。 在 Prometheus 应用中找到一个名为 `prometheus` 的服务，这个服务暴露了 `9090` 端口。在容器中找到 `/etc/prom-conf`。 Prometheus 的配置文件`prometheus.yml` 就在 `/etc/prom-conf` 目录。为了添加警报， 单独创建一个警报文件，在 `prometheus.yml` 中提供文件的路径。 比如，如果你创建了一个名为 `rules.conf` 的警报文件，把它加入到 `prometheus.yml`，在 `prometheus.yml` 末尾加入如下两行:
 
 ```
 rule_files:
   - rules.conf
-
 ```
 
-该文件`rules.conf`可以有多个警报，以下是警报的示例
+`rules.conf` 可以有多个报警配置，下面就是一个报警的配置
 
-###### 示例警报 `/etc/prom-conf/rules.conf`
+###### `/etc/prom-conf/rules.conf` 中的警报配置例子
 
-```
-ALERT CpuUsageSpike 
-IF率（container_cpu_user_seconds_total {container_label_io_rancher_container_name = “演示-testTarget-1”} [30秒]）* 100> 70个
-标签{ 
-  严重性= “关键的”，
-  动作= “向上” 
-} 
-注解{ 
-  “需要额外的容器”摘要=，
-  描述=“CPU使用率在70％以上” 
+```yaml
+ALERT CpuUsageSpike
+IF rate(container_cpu_user_seconds_total{container_label_io_rancher_container_name="Demo-testTarget-1"}[30s]) * 100 > 70
+LABELS {
+  severity="critical",
+  action="up"
+}
+ANNOTATIONS {
+  summary = "ADDITIONAL CONTAINERS NEEDED",
+  description = "CPU usage is above 70%"
 }
 ```
+加入报警配置后，重启服务。
 
-添加警报后，重新启动服务。
+##### 添加报警管理程序
 
-##### 添加Alertmanager
+要调用接受器钩子， 报警管理程序需要先启用。 你可以把它加入到 Prometheus 应用. 在 Prometheus 应用中点击 **添加服务**。用 `prom/alertmanager` 添加服务。添加服务的时记得映射端口`9093:9093`。服务启动后，在容器中执行命令，更新 `etc/alertmanager/config.yml`。 在 `etc/alertmanager/config.yml` 中添加 webhook 的 URL 。这样，当警报被触发时报警管理程序就会向这个 URL 发送 `POST` 请求。在 `etc/alertmanager/config.yml` 添加 URL 信息后需要重启服务。
 
-为了调用接收器钩子，Alertmanager将需要启动。您可以将其添加到普罗米修斯堆栈。点击普罗米修斯堆栈中的**添加服务**。使用`prom/alertmanager`添加服务。确保`9093:9093`在添加服务时映射端口。服务启动后，exec进入容器来更新`etc/alertmanager/config.yml`。在该文件中，添加webhook的URL，以便`POST`在触发警报时向URL 发送请求。使用URL信息更新文件后，重新启动服务。
+###### 示例 `etc/alertmanager/config.yml`
 
-###### 例 `etc/alertmanager/config.yml`
-
+```yaml
+route:
+  repeat_interval: 5h
+  routes:
+  - match:
+      action: up
+    receiver: "webhook-receiver-up"
+  - match:
+      action: down
+    receiver: "webhook-receiver-down"
+receivers:
+- name: "webhook-receiver-up"
+  webhook_configs:
+  - url: <WEBHOOK_URL>
+    send_resolved: true
+- name: "webhook-receiver-down"
+  webhook_configs:
+  - url: <WEBHOOK_URL>
+    send_resolved: true
 ```
-路线：
-   repeat_interval：5h 
-  路线：
-  - 匹配：
-       action：up 
-    receiver：“ webhook-receiver-up ” 
-  - match：
-       action：down 
-    receiver：“ webhook-receiver-down ”
- receiver：
-- 名称：“ webhook-receiver-up ”
-   webhook_configs：
-  - url：<WEBHOOK_URL> 
-    send_resolved：true 
-- name：“ webhook-receiver-down ”
-   webhook_configs：
-  - url：<WEBHOOK_URL> 
-    send_resolved：true
-```
 
-##### 自动缩放
+##### 自动扩缩容
+Prometheus 和警报管理程序随警报钩子更新后，重启服务器，以确保配置处于最新的激活状态。对于已经添加了警报的服务，服务会自动根据创建的更新器钩子自动扩容或缩容。
 
-在Prometheus和Alertmanager已使用警报和挂钩进行更新后，请确保重新启动服务，以便更新和激活配置。对于已添加警报的服务，服务将根据创建的接收器挂钩自动按比例放大或缩小。
+#### 主机弹性伸缩
+Rancher 可以通过克隆用 Rancherc 创建的， 并且已经存在的主机来增加主机的数量。(即 Docker Machine)。这意味这通过 [自定义命令]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/custom/) 添加的主机不能进行伸缩。
 
-#### 扩展主机
+使用 [主机上的标签]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/#主机标签)，
+主机可以被分组到一起组成一个弹性伸缩组。我们推荐在主机上使用唯一的标签来方便区分弹性伸缩组。任何标签相同的主机，不管它是如何被添加到Rancher的，都会被当作是同一个弹性伸缩组的一部分。创建 webhook 时, 主机上不要求有标签，但是当在弹性伸缩组中使用webhook时，至少要有一个主机带有标签，这样 webhook 才能有一个可以克隆的主机。总之， Rancher 会选择一台在弹性伸缩组中的可克隆主机
 
-牧师可以通过克隆通过牧场主（即Docker机器）创建的现有主机来扩展主机。这意味着使用[自定义命令](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/webhook-service/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts/custom)添加的主机无法缩放。
+要弹性伸缩主机，你必须配置你的 webhook：
 
-使用[主机上的标签](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/webhook-service/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/hosts/#host-labels)，主机可以在缩放组中组合在一起。我们建议在主机上使用唯一的标签来帮助区分缩放组。任何具有相同标签的主机，无论主机如何添加到Rancher中，都将被计为缩放组的一部分。当创建webhook时，标签不需要在任何主机上，但是当使用webhook时，必须至少有一个主机具有标签，以便webhook将有一个主机克隆以便扩展。放大主机时，Rancher将使用缩放组中最长的可克隆主机。
+* 扩增／减少主机(即，添加或移除主机)
+* 添加一个主机选择器标签。这个标签是用来把主机分组成一个弹性伸缩组的标签。
+* 选择单次要伸缩的主机数量。
+* 选择主机数量伸缩的上下限。添加主机时，主机数量不能超过上线， 减少时不能低于下限。
+* 如果你创建了一个 webhook 来缩小主机的数量，你可以选者移除主机的优先顺序。
 
-要扩展主机，您必须配置您的webhook：
+##### 主机弹性伸缩注意事件
 
-- 放大/缩小主机（即添加或删除主机）
-- 添加主机选择器标签。该标签是将主机分组到缩放组的主机上的标签。
-- 选择一次添加或删除的主机数量。
-- 选择主机缩放组允许的主机的最小和最大数量。如果添加主机，缩放组中的主机数不能超过最大数量。如果删除主机，缩放组中的主机数不能低于最小数量。
-- 如果要创建一个webhook来缩小主机，您可以选择如何删除主机的顺序的优先级（即，按最早或最新的方式开始删除）。
+* **主机标签:** 标签被用把主机划分为不同的弹性伸缩组。因为这些标签是由用户添加的，在选择，添加，编辑，标签时必须要非常小心。任何添加在主机上的标签都会自动地把这台主机到添加到一个弹性伸缩组。如果这台主机是可克隆的，它可能会被用于克隆出更多主机。任何主机标签的移除都会自动地把相应的主机从弹性伸缩组移除，这台主机也将不再能够被 webhook 服务克隆或移除。
 
-##### 关于扩展主机的注意事项
+* **[自定义主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/hosts/custom/):** 任何类型的主机都可以被添加到弹性伸缩组中，你只需要在主机上添加一个标签。Rancher 不能用这些主机来克隆或创建出更多主机。
+* **主机克隆:** 因为主机扩增既是主机克隆，所有配置，包括资源分配，Docker 引擎等都会在新主机被复制。Rancher 总是会用克隆最旧的主机。
+* **处于错误状态的主机:** 任何处于 `Error` 状态的主机都不会被添加到弹性伸缩组中.
+* **移除主机的顺序:** 从 Rancher 中删除主机时，Rancher会根据主机的状态，按以下的顺序删除弹性伸缩组中的主机(`Inactive`， `Deactivating`，`Reconnecting` 或 `Disconnected`)，最后才会删除处于 `active` 状态的主机
 
-- **主机标签：**标签用于将主机区分为不同的缩放组。由于这些是由用户添加的，所以需要仔细选择，添加和编辑标签。在主机上添加的任何标签将自动将主机添加到缩放组中，并且如果主机是可克隆的，则可以将其用于克隆以添加更多主机。在主机上删除的任何标签将自动从缩放组中移除主机，并且不会从webhook服务中克隆或删除主机。
-- **自定义主机：**任何类型的主机都可以添加到缩放组中，因为您只需要向主机添加标签即可。Rancher将无法使用这些主机来克隆和创建更多的主机。
-- **克隆主机：**由于扩展是克隆主机，所有配置，包括资源分配，Docker引擎等将在任何新的主机上重复。牧师将永远使用最古老的主机进行克隆。
-- **处于错误状态的**主机：在`Error`缩放组的计数中不会考虑任何状态的主机。
-- **删除主机的订单：**当从牧场主删除主机，在缩放组中的任何主机将首先删除这些状态（主机`Inactive`，`Deactivating`，`Reconnecting`或者`Disconnected`开始删除之前）`Active`主机。
+#### 基于 Docker Hub Webhooks 升级服务
 
-#### 基于Docker Hub Webhook升级服务
+利用 Docker Hub 的 webhooks, 你可以加入 Rancher 的接收器钩子。这样，每当push一个镜像，一个 `POST` 请求就会被发送到 Rancher 来触发这个触发器钩子。使用这种 webhooks 组合, 你可以实现自治。 这样，每当在 Docker Hub push一个 `image:tag`， 所有使用了匹配这个镜像版本的服务都会自动被升级。你需要用一个选择器标签来选择匹配的服务，然后再升级选中的服务。标签应该在服务创建时添加。如果服务没有标签，你需要在Rancher中升级服，然后添加供 webhook 使用的标签。
 
-使用Docker Hub的webhooks，您可以添加Rancher的接收器钩子，以便在按下特定图像时，`POST`将发送一个将Rancher触发接收器挂钩。使用这种webhook的组合，您可以进行自动化，以便`image:tag`在Docker Hub中推送特定内容时，任何使用匹配版本的服务将自动升级。要选择要升级的服务组，您将使用一个选择器标签，该标签将接收包含匹配标签的任何服务。在创建服务时，应将标签添加到服务中。如果标签不存在，您将需要升级Rancher中的服务以添加webhook的标签。
 
-为了升级服务，您必须配置您的webhook：
+为了升级服务，你必须配置自己的 webhook：
 
-- 选择要升级的标签
-- 选择标签以查找要升级的服务
-- 确定一次要升级的容器数量（即批量大小）
-- 确定在升级期间启动下一个容器之间的秒数（即批间隔）
-- 选择新的容器是否应在旧容器停止之前启动
+* 选择要升级的标签
+* 选择标签来找到要升级的服务
+* 确定单次要升级的容器数量(即，批量大小)
+* 确定在升级期间启动下一个容器的秒数(即，批量间歇)
+* 选择是否新容器应该在旧容器停止前启动。
 
-在创建接收机挂钩后，您需要在Docker Hub webhook中使用**触发器URL**。当Docker Hub触发其挂钩时，由Rancher接收器钩子拾取的服务将被升级。默认情况下，Rancher接收器挂钩需要Docker Hub webhook提供的特定信息。要使用Rancher的接收器钩子与另一个webhook，`POST`将需要包含这些字段：
+创建接受器钩子后，你需要在你的 Docker Hub webhook 中使用
+**触发 URL**。当Docker Hub 触发自己的 webhook, 被 Rancher 触发器钩子选中的服务会被升级。Rancher 触发器钩子默认需要 Docker Hub webhook 提供的特定信息。同时使用 Rancher's 接受器钩子和其它webhook，`POST` 请求中需要包含以下字段:
 
 ```json
 {

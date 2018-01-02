@@ -1,46 +1,44 @@
 ---
-title: Deleting Kubernetes
-layout: rancher-default-v1.6
+title: 删除 Kubernetes
+layout: rancher-default-v1.6-zh
 version: v1.6
 lang: zh
 ---
 
-## 删除Kubernetes
+## 删除 Kubernetes
+---
 
-------
+如果你选择从你的环境删除 **Kubernetes** 编排，并想继续使用你的环境和主机，你会需要清理你的主机。
 
-如果您选择从您的环境中删除**Kubernetes**编排，并希望继续使用您的环境和主机，则需要清理主机。
+### 清理 Pods
 
-### 清理荚
-
-在删除**Kubernetes** - > **Infrastructure Stacks**中的Kubernetes堆栈之前，需要删除pod。您可以使用kubernetes删除所有的节点并等待。
+在通过 **Kubernetes** -> **Infrastructure Stacks** 删除Kubernetes栈之前，你需要删除你的Pods。你可以使用Kubernetes来删除所有的结点然后等待。
 
 ```
 $ kubectl delete node --all
-
 ```
 
-### 清理持久性数据
+### 清理持久化数据
 
-删除Kubernetes基础架构堆栈后，持久数据仍然保留在主机上。
+在删除了 Kubernetes 基础设施服务之后，持久化数据依然会保留在主机上。
 
 #### 清理主机
 
-对于任何运行**etcd**服务的主机，有几个项目需要通过执行每个主机进行清理：
+对每台跑过 **etcd** 服务的主机，有几样东西需要通过执行进每台主机做清理：
 
-- 命名卷`etcd`：通过运行删除命名卷`docker volume rm etcd`。
-- 默认情况下，[备份](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/deleting/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/backups)已启用并存储在`/var/etcd/backups`：通过运行删除备份`rm -r /var/etcd/backups/*`。
+* 一个命名存储卷 `etcd`: 通过执行 `docker volume rm etcd` 来删除该卷。
+* 默认情况下， [备份]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/backups) 是被激活的，备份数据存储在 `/var/etcd/backups`。 通过执行 `rm -r /var/etcd/backups/*` 删除备份。
 
-#### 清理持久性数据的原因
+#### 清理持久化数据的场景
 
-- 当主机被重新添加到Kubernetes需要运行的不同环境中时。
-- 当Kubernetes系统栈被删除并重新启动通过同一组主机上的目录启动Kubernetes。
+* 当一台主机需要被重新添加到另一个Kubertes运行的环境时。
+* 当Kubernetes基础设施被删除并在同一组主机上通过应用商店（catalog）重建时。
 
-> **注意：**如果要清理持久性数据，则在删除Kubernetes基础架构堆栈之前，需要先删除该[pod](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/deleting/index.md#cleaning-up-pods)。否则，pod将保留在主机上。
+> **注意：** 如果你正要清理持久化数据，你需要在删除Kubernetes基础设施之前先删掉 [pods](#清理-pods)。否则Pods会在主机上留存。
 
-#### 不清理的后果
+#### 不做清理的后果
 
-如果未执行清除，则保存的`etcd`卷的数据将被新的Kubernetes系统堆栈使用。可能会导致以下几个问题：
+如果不做清理，来自先前保存的 `etcd` 存储卷会被新的 Kubernetes 基础设施使用。这样会导致诸如以下的严重问题：
 
-- 您可能不想重新创建存储在etcd数据中的所有预先存在的Kubernetes应用程序，但是当Kubernetes API服务连接到映射到保存的etcd数据的etcd服务时，它将会发生。
-- **重要提示：**每个新的Kubernetes API服务都会从Rancher获取新的证书。这使得以前创建的所有Kubernetes秘密存储在etcd卷中，已过时。这意味着需要与Kubernetes API服务通讯的任何Kubernetes应用程序（即[仪表板](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/deleting/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/addons/#dashboard)，[掌舵机](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/kubernetes/deleting/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/kubernetes/addons/#helm)，堆栈程序和任何需要此类通信的用户应用程序）都将被破坏。解决这种缺乏沟通的唯一方法是使用旧的秘密重新创建用户pod。
+* 你可能不想重建所有先前存在的Kubernetes应用，但当Kubernetes API service连到原来保存的etcd数据时这一情况就会发生。
+* **重要事项：** 每个新的Kubernetes API service 会从Rancher获得一个新的证书。这会导致所有先前存在etcd存储卷中的Kubernetes 密钥过期。这意味着所有需要和Kuvernetes API service通信的应用（例如：dashboard， [helm]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/kubernetes/addons/#helm)，heapster以及其他需要这种通信的应用）都会出故障。解决办法是要使用旧的密钥集合重建应用的Pods。

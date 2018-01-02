@@ -1,36 +1,34 @@
 ---
 title: Virtual Machines
-layout: rancher-default-v1.6
+layout: rancher-default-v1.6-zh
 version: v1.6
 lang: zh
 ---
 
-## 虚拟机入门
+## 开始使用虚拟机
+---
 
-------
+By default, launching virtual machines (VMs) in Rancher is disabled. To enable launching VMs, any [admin]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/#管理员) can enable virtual machines in Rancher in the **Admin** -> **Settings** -> **Virtual Machines** section. Select **Enabled** and click **Save**.
+默认情况下，Rancher中启动虚拟机(VMs)的功能是停用的。任何[admin]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/#管理员) 用户可以在Rancher的 **系统管理** -> **系统设置** -> **虚拟机** 下开启启动虚拟机的功能。选择 **启用** 的选择框并点击保存。
 
-默认情况下，禁用在Rancher中启动虚拟机（VM）。要启用启动VM，任何[管理员](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/en/cattle/vms/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/configuration/access-control/#admin)都可以在**管理** - > **设置** - > **虚拟机**部分中启用Rancher中的**虚拟机**。选择**启用**，然后单击**保存**。
+### 启动VM的主机要求
 
-### 主机启动VM的要求
+* Ubuntu
+* RancherOS - 需要在cloud-config中开启 `userland-proxy` 配置
 
-- Ubuntu的
+   ```
+   #cloud-config
+   rancher:
+     docker:
+       extra_args: [--userland-proxy=true]
+   ```
 
-- RancherOS - 需要`userland-proxy`启用以下cloud-config
+### 添加VM
 
-  ```
-  #cloud-config
-  rancher:
-    docker:
-      extra_args: [--userland-proxy=true]                                                                                                   
+在 **基础架构** -> **虚拟机**，点击 **添加虚拟机** 并设置你的虚拟机配置。
 
-  ```
+在镜像名称选项中，当前Rancher只支持 `rancher/vm-ubuntu`。用户名/密码是`ubuntu/ubuntu`。
 
-### 添加虚拟机
+点击**创建**
 
-在**基础架构** - > **虚拟机中**，单击**添加虚拟机**并设置虚拟机。
-
-对于图像名称选项，目前Rancher仅支持`rancher/vm-ubuntu`。用户名/密码是`ubuntu/ubuntu`。
-
-单击**创建**。
-
-容器启动后，单击**打开控制台**，单击容器的下拉列表以登录到虚拟机。
+容器创建后，点击容器的下拉菜单并且点击 **打开命令行** 去登录虚拟机。

@@ -1,46 +1,45 @@
 ---
 title: Windows in Rancher
-layout: rancher-default-v1.6
+layout: rancher-default-v1.6-zh
 version: v1.6
 lang: zh
 ---
 
-## Windows（实验）
+## Windows (实验性)
+---
 
-------
+在Rancher中部署Windows，你首先需要添加一个新的[环境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/)。这个环境需要使用编排引擎为**Windows**的[环境模版]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#什么是环境模版)进行创建。
 
-要在Rancher中部署Windows，您首先需要创建一个具有容器编排设置为**Windows**的[环境模板]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#what-is-an-environment-template)的新[环境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/)。
+目前Rancher只支持在特定主机上创建容器。大多数在Cattle和Rancher UI上有的特性目前都不支持**Windows**(如 服务发现, 健康检查, 元数据, DNS, 负载均衡)。
 
-目前，Rancher只支持在特定主机上创建容器。目前不支持在UI中显示的Cattle的其他功能（例如，服务发现，健康检查，元数据，DNS，负载平衡器）。
+> **注意：** Rancher中有一个默认的Windows环境模版。如果你想创建你自己的Windows环境模版，你需要禁用所有其它的基础设施服务，因为这些服务目前都不兼容Windows。
 
-> **注意：**有一个默认的Windows环境模板可用。如果您尝试使用Windows创建自己的环境模板，则需要禁用所有其他基础设施服务，因为它们目前与Windows不兼容。
+### 创建一个 Windows 环境
 
-### 创建Windows环境
+在左上角的环境的下拉菜单中，点击**环境管理**。通过点击**添加环境**去创建一个新的环境，需要填写**名称**，**描述**（可选），并选择Windows作为编排引擎的环境模版。如果启用了[访问控制]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control/)，你可以在环境中[编辑成员]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#成员编辑)并选择他们的[成员角色]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#成员角色)。所有被添加到成员列表的用户都能访问你的环境。
 
-在环境下拉菜单中，单击**管理环境**。要创建新环境，请单击**添加环境**，提供**名称**，**说明**（可选），然后选择具有Windows作为业务流程的环境模板。如果[访问控制]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/configuration/access-control)开启，您可以[添加成员]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/#editing-members)并选择其[成员角色]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}//environments/#membership-roles)。任何添加到会员列表的人都可以访问您的环境。
+在创建Windows环境后，你可以在左上角环境的下拉菜单中切换到你的环境，或者在环境管理页面中，在对应环境的下拉选项中点击**切换到此环境**。
 
-在创建Windows环境之后，您可以通过在左上角的环境下拉列表中选择环境名称，或者在特定环境的下拉列表中选择“ **切换到此环境”**来导航**到环境**。
+> **注意：** Rancher支持多种容器编排引擎框架，但Rancher目前不支持在已有运行服务的环境里切换容器编排引擎。
 
-> **注意：**由于Rancher添加了对多个容器编排框架的支持，Rancher目前不支持在已经具有服务运行的环境之间进行切换的能力。
+### 添加 Windows 主机
+在Rancher中添加一个Windows主机，你需要先有一个运行了Docker的[Windows Server 2016](https://msdn.microsoft.com/en-us/virtualization/windowscontainers/about/index)主机。
 
-### 添加Windows主机
+在**基础架构**->**主机**->**添加主机**页面，你可以按照指示用自动生产的自定义命令启动Rancher Agent。
 
-为了将主机添加到Windows中，您需要准备运行[Windows Server 2016并安装Docker的](https://msdn.microsoft.com/en-us/virtualization/windowscontainers/about/index)主机。
+在主机上，Rancher的二进制客户端会被下载到`C:/Program Files/rancher`目录，你可以在`C:/ProgramData/rancher/agent.log`找到客户端日志。
 
-在“ **基础设施** ”选项卡中，您将获得一个自定义命令来启动“rancher代理”服务。按照说明在Windows中启动Rancher代理服务。
+### 移除 Windows 主机
+作为一个Rancher中的主机，Rancher客户端已经被安装并且注册在了主机上。你必须在Windows主机上删除已经存在的Rancher客户端服务，你可以在 powershell 中运行如下命令来删除客户端。删除客户端后你可以在 Windows 环境中重用这个主机
 
-在主机上，代理二进制文件将被下载到一个被调用的文件夹中`C:/Program Files/rancher`，代理日志将被发现`C:/ProgramData/rancher/agent.log`。
-
-### 删除Windows主机
-
-作为向Rancher添加主机的一部分，Rancher代理在主机上安装并注册为服务。为了重新使用主机，您必须删除现有服务。在PowerShell中，运行以下命令。服务被删除后，您可以在Windows环境中重新使用主机。
-
-```
+```bash
 & 'C:\Program Files\rancher\agent.exe' -unregister-service
 ```
 
-### Windows中的网络
+### Windows 中的网络
+我们默认支持NAT和[透明网络](https://docs.microsoft.com/en-us/virtualization/windowscontainers/manage-containers/container-networking).
 
-默认情况下，我们支持NAT和透明[网络](https://docs.microsoft.com/en-us/virtualization/windowscontainers/manage-containers/container-networking)。目前，默认的**Windows**环境模板支持一个名为transparent的透明网络，通过docker network create -d transparent transparent创建。
+目前，默认的 **Windows** 环境模版支持名为transparent的透明网络
+这个透明网络是在运行 `docker network create -d transparent transparent`时创建的。
 
-如果要创建具有不同名称的透明网络，则需要使用**Windows**创建一个新的环境模板作为容器编排。选择**Windows后**，可以单击“ **编辑配置”**，更改透明网络的名称。默认名称为`transparent`。创建更新的环境模板后，您可以创建一个新环境，以支持新命名的透明网络。UI将继续保持透明作为默认名称，因此您需要使用命令去更新`docker network create -d transparent <NEW_NAME_IN_TEMPLATE`。
+如果你要创建一个名字不是 `transparent` 的透明网络，你需要创建一个新的环境模版，并把 Windows 设为容器编排平台。选择**Windows**后，你可以点击 **编辑配置** 来更改透明网络的名字。你可以用这个环境模版创建一个环境。但在 Rancher UI 中这个透明网络的默认名字依然是 `transparent`。 因此，你需要把命令更新为 `docker network create -d transparent <NEW_NAME_IN_TEMPLATE`.

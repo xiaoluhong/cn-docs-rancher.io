@@ -1,85 +1,88 @@
 ---
 title: Adding Custom Hosts
-layout: rancher-default-v1.6
+layout: rancher-default-v1.6-zh
 version: v1.6
 lang: zh
 ---
 
-## 添加自定义主机
+## 添加Custom主机
+---
 
-------
+如果你已经部署了Linux主机，并且希望将它们添加到Rancher中。在点击**Custom**图标之后会，Rancher会自动生成一个`docker`命令脚本，将其拷贝到每一台主机上并运行这条命令来启动`rancher/agent`容器。
 
-如果您已经部署了Linux计算机，并且只想将其添加到Rancher中，请单击“ **自定义”**图标。在UI中，将提供一个docker命令来在任何主机上运行。该`docker`命令启动`rancher/agcnt`主机上的容器。
+如果你在使用不同的[环境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/)，不同环境生成的添加主机命令是不一样的。
 
-如果您正在使用不同的[环境](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/custom/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts)，则通过UI提供的命令将对您所处的任何**环境**都是唯一的。
+确保你所在的环境就是你想要添加主机的环境。你所在的环境显示在UI的左上角。当你第一次登录进去之后，你是处于名称为**默认**的环境里。
 
-确保您处于要添加主机的环境中。环境显示在左上角。当您首次登录Rancher实例时，您处于**Default**环境中。
+一旦你的主机添加到Rancher之后，你就可以开始[添加服务]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-services/)了。
 
-将主机添加到Rancher后，可以[添加服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/custom/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/adding-services)。
-
-> **注意：**确保您的主机在服务器和主机上的时间戳相同，并且您可以访问主机上的容器。有关更多信息，请参阅[Rancher访问](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/custom/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/faqs/troubleshooting/#container-access)容器[的shell / logs](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/custom/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/faqs/troubleshooting/#container-access)。
+> **注意：** 确保运行Rancher Server的主机和你所添加的主机的时钟是一样的并且能够正常访问主机上的容器。更多信息，请参考[在Rancher中访问容器的命令行和日志]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/faqs/troubleshooting/#求助-我不能通过-rancher的界面打开-shell-或查看日志--rancher-是如何去访问容器的-shell和日志)。
 
 ### 主机标签
 
-使用每个主机，您可以添加标签来帮助您组织主机。标签在启动牧师/代理容器时作为环境变量添加。UI中的主机标签将是一个键/值对，密钥必须是唯一的标识符。如果您添加了两个不同值的键，我们将把最后输入的值用作键/值对。
+你可以给每台主机添加标签，以帮助你组织你的主机。在启动rancher/agent容器时，你所添加的标签会以环境变量的形式添加到主机上。添加的标签是一组键值对，并且键值必须是唯一的。如果你添加了两个具有相同键不同值的标签，那么将会以你后面添加的值为准作为标签值。
 
-通过向主机添加标签，您可以在[计划服务/负载平衡器](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/custom/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/scheduling)上使用这些标签，并创建允许您的[服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/custom/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/adding-services)运行的主机的白名单或黑名单。
+增加标签之后，你可以使用这些标签来[调度服务/负载均衡器]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/scheduling/)，并且可以为你主机上的[服务]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-services/)创建黑白名单。
 
-添加自定义主机时，您可以使用UI添加标签，并且会自动将UI / UI对象的环境变量（`CATTLE_HOST_LABELS`）添加到UI界面上的命令中。
+添加自定义主机的时候，你可以在UI上添加标签，之后将会自动将带有键值对的环境变量(`CATTLE_HOST_LABELS`)添加到UI上出现的命令里。
 
-*例*
+_例子_
 
-```
-＃添加一个主机标签牧场主/ agcnt命令 
-$须藤搬运工运行-e CATTLE_HOST_LABELS = “富=酒吧” -d --privileged \
--v /var/run/docker.sock:/var/run/docker.sock rancher / agcnt：v0.8.2 \
-http：// < rancher-server-ip >：8080 / v1 / projects / 1a5 / scripts / < registrationTokcn >
+```bash
+# Adding one host label to the rancher/agent command
+$  sudo docker run -e CATTLE_HOST_LABELS='foo=bar' -d --privileged \
+-v /var/run/docker.sock:/var/run/docker.sock rancher/agent:v0.8.2 \
+http://<rancher-server-ip>:8080/v1/projects/1a5/scripts/<registrationToken>
 
-＃添加多个主机标签，需要用'＆'加入额外的主机标签 
-$ sudo的搬运工运行-e CATTLE_HOST_LABELS = “富=酒吧和你好=世界” -d --privileged \
--v /var/run/docker.sock:/var/run/docker.sock rancher / agcnt：v0.8.2 \
-http：// < rancher-server-ip >：8080 / v1 / projects / 1a5 / scripts / < registrationTokcn >
-```
-
-### 安全组/防火墙
-
-对于任何添加的主机，请确保任何安全组或防火墙允许流量。如果未启用这些功能，则Rancher功能将受到限制。
-
-- 如果您正在使用IPsec [网络驱动程序](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/custom/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services/networking)，从UDP端口`500`和/或UDP端口的所有其他主机`4500`
-- 如果使用VXLAN [网络驱动程序](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/hosts/custom/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/rancher-services/networking)，则从UDP端口上的所有其他主机使用`4789`
-
-### 将主机添加到与Rancher Server相同的计算机上
-
-如果要在与Rancher服务器相同的计算机上添加代理主机，则必须编辑从UI提供的命令。在UI中，您可以指定希望Rancher代理程序容器用于细分到Rancher服务器的IP。它会自动将环境变量添加到命令中。
-
-```
-$ sudo docker run -d -e CATTLE_AGcnT_IP = < IP_OF_RANCHER_SERVER > -v / var / run / docker ....
+# Adding more than one host label requires joining the additional host labels with an `&`
+$  sudo docker run -e CATTLE_HOST_LABELS='foo=bar&hello=world' -d --privileged \
+-v /var/run/docker.sock:/var/run/docker.sock rancher/agent:v0.8.2 \
+http://<rancher-server-ip>:8080/v1/projects/1a5/scripts/<registrationToken>
 ```
 
-如果您将主机添加到与Rancher服务器相同的主机上，请注意，您将无法在绑定到端口的主机上创建任何容器`8080`。由于Rancher服务器的UI依赖`8080`端口，所以会出现端口冲突，Rancher会停止工作。如果您需要使用`8080`容器的端口，可以使用不同的端口启动Rancher服务器。
+### 安全组／防火墙
 
-### 代理商后面的主机
+对于添加的任何主机，请确保安全组或者防火墙允许流量经过，否则Rancher的功能将会受限。
 
-要设置HTTP代理，请将docker守护程序配置为指向代理。在添加自定义主机之前，请将该`/etc/default/docker`文件编辑为指向代理服务器并重新启动Docker。
+* 如果你正在使用IPsec[网络驱动]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/networking/)，要开放所有主机上的UDP端口500和4500。
+* 如果你正在使用VXLAN[网络驱动]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/networking/)，要开放所有主机上的UDP端口`4789`。
+* _k8s主机_ ：用作K8s的主机需要开放`10250`和`10255`端口来为`kubectl`使用。为了访问外部的服务，NodePort使用的端口也需要开放，默认的是TCP端口`30000` - `32767`。
 
-```
-$ sudo vi / etc / default / docker
-```
+<a id="samehost"></a>
 
-在文件中，编辑`#export http_proxy="http://127.0.0.1:3128/"`它以指向您的代理。保存更改，然后重新启动docker。每个操作系统上重新启动码头服务器是不同的。
+### 在运行Rancher Server的机器上添加主机
 
-> **注意：**如果使用systemd运行[docker](https://docs.docker.com/articles/systemd/#http-proxy)，请遵循Docker 关于如何配置HTTP代理的说明。
+如果你想将正在运行Rancher Server的主机同时添加为Agent主机，你必须修改UI上提供的命令行。在UI上，你需要指定这台主机的注册IP，它将会作为环境变量自动添加到命令行中。
 
-需要在命令中添加额外的环境变量来启动Rancher代理。您只需要确保您的docker守护程序配置正确。
-
-### 具有私有IP地址和公共IP地址的虚拟机
-
-默认情况下，具有私有IP和公共IP的虚拟机的IP将被设置为与注册URL中指定的IP相匹配。例如，如果在注册URL中使用私有IP，则将使用主机的专用IP。如果要更改主机的IP地址，则需要编辑从UI提供的命令。为了正确启动Rancher代理容器，请将`CATTLE_AGcnT_IP`环境变量设置为所需的IP地址。Rancher中的所有主机都需要与Rancher服务器位于同一个网络上。
-
-```
-$ sudo docker run -d -e CATTLE_AGcnT_IP = < PRIVATE_IP > -v / var / run / docker ....
+```bash
+$ sudo docker run -d -e CATTLE_AGENT_IP=<IP_OF_RANCHER_SERVER> -v /var/run/docker....
 ```
 
-如果在代理连接后需要更正主机的IP地址，请重新运行自定义命令。
+如果你已经把运行Rancher Server的主机同时添加为了Agent主机，请注意由于Rancher Server需要暴露`8080`端口，所以同一台主机上那些绑定`8080`端口的容器将无法创建，否则将会出现端口冲突的情况，造成Rancher Server停止运行。如果你一定要使用`8080`端口，那么你需要在启用Rancher Server的时候用另一个端口。
 
-> **注意：**设置私有IP地址时，Rancher中的任何现有容器将不会成为同一个受管网络的一部分。
+### 添加代理服务器之后的主机
+
+为了在HTTP代理服务器后面添加主机， 需要通过配置docker deamon将docker指向这个代理。在添加自定义主机之前，修改文件`/etc/default/docker`，指向你的代理并重新启动docker。
+
+```bash
+$ sudo vi /etc/default/docker
+```
+
+在文件里，编辑`#export http_proxy="http://127.0.0.1:3128/"`，使其指向你的代理。保存你的修改并且重启docker。在不同的系统上重启docker的方式是不一样的。
+
+> **注意：** 如果是用systemd启动的docker, 那么修改http代理的方式请参考docker [介绍](https://docs.docker.com/articles/systemd/#http-proxy)。
+
+为了在代理后添加主机，你不用在命令行中添加其他环境变量来启动Rancher Agent。你只需要保证你的docker daemon配置正确就可以了。
+
+如果你想要在Rancher Agent内使用该代理，你需要修改这个自定义命令，并添加相关的环境变量。
+
+### 同时包含私有IP和公共IP的虚拟机
+
+默认情况下，对于同时包含私有IP和公共IP的虚拟机，IP地址将会根据主机注册地址中指定的地址来确定。例如，如果注册地址中使用的是私有IP，那么就会使用主机的私有IP。如果你想修改主机的IP地址，你需要编辑UI中提供的命令行。为了使Rancher Agent中的容器能够正常启动，需要将环境变量`CATTLE_AGENT_IP`设置成期望的IP地址。Rancher中所有的主机都需要和Rancher Serve在同一个网络。
+
+```bash
+$ sudo docker run -d -e CATTLE_AGENT_IP=<PRIVATE_IP> -v /var/run/docker....
+```
+如果在Agent已经连接之后需要修改主机的IP，那么请重新运行添加自定义主机的命令行。
+
+> **注意：** 当设置成私有地址之后，Rancher中已经存在的容器将不在同一个托管网络内。

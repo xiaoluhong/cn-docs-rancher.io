@@ -1,107 +1,105 @@
 ---
 title: Registries in Rancher
-layout: rancher-default-v1.6
+layout: rancher-default-v1.6-zh
 version: v1.6
 lang: zh
 ---
 
-## 登记
+## 镜像库
+---
 
-------
+你可以在Rancher配置镜像仓库的认证信息，使Rancher可以访问你的私有镜像仓库（DockerHub, Quay.io和其他私有镜像库）。
+在每个[环境]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/)中，你可以给每个私有仓库地址配置一个认证信息，从而使Rancher可以拉取私有镜像。如果你给同一个镜像仓库配置了多个认证信息，那么Rancher只会使用最近添加的一个认证信息。 Rancher支持在Cattle和Kubernetes环境中使用多种镜像仓库。
 
-使用Rancher，您可以添加凭据以从DockerHub，Quay.io或您拥有私有注册表的任何地址访问私人注册表。通过有能力访问您的私人注册表，它使Rancher能够使用您的私人图像。在每个[环境中](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cnvironmcnts/registries/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts)，每个注册表地址只能使用一个凭据。这使得它是从私人地址启动图像的简单请求。如果您为同一地址添加了多个凭据，则Rancher将始终使用最近添加的凭据。
+### 添加镜像库
 
-Rancher支持牛和Kubernetes集装箱业务流程类型的不同注册表。
+在**基础架构** -> **镜像库** 页面, 点击 **添加镜像库**.
 
-### 添加注册表
+对于不同的镜像库，你都需要提供**邮箱地址**, **用户名**, and **密码**。 对于一个 **自定义** 镜像库, 你还需要提供**镜像库地址**。 点击 **创建**。
 
-在“ **基础结构** - > **注册表”**页面上，单击“ **添加注册表”**。
+> **注意：** 对于自定义的镜像库`地址`，不需要加上 `http://` 或 `https://`，因为我们假设地址只是一个IP或者主机名。
 
-对于所有注册管理机构，您需要提供**电子邮件地址**，**用户名**和**密码**。对于**自定义**注册表，您还需要提供**注册表地址**。单击**创建**。
+如果你对已经存在的镜像仓库地址添加了认证信息，Rancher会开始使用新的认证信息。
 
-> **注意：**对于`Address`自定义注册表，请不要预先修复`http://`或`https://`正如我们期望的只是IP或主机名。
+#### 不安全的镜像库
 
-如果您为已存在的地址添加凭据，则Rancher将开始使用新凭据。
+为了访问不安全的镜像库，你需要配置主机上的Docker守护进程。`DOMAIN` 和 `PORT` 是私有镜像库的域名和端口。
 
-#### 不安全的注册管理机构
-
-为了访问不安全的注册表，您需要在主机上配置Docker守护程序。`DOMAIN`并且`PORT`是托管私有注册表的域和端口。
-
-```
-＃编辑配置文件“/ etc / default / docker”
-$ sudo vi / etc / default / docker
-＃在文件末尾添加这一行。如果已有选项，请确保将其附加到当前选项列表。
-$ DOCKER_OPTS = “ $ DOCKER_OPTS --insecure-registry = $ {DOMAIN}：$ {PORT} ” 
-＃重新启动docker服务 
+```bash
+# 编辑配置文件"/etc/default/docker"
+$ sudo vi /etc/default/docker
+# 将这行添加到文件最后，如果已经存在选项，确定你将它添加到当前选项的列表中。
+$ DOCKER_OPTS="$DOCKER_OPTS --insecure-registry=${DOMAIN}:${PORT}"
+# 重启docker服务
 $ sudo service docker restart
 ```
 
 #### 自签名证书
 
-为了在注册表中使用自签名证书，您需要在主机上配置Docker守护进程。`DOMAIN`并且`PORT`是托管私有注册表的域和端口。
+为了在镜像库使用自签名证书，你需要配置主机上的Docker守护进程。 `DOMAIN` 和 `PORT` 是私有镜像库的域名和端口。
+
+```bash
+# 下载域名的证书
+$ openssl s_client -showcerts -connect ${DOMAIN}:${PORT} </dev/null 2>/dev/null|openssl x509 -outform PEM >ca.crt
+# 拷贝证书到合适的目录
+$ sudo cp ca.crt /etc/docker/certs.d/${DOMAIN}/ca.crt
+# 将证书添加到文件中
+$ cat ca.crt | sudo tee -a /etc/ssl/certs/ca-certificates.crt
+# 重启docker服务，让改动生效
+$ sudo service docker restart
 
 ```
-＃从域下载证书 
-$ opcnssl s_clicnt -showcerts -connect $ {DOMAIN}： $ {PORT}  < / dev / null 2> / dev / null | OpcnSSL的X509 -outform PEM > ca.crt
-＃复制证书到相应的目录 
-$ sudo的CP ca.crt /etc/docker/certs.d/ $ {DOMAIN} /ca.crt
-＃追加证书文件 
-$猫CA .crt | 须藤发球-a /etc/ssl/certs/ca-certificates.crt
-＃重启泊坞窗服务，以使更改生效
-$ sudo服务码头重启
 
-```
+#### 使用亚马逊的ECR镜像库
+在Rancher使用亚马逊的 [EC2 容器镜像库](https://aws.amazon.com/ecr/) 需要额外的配置。ECR使用AWS的原生认证服务IAM去管理访问权限。AWS提供了API，让用户可以基于请求的IAM权限为Dokcer生成临时的认证信息。由于认证信息在12小时后会无效，每12小时需要生成一个新的认证信息。你可以使用[AWS ECR 认证更新器]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/environments/registries/ecr_updater/) 来发布一个自动更新认证信息的服务。
 
-#### 使用亚马逊的ECR注册表
+在Rancher中使用该镜像时，请使用AWS提供的全名地址，例如：
 
-使用Amazon的[EC2容器注册表](https://aws.amazon.com/ecr/)与Rancher需要额外的配置步骤。ECR使用AWS的本地身份验证服务IAM来管理访问。AWS提供了一个API，允许用户根据发出请求的IAM用户的权限为Docker生成临时证书。由于凭证在12小时后到期，因此需要每12个小时创建一个新的凭证。您可以使用[AWS ECR Credcntial Updater](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cnvironmcnts/registries/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cnvironmcnts/registries/ecr_updater)启动自动更新凭据的服务。
+`aws-account-number.dkr.ecr.us-west-2.amazonaws.com/my-repo:latest`.
 
-在Rancher中指定图像名称时，请使用AWS提供的完全限定地址：
+#### 使用Google容器镜像仓库
+如果你想使用[Google容器镜像仓库](https://cloud.google.com/container-registry/)，你需要使用一个[服务账户JSON密钥文件](https://cloud.google.com/container-registry/docs/advanced-authentication#using_a_json_key_file)。请给这个文件配置正确的权限，使其可以正常访问容器镜像所在的Google云存储服务。
 
-`aws-account-number.dkr.ecr.us-west-2.amazonaws.com/my-repo:latest`。
+请根据你镜像所在的[区域](https://cloud.google.com/container-registry/docs/pushing-and-pulling#choosing_a_registry_name)来配置你的**镜像仓库地址**。使用`_json_key`作为**用户名**，并且使用服务账户JSON密钥文件中的全部内容作为**密码**。
 
-### 使用注册表
+### 使用镜像库
 
-创建注册表后，您可以在启动服务和容器时使用这些私人注册表。图像名称的语法与`docker run`命令使用的语法相同。
+当你添加了镜像库以后，你就可以使用这个私有镜像库的镜像来部署服务和容器。镜像名字的格式和使用`docker run`命令是一样的。
 
-`[registry-name]/[namespace]/[imagcname]:[version]`
+`[registry-name]/[namespace]/[imagename]:[version]`
 
-默认情况下，我们假设您正在尝试从中提取图像`DockerHub`。
+我们默认你尝试从`DockerHub`拉取镜像。
 
-### 编辑注册表
+### 编辑镜像库
 
-注册表的所有选项可通过列出的注册表右侧的下拉菜单访问。
+一个镜像库的所有操作选项可以通过镜像库列表右边的下拉菜单看到。
+对于任意**启用中**的镜像库，你可以**停用**它，停用后Rancher将无法访问该镜像库的私有镜像，所以新的容器无法使用该镜像库的私有镜像（已经登陆过该镜像仓库的主机，仍然可以拉取私有镜像）。
+对于任意**停用中**的镜像库，你有两个选项。 一个是**启用**，这会允许容器使用镜像库中的镜像。你的环境中的任何成员可以使用你的认证信息，而无需重新输入密码。如果你不想这样，你应该**删除**镜像库，这会从环境中删除镜像库的认证信息。你可以**编辑**任意镜像库，去修改认证信息，但不能改变镜像库的地址。密码不会出现在“编辑”页面中，所以你需要重新输入密码。
 
-对于任何**活动**注册表，您可以**停用**注册表，这将禁止访问注册表。在该注册表中没有任何图像可以启动新的容器。
+> **注意：** 如果一个镜像库无效了（如停用、移除或被新的认证信息覆盖），任何使用私有镜像的[服务]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/cattle/adding-services/) 会继续运行。 由于镜像已经被拉取到主机上了，因此不会受镜像库的权限变化所影响。因此，扩容的服务或者新的容器都能运行。 当运行容器时，Rancher不会检查认证信息是否有效，我们假设你已经给了该主机访问该镜像的权限。
 
-对于任何**停用的**注册表，您有两个选项。您可以**激活**注册表，这将允许容器访问这些注册表中的图像。您的环境的任何成员将能够激活您的凭据，而无需重新输入密码。如果您不想让任何人使用您的凭证，您应该**删除**注册表，这将从环境中删除凭据。
+### 更改默认的镜像库
 
-您可以**编辑**任何注册表，这样可以将凭据更改为注册表地址。您将无法更改注册表地址。密码未保存在“编辑”页面中，因此您需要重新输入密码才能保存任何更改。
+任何没有指定镜像库前缀的镜像，Rancher会默认从DockerHub中拉取。通过在API中更新配置，可以把默认镜像库从DockerHub改到另外一个。
 
-> **注意：**如果注册表无效（即由于较新的凭据而无效，被删除或覆盖），那么使用私有注册表映像的任何[服务](https://github.com/rancher/rancher.github.io/blob/master/rancher/v1.6/cn/cnvironmcnts/registries/%7B%7Bsite.baseurl%7D%7D/rancher/%7B%7Bpage.version%7D%7D/%7B%7Bpage.lang%7D%7D/cattle/adding-services)将继续运行。由于图像已经被拉到主机上，不管注册表权限如何，对图像的使用都不会有任何限制。因此，任何使用图像的服务或附加容器的扩大将能够运行。运行容器时，Rancher不会检查证书是否仍然有效，因为我们假设您已经给予主机访问映像的权限。
+1. 在 **系统管理** -> **系统设置** -> **高级设置**, 点击 **我确认已经知道修改高级设置可能导致问题**.
+2. 找到**registry.default** 设置然后点击编辑按钮。
+3. 添加镜像库的值然后点击 **保存**.
 
-### 更改默认注册表
+一旦 **registry.default** 设置被更新，任何没有镜像库前缀的镜像（如 `ubuntu:14.0.4`）会从新的默认镜像库拉取。
 
-默认情况下，Rancher自动假设任何没有注册表前缀的图像都应该从DockerHub中拉出。您可以通过更新API中的设置将默认注册表从DockerHub更改为另一个注册表。
+如果你使用的私有镜像库需要认证信息，为了使默认镜像库生效，你需要把该镜像库添加到Rancher中。
 
-1. 在**管理** - > **设置** - > **高级设置下**，点击**我明白我可以通过更改高级设置来打破事情**。
-2. 找到**registry.default**设置，然后单击编辑图标。
-3. 添加注册表值，然后单击**保存**。
+> **注意：** 已存在在环境中的所有服务仍会使用原来的默认镜像库 (如 DockerHub)。为了使基础设施应用使用新的默认镜像库，需要删除它们然后再重新部署它们，这样才能使用新的默认镜像库。你可以通过 **应用商店** -> **官方认证**找到并部署基础设施服务。
 
-一旦**registry.default**设置被更新，没有注册表前缀（例如`ubuntu:14.0.4`）的任何图像都将从默认注册表而不是DockerHub中拉出。
+### 限制镜像库的使用
 
-如果您正在使用私人注册表要求凭据，则需要将注册表添加到Rancher，以使默认注册表生效。
+默认的，Rancher可以拉取任何被添加的镜像库里的镜像。但管理员可能想要限制哪个镜像库可以使用。 你可以通过API更新配置，来限制哪些镜像库可以用于拉取镜像。
 
-> **注意：**现有环境中的任何服务仍将使用原始的默认注册表（例如DockerHub）。对于基础架构堆栈开始使用新的默认注册表，它将需要被删除并重新启动才能开始使用更新的默认注册表。堆栈可以从**Catalog** - > **Library**部署。
+1. 在 **系统管理** -> **系统设置** -> **高级设置**, 点击**我确认已经知道修改高级设置可能导致问题**。
+2. 找到 **registry.whitelist** 设置然后点击编辑按钮。
+3. 把你想加到白名单中的镜像库加上，如果多于一个，那么镜像库间用逗号分隔。
 
-### 限制可以使用哪个注册表
+一旦**registry.whitelist** 设置被更新，在拉取镜像前，会确认镜像所在的镜像库是否在白名单中，如果不是那么拉取会失败。
 
-默认情况下，添加到Rancher中的任何注册表都可用于拉取图像。Rancher的管理员可能希望限制哪些注册表被批准。您可以通过更新API中的设置来限制哪些注册表被批准用于拉取图像。
-
-1. 在**管理** - > **设置** - > **高级设置下**，点击**我明白我可以通过更改高级设置来打破事情**。
-2. 找到**registry.whitelist**设置，然后单击编辑图标。
-3. 添加要列入白名单的注册表列表。如果有多个注册表，注册表应以逗号分隔。
-
-一旦**注册表**设置更新了，在拉扯图像之前，图像的注册表将在拉扯图像之前确认它已在批准的注册表列表中。如果注册表不在批准的列表中，则图像拉取将失败。
-
-> **注意：**将任何注册表添加到此值后，DockerHub将自动不再有效。要包括DockerHub，您需要添加`index.docker.io`一个注册表。
+> **注意：** 一旦你设置了镜像库白名单，你将无法使用DockerHub。 为了包含DockerHub， 你需要将`index.docker.io`加到设置中。
